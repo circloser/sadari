@@ -1,0 +1,8 @@
+# Local tooling / state
+.omc/
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

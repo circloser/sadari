@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SADARI · Climb your luck.</title>
+<meta name="description" content="SADARI — Climb your luck. The classic ladder game (Amidakuji / Ghost Leg) for up to 30 players. Win/Lose, team draws, and money splitting in 8 languages." />
+<meta name="theme-color" content="#0f172a" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="SADARI · Climb your luck." />
+<meta property="og:description" content="The classic ladder game for up to 30 players — Win/Lose, team draws, and money splitting. 8 languages." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<style>
+  :root{
+    --bg1:#0f172a; --bg2:#1e293b;
+    --card:#1e293b; --card2:#273449;
+    --line:#475569; --accent:#38bdf8; --accent2:#a78bfa;
+    --text:#e2e8f0; --muted:#94a3b8; --good:#34d399; --bad:#f87171;
+    --border:#334155;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"Pretendard","Segoe UI",-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);
+    color:var(--text); min-height:100vh; padding:24px 16px 60px;
+  }
+  h1.brand{
+    display:flex; align-items:center; justify-content:center; gap:11px;
+    font-size:34px; font-weight:800; letter-spacing:-1px; margin:8px 0 2px;
+    background:linear-gradient(135deg,#38bdf8,#a78bfa);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .brand-mark{display:inline-flex;}
+  .brand-mark svg{width:34px; height:34px; filter:drop-shadow(0 3px 7px rgba(56,189,248,.45));}
+  .tagline{text-align:center; margin:0 0 6px; font-size:13px; font-weight:700; color:var(--accent2); letter-spacing:1px; text-transform:uppercase;}
+  .sub{text-align:center; color:var(--muted); margin:0 0 24px; font-size:14px;}
+  .wrap{max-width:1100px; margin:0 auto;}
+  .card{
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--border); border-radius:18px; padding:22px;
+    box-shadow:0 18px 40px rgba(0,0,0,.35); margin-bottom:20px;
+  }
+  .row{display:flex; flex-wrap:wrap; gap:18px; align-items:flex-end;}
+  .field{display:flex; flex-direction:column; gap:8px; min-width:160px; flex:1;}
+  label{font-size:13px; color:var(--muted); font-weight:600;}
+  input[type=number], input[type=text], select{
+    background:#0f172a; border:1px solid var(--border); color:var(--text);
+    border-radius:10px; padding:11px 13px; font-size:15px; outline:none;
+  }
+  input:focus, select:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.15);}
+  input[type=range]{width:100%; accent-color:var(--accent2); height:6px;}
+  .gauge-val{font-weight:700; color:var(--accent2);}
+  .name-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; margin-top:2px;}
+  .name-cell{display:flex; align-items:center; gap:6px; background:#0f172a; border:1px solid var(--border); border-radius:10px; padding:4px 8px;}
+  .name-cell .idx{font-size:12px; font-weight:700; color:var(--accent2); min-width:20px; text-align:center;}
+  .name-cell input{border:none; background:transparent; padding:6px 2px; font-size:14px; width:100%;}
+  .name-cell input:focus{box-shadow:none;}
+  .sortbar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:16px 0 4px;}
+  .sortbar .lbl{font-size:13px; color:var(--muted); font-weight:600;}
+  .sortbar button{background:#0f172a; border:1px solid var(--border); color:var(--muted); padding:7px 14px; border-radius:9px; cursor:pointer; font-size:13px; font-weight:600;}
+  .sortbar button.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0b1220; border-color:transparent;}
+  .seg{display:flex; gap:8px; flex-wrap:wrap;}
+  .seg button{
+    flex:1; min-width:120px; background:#0f172a; border:1px solid var(--border);
+    color:var(--muted); padding:13px 10px; border-radius:12px; cursor:pointer;
+    font-size:14px; font-weight:600; transition:.15s;
+  }
+  .seg button.active{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#0b1220; border-color:transparent;
+  }
+  .btn{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#0b1220; border:none; padding:13px 22px; border-radius:12px;
+    font-size:15px; font-weight:800; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{filter:brightness(1.08); transform:translateY(-1px);}
+  .btn.ghost{background:#0f172a; color:var(--text); border:1px solid var(--border);}
+  .btn.ghost:hover{border-color:var(--accent);}
+  .btn:disabled{opacity:.45; cursor:not-allowed; transform:none;}
+  .hint{font-size:12px; color:var(--muted); margin-top:6px;}
+  .mode-panel{margin-top:16px; padding:16px; border:1px dashed var(--border); border-radius:12px; background:#0f172a55;}
+  .hidden{display:none;}
+  .toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px;}
+  .toolbar .spacer{flex:1;}
+  .canvas-scroll{overflow-x:auto; border-radius:14px; background:#0b1220; border:1px solid var(--border);}
+  canvas{display:block;}
+  table.results{width:100%; border-collapse:collapse; margin-top:14px; font-size:14px;}
+  table.results th,table.results td{border-bottom:1px solid var(--border); padding:9px 10px; text-align:left;}
+  table.results th{color:var(--muted); font-weight:600; font-size:12px;}
+  .pill{padding:3px 10px; border-radius:999px; font-size:12px; font-weight:700;}
+  .pill.win{background:rgba(52,211,153,.18); color:var(--good);}
+  .pill.lose{background:rgba(248,113,113,.16); color:var(--bad);}
+  .pill.neutral{background:rgba(167,139,250,.18); color:var(--accent2);}
+  .pill.q{background:#334155; color:var(--muted);}
+  .summary{font-size:13px; color:var(--muted); margin-top:8px;}
+  .topbar{display:flex; justify-content:flex-end; gap:10px; max-width:1100px; margin:0 auto 10px; flex-wrap:wrap;}
+  .topbar select{padding:8px 12px; font-size:13px; cursor:pointer;}
+  @media (max-width:560px){ .field{min-width:100%;} h1{font-size:24px;} .topbar{justify-content:stretch;} .topbar select{flex:1;} }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <select id="langSel" aria-label="Language / 언어"></select>
+  <select id="curSel" aria-label="Currency / 통화"></select>
+</div>
+<div class="wrap">
+  <h1 id="brandTitle" class="brand">
+    <span class="brand-mark"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+      <g stroke="url(#bm)" stroke-width="3.2" stroke-linecap="round" fill="none">
+        <line x1="13" y1="13" x2="13" y2="35"/><line x1="27" y1="13" x2="27" y2="35"/>
+        <line x1="13" y1="21" x2="27" y2="21"/><line x1="13" y1="29" x2="27" y2="29"/>
+      </g>
+      <polygon points="20,2 21.4,5.6 25.2,5.8 22.3,8.2 23.2,12 20,9.9 16.8,12 17.7,8.2 14.8,5.8 18.6,5.6" fill="#fde047"/>
+    </svg></span>
+    SADARI
+  </h1>
+  <p class="tagline">Climb your luck.</p>
+  <p class="sub" id="t_sub">최대 30명까지 · 복잡도 조절 · 애니메이션 사다리타기</p>
+
+  <!-- ===== 설정 ===== -->
+  <div class="card">
+    <div class="row">
+      <div class="field" style="max-width:220px">
+        <label for="numPlayers" id="t_numPlayers">참여 인원 수 (2 ~ 30)</label>
+        <input type="number" id="numPlayers" min="2" max="30" value="5" />
+      </div>
+      <div class="field">
+        <label><span id="t_complexity">사다리 복잡도</span> <span class="gauge-val" id="cxVal">5</span> / 10</label>
+        <input type="range" id="complexity" min="1" max="10" value="5" />
+        <div class="hint" id="t_complexityHint">높을수록 가로줄(가지)이 촘촘해집니다.</div>
+      </div>
+    </div>
+
+    <div class="field" id="namesField" style="margin-top:18px">
+      <label><span id="t_names">참가자 이름</span> <span style="color:var(--muted);font-weight:400" id="t_namesNote">(비워두면 번호로 표시됩니다)</span></label>
+      <div id="nameInputs" class="name-grid"></div>
+    </div>
+
+    <div class="field" style="margin-top:18px">
+      <label id="t_mode">결과 모드 선택</label>
+      <div class="seg" id="modeSeg">
+        <button data-mode="ggwang" class="active">🎯 당첨 / 꽝</button>
+        <button data-mode="group">👥 조 편성</button>
+        <button data-mode="money">💰 금액 배분</button>
+      </div>
+    </div>
+
+    <!-- 당첨/꽝 -->
+    <div class="mode-panel" id="panel-ggwang">
+      <div class="row">
+        <div class="field" style="max-width:200px">
+          <label for="ggwangCount" id="t_ggwangCount">꽝 개수</label>
+          <input type="number" id="ggwangCount" min="0" value="4" />
+        </div>
+        <div class="field" style="flex:0 0 auto; justify-content:flex-end">
+          <button class="btn ghost" id="randomGgwang">🎲 꽝 위치 랜덤 배치</button>
+        </div>
+      </div>
+      <div class="hint" id="t_ggwangHint">나머지 인원은 <b style="color:var(--good)">🎉 당첨</b> 으로 배정됩니다.</div>
+    </div>
+
+    <!-- 조 편성 -->
+    <div class="mode-panel hidden" id="panel-group">
+      <div class="field" style="max-width:200px">
+        <label for="groupCount" id="t_groupCount">조 개수</label>
+        <input type="number" id="groupCount" min="2" value="2" />
+      </div>
+      <div class="hint" id="t_groupHint">인원을 균등하게 각 조로 배정합니다.</div>
+    </div>
+
+    <!-- 금액 -->
+    <div class="mode-panel hidden" id="panel-money">
+      <div class="row">
+        <div class="field" style="max-width:240px">
+          <label for="totalMoney" id="t_totalMoney">총 금액 (원)</label>
+          <input type="number" id="totalMoney" min="1000" step="1000" value="100000" />
+        </div>
+        <div class="field" style="max-width:200px">
+          <label for="winnerCount" id="t_winnerCount">당첨 인원 (나머지 꽝)</label>
+          <input type="number" id="winnerCount" min="1" value="3" />
+        </div>
+      </div>
+      <div class="hint" id="t_moneyHint">총액을 자동으로 배분하고, 당첨 인원 외에는 꽝 처리됩니다.</div>
+    </div>
+
+    <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn" id="buildBtn">🪜 사다리 만들기</button>
+    </div>
+  </div>
+
+  <!-- ===== 게임 보드 ===== -->
+  <div class="card hidden" id="boardCard">
+    <div class="toolbar">
+      <button class="btn ghost" id="reshuffleBtn">🔀 다시 섞기</button>
+      <button class="btn ghost" id="revealAllBtn">👁️ 결과 전체 공개</button>
+      <button class="btn ghost" id="runAllSimBtn">▶️ 전체 동시 실행</button>
+      <button class="btn ghost" id="runAllBtn">⏩ 전체 순차 실행</button>
+      <button class="btn ghost" id="stopBtn" disabled>⏸️ 멈춤</button>
+      <button class="btn ghost" id="resetBtn">🔄 초기화</button>
+      <div class="spacer"></div>
+      <button class="btn ghost" id="newGameBtn">↩️ 새 게임</button>
+    </div>
+    <div class="hint" id="t_boardHint" style="margin-bottom:10px">상단의 참가자 번호(또는 세로줄)를 클릭하면 사다리를 타고 내려가는 애니메이션이 재생됩니다.</div>
+    <div class="canvas-scroll">
+      <canvas id="board"></canvas>
+    </div>
+
+    <div class="sortbar">
+      <span class="lbl" id="t_sort">정렬:</span>
+      <button data-sort="index" class="active" id="sortIndex">참가자 번호순</button>
+      <button data-sort="asc" id="sortAsc">결과 오름차순 ▲</button>
+      <button data-sort="desc" id="sortDesc">결과 내림차순 ▼</button>
+    </div>
+    <table class="results">
+      <thead><tr><th id="t_thP">참가자</th><th id="t_thR">결과</th></tr></thead>
+      <tbody id="resultBody"></tbody>
+    </table>
+    <div class="summary" id="summary"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===================== 상태 ===================== */
+const PALETTE = ["#38bdf8","#a78bfa","#f472b6","#34d399","#fbbf24","#fb923c","#60a5fa","#f87171","#2dd4bf","#c084fc"];
+let state = {
+  n: 5, complexity: 5, rows: 0, rungs: [], mode: "ggwang",
+  lang: "ko",         // UI 언어
+  currency: "KRW",    // 통화
+  names: [],          // 참가자 이름
+  results: [],        // 하단 칸 c 의 결과 {label, kind}
+  paths: {},          // 참가자 -> {points, endCol}
+  traced: new Set(),  // 결과가 공개된 참가자(상단 col)
+  revealedBottoms: new Set(), // 결과가 공개된 하단 col
+  animating: false,
+  stopRequested: false,
+  paused: false,
+  resumeFn: null,
+  rafId: null,
+  sortMode: "index"   // index | asc | desc
+};
+
+/* geometry */
+const G = { marginLeft:50, marginRight:50, marginTop:74, marginBottom:78, colSpacing:70, height:520 };
+let DPR = Math.max(1, window.devicePixelRatio || 1);
+
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+
+/* ===================== 유틸 ===================== */
+const $ = id => document.getElementById(id);
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function range(n){ return Array.from({length:n}, (_,i)=>i); }
+function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
+function colX(c){ return G.marginLeft + c*G.colSpacing; }
+
+/* ===================== 브랜드 ===================== */
+const BRAND = "SADARI";
+const TAGLINE = "Climb your luck.";
+
+/* ===================== 다국어 / 통화 ===================== */
+// 통화: minUnit = 금액 배분의 최소 단위, def = 기본 총액
+const CURRENCIES = {
+  KRW:{symbol:"₩",  minUnit:1000, locale:"ko-KR", prefix:true,  def:100000},
+  USD:{symbol:"$",  minUnit:1,    locale:"en-US", prefix:true,  def:100},
+  EUR:{symbol:"€",  minUnit:1,    locale:"de-DE", prefix:true,  def:100},
+  JPY:{symbol:"¥",  minUnit:100,  locale:"ja-JP", prefix:true,  def:10000},
+  CNY:{symbol:"¥",  minUnit:1,    locale:"zh-CN", prefix:true,  def:100},
+  GBP:{symbol:"£",  minUnit:1,    locale:"en-GB", prefix:true,  def:100},
+  RUB:{symbol:"₽",  minUnit:10,   locale:"ru-RU", prefix:false, def:10000},
+  BRL:{symbol:"R$", minUnit:1,    locale:"pt-BR", prefix:true,  def:100}
+};
+// 8개 주요 언어 + 해당 국가 통화
+const LANGS = [
+  {code:"ko", name:"한국어",     cur:"KRW"},
+  {code:"en", name:"English",    cur:"USD"},
+  {code:"ja", name:"日本語",     cur:"JPY"},
+  {code:"zh", name:"中文",       cur:"CNY"},
+  {code:"es", name:"Español",    cur:"EUR"},
+  {code:"de", name:"Deutsch",    cur:"EUR"},
+  {code:"ru", name:"Русский",    cur:"RUB"},
+  {code:"pt", name:"Português",  cur:"BRL"}
+];
+const I18N = {
+  ko:{title:"🪜 사다리 게임", subtitle:"최대 30명까지 · 복잡도 조절 · 애니메이션 사다리타기", numPlayers:"참여 인원 수 (2 ~ 30)", complexity:"사다리 복잡도", complexityHint:"높을수록 가로줄(가지)이 촘촘해집니다.", names:"참가자 이름", namesNote:"(비워두면 번호로 표시됩니다)", mode:"결과 모드 선택", modeGgwang:"🎯 당첨 / 꽝", modeGroup:"👥 조 편성", modeMoney:"💰 금액 배분", ggwangCount:"꽝 개수", randomGgwang:"🎲 꽝 위치 랜덤 배치", ggwangHint:"나머지 인원은 {win} 으로 배정됩니다.", groupCount:"조 개수", groupHint:"인원을 균등하게 각 조로 배정합니다.", totalMoney:"총 금액", winnerCount:"당첨 인원 (나머지 꽝)", moneyHint:"총액을 자동으로 배분하고, 당첨 인원 외에는 꽝 처리됩니다.", build:"🪜 사다리 만들기", boardHint:"상단의 참가자(또는 세로줄)를 클릭하면 사다리를 타고 내려가는 애니메이션이 재생됩니다.", reshuffle:"🔀 다시 섞기", revealAll:"👁️ 결과 전체 공개", runSim:"▶️ 전체 동시 실행", runSeq:"⏩ 전체 순차 실행", pause:"⏸️ 멈춤", resume:"▶️ 재생", reset:"🔄 초기화", newGame:"↩️ 새 게임", sort:"정렬:", sortIndex:"참가자 번호순", sortAsc:"결과 오름차순 ▲", sortDesc:"결과 내림차순 ▼", thParticipant:"참가자", thResult:"결과", unrevealed:"미공개", win:"🎉 당첨", lose:"꽝", groupFmt:"{n}조", nameFmt:"{n}번", teamsWord:"개 조"},
+  en:{title:"🪜 Ladder Game", subtitle:"Up to 30 players · adjustable complexity · animated", numPlayers:"Number of players (2–30)", complexity:"Ladder complexity", complexityHint:"Higher = more rungs.", names:"Player names", namesNote:"(blank = numbered)", mode:"Result mode", modeGgwang:"🎯 Win / Lose", modeGroup:"👥 Teams", modeMoney:"💰 Money split", ggwangCount:"Number of losers", randomGgwang:"🎲 Shuffle losers", ggwangHint:"Everyone else gets {win}.", groupCount:"Number of teams", groupHint:"Players are split evenly into teams.", totalMoney:"Total amount", winnerCount:"Winners (rest lose)", moneyHint:"The total is split automatically; non-winners get nothing.", build:"🪜 Build ladder", boardHint:"Click a player at the top to animate their path down the ladder.", reshuffle:"🔀 Reshuffle", revealAll:"👁️ Reveal all", runSim:"▶️ Run all (sync)", runSeq:"⏩ Run all (seq)", pause:"⏸️ Pause", resume:"▶️ Resume", reset:"🔄 Reset", newGame:"↩️ New game", sort:"Sort:", sortIndex:"By player", sortAsc:"Result ▲", sortDesc:"Result ▼", thParticipant:"Player", thResult:"Result", unrevealed:"Hidden", win:"🎉 Win", lose:"Lose", groupFmt:"Team {n}", nameFmt:"#{n}", teamsWord:"teams"},
+  ja:{title:"🪜 あみだくじ", subtitle:"最大30人 · 複雑さ調整 · アニメーション", numPlayers:"参加人数 (2〜30)", complexity:"複雑さ", complexityHint:"高いほど横線が増えます。", names:"参加者の名前", namesNote:"(空欄なら番号表示)", mode:"結果モード", modeGgwang:"🎯 当たり / はずれ", modeGroup:"👥 チーム分け", modeMoney:"💰 金額配分", ggwangCount:"はずれの数", randomGgwang:"🎲 はずれをランダム配置", ggwangHint:"残りの人は{win}になります。", groupCount:"チーム数", groupHint:"均等にチーム分けします。", totalMoney:"合計金額", winnerCount:"当選人数 (残りはずれ)", moneyHint:"合計を自動で配分し、当選者以外ははずれです。", build:"🪜 あみだを作成", boardHint:"上部の参加者をクリックすると下までアニメーションが再生されます。", reshuffle:"🔀 シャッフル", revealAll:"👁️ 全結果表示", runSim:"▶️ 一斉スタート", runSeq:"⏩ 順番に実行", pause:"⏸️ 一時停止", resume:"▶️ 再開", reset:"🔄 リセット", newGame:"↩️ 新しいゲーム", sort:"並び替え:", sortIndex:"参加者順", sortAsc:"結果 昇順 ▲", sortDesc:"結果 降順 ▼", thParticipant:"参加者", thResult:"結果", unrevealed:"未公開", win:"🎉 当たり", lose:"はずれ", groupFmt:"{n}組", nameFmt:"{n}番", teamsWord:"組"},
+  zh:{title:"🪜 梯子游戏", subtitle:"最多30人 · 可调复杂度 · 动画演示", numPlayers:"参与人数 (2~30)", complexity:"梯子复杂度", complexityHint:"数值越大横线越多。", names:"参与者姓名", namesNote:"(留空则用编号)", mode:"结果模式", modeGgwang:"🎯 中奖 / 谢谢", modeGroup:"👥 分组", modeMoney:"💰 金额分配", ggwangCount:"谢谢数量", randomGgwang:"🎲 随机分配谢谢", ggwangHint:"其余人为{win}。", groupCount:"分组数", groupHint:"将人员平均分组。", totalMoney:"总金额", winnerCount:"中奖人数 (其余谢谢)", moneyHint:"自动分配总额，非中奖者为谢谢。", build:"🪜 生成梯子", boardHint:"点击顶部参与者即可播放下行动画。", reshuffle:"🔀 重新洗牌", revealAll:"👁️ 全部揭晓", runSim:"▶️ 同时开始", runSeq:"⏩ 依次开始", pause:"⏸️ 暂停", resume:"▶️ 继续", reset:"🔄 重置", newGame:"↩️ 新游戏", sort:"排序：", sortIndex:"按参与者", sortAsc:"结果升序 ▲", sortDesc:"结果降序 ▼", thParticipant:"参与者", thResult:"结果", unrevealed:"未揭晓", win:"🎉 中奖", lose:"谢谢", groupFmt:"{n}组", nameFmt:"{n}号", teamsWord:"组"},
+  es:{title:"🪜 Juego de la escalera", subtitle:"Hasta 30 jugadores · complejidad ajustable · animación", numPlayers:"Número de jugadores (2–30)", complexity:"Complejidad", complexityHint:"Mayor = más travesaños.", names:"Nombres de jugadores", namesNote:"(vacío = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Premio / Nada", modeGroup:"👥 Equipos", modeMoney:"💰 Reparto", ggwangCount:"Cantidad de 'Nada'", randomGgwang:"🎲 Mezclar 'Nada'", ggwangHint:"El resto recibe {win}.", groupCount:"Número de equipos", groupHint:"Reparte equitativamente en equipos.", totalMoney:"Importe total", winnerCount:"Ganadores (resto nada)", moneyHint:"El total se reparte automáticamente; los demás no reciben nada.", build:"🪜 Crear escalera", boardHint:"Haz clic en un jugador arriba para animar su recorrido.", reshuffle:"🔀 Rebarajar", revealAll:"👁️ Revelar todo", runSim:"▶️ Todos a la vez", runSeq:"⏩ Uno por uno", pause:"⏸️ Pausa", resume:"▶️ Reanudar", reset:"🔄 Reiniciar", newGame:"↩️ Nuevo juego", sort:"Ordenar:", sortIndex:"Por jugador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jugador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Premio", lose:"Nada", groupFmt:"Equipo {n}", nameFmt:"#{n}", teamsWord:"equipos"},
+  de:{title:"🪜 Leiterspiel", subtitle:"Bis zu 30 Spieler · einstellbare Komplexität · Animation", numPlayers:"Anzahl der Spieler (2–30)", complexity:"Komplexität", complexityHint:"Höher = mehr Sprossen.", names:"Spielernamen", namesNote:"(leer = nummeriert)", mode:"Ergebnismodus", modeGgwang:"🎯 Gewinn / Niete", modeGroup:"👥 Teams", modeMoney:"💰 Geld aufteilen", ggwangCount:"Anzahl Nieten", randomGgwang:"🎲 Nieten mischen", ggwangHint:"Alle anderen erhalten {win}.", groupCount:"Anzahl Teams", groupHint:"Spieler werden gleichmäßig aufgeteilt.", totalMoney:"Gesamtbetrag", winnerCount:"Gewinner (Rest Niete)", moneyHint:"Der Betrag wird automatisch verteilt; die Übrigen gehen leer aus.", build:"🪜 Leiter erstellen", boardHint:"Oben auf einen Spieler klicken, um die Animation zu starten.", reshuffle:"🔀 Neu mischen", revealAll:"👁️ Alle zeigen", runSim:"▶️ Alle gleichzeitig", runSeq:"⏩ Nacheinander", pause:"⏸️ Pause", resume:"▶️ Fortsetzen", reset:"🔄 Zurücksetzen", newGame:"↩️ Neues Spiel", sort:"Sortieren:", sortIndex:"Nach Spieler", sortAsc:"Ergebnis ▲", sortDesc:"Ergebnis ▼", thParticipant:"Spieler", thResult:"Ergebnis", unrevealed:"Verdeckt", win:"🎉 Gewinn", lose:"Niete", groupFmt:"Team {n}", nameFmt:"#{n}", teamsWord:"Teams"},
+  ru:{title:"🪜 Лестница", subtitle:"До 30 участников · регулируемая сложность · анимация", numPlayers:"Число участников (2–30)", complexity:"Сложность", complexityHint:"Больше — больше перекладин.", names:"Имена участников", namesNote:"(пусто — номер)", mode:"Режим результата", modeGgwang:"🎯 Приз / Мимо", modeGroup:"👥 Команды", modeMoney:"💰 Деньги", ggwangCount:"Число проигрышей", randomGgwang:"🎲 Перемешать", ggwangHint:"Остальные получают {win}.", groupCount:"Число команд", groupHint:"Участники делятся поровну.", totalMoney:"Общая сумма", winnerCount:"Победители (ост. мимо)", moneyHint:"Сумма делится автоматически; остальные — мимо.", build:"🪜 Создать", boardHint:"Нажмите участника вверху, чтобы запустить анимацию.", reshuffle:"🔀 Перемешать", revealAll:"👁️ Показать все", runSim:"▶️ Все сразу", runSeq:"⏩ По очереди", pause:"⏸️ Пауза", resume:"▶️ Продолжить", reset:"🔄 Сброс", newGame:"↩️ Новая игра", sort:"Сортировка:", sortIndex:"По участнику", sortAsc:"Результат ▲", sortDesc:"Результат ▼", thParticipant:"Участник", thResult:"Результат", unrevealed:"Скрыто", win:"🎉 Приз", lose:"Мимо", groupFmt:"Команда {n}", nameFmt:"№{n}", teamsWord:"команд"},
+  pt:{title:"🪜 Jogo da escada", subtitle:"Até 30 jogadores · complexidade ajustável · animação", numPlayers:"Número de jogadores (2–30)", complexity:"Complexidade", complexityHint:"Maior = mais degraus.", names:"Nomes dos jogadores", namesNote:"(vazio = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Prêmio / Nada", modeGroup:"👥 Equipes", modeMoney:"💰 Dividir dinheiro", ggwangCount:"Quantidade de 'Nada'", randomGgwang:"🎲 Embaralhar 'Nada'", ggwangHint:"Os demais recebem {win}.", groupCount:"Número de equipes", groupHint:"Divide igualmente em equipes.", totalMoney:"Valor total", winnerCount:"Ganhadores (resto nada)", moneyHint:"O total é dividido automaticamente; os demais ficam sem nada.", build:"🪜 Criar escada", boardHint:"Clique em um jogador no topo para animar o percurso.", reshuffle:"🔀 Embaralhar", revealAll:"👁️ Revelar tudo", runSim:"▶️ Todos juntos", runSeq:"⏩ Um a um", pause:"⏸️ Pausar", resume:"▶️ Continuar", reset:"🔄 Reiniciar", newGame:"↩️ Novo jogo", sort:"Ordenar:", sortIndex:"Por jogador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jogador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Prêmio", lose:"Nada", groupFmt:"Equipe {n}", nameFmt:"#{n}", teamsWord:"equipes"}
+};
+function T(){ return I18N[state.lang] || I18N.ko; }
+function fmtMoney(v){
+  const c = CURRENCIES[state.currency];
+  const s = Math.round(v).toLocaleString(c.locale);
+  return c.prefix ? c.symbol + s : s + " " + c.symbol;
+}
+function defaultName(i){ return T().nameFmt.replace("{n}", i+1); }
+
+function setT(id, txt){ const e=$(id); if(e) e.textContent=txt; }
+function applyLang(){
+  const t = T();
+  document.documentElement.lang = state.lang;
+  document.title = BRAND + " · " + TAGLINE;   // 브랜드명은 언어와 무관하게 고정
+  setT("t_sub", t.subtitle);
+  setT("t_numPlayers", t.numPlayers); setT("t_complexity", t.complexity); setT("t_complexityHint", t.complexityHint);
+  setT("t_names", t.names); setT("t_namesNote", t.namesNote); setT("t_mode", t.mode);
+  const q = (m,txt)=>{ const e=document.querySelector(`#modeSeg button[data-mode="${m}"]`); if(e) e.textContent=txt; };
+  q("ggwang", t.modeGgwang); q("group", t.modeGroup); q("money", t.modeMoney);
+  setT("t_ggwangCount", t.ggwangCount); setT("randomGgwang", t.randomGgwang);
+  const gh=$("t_ggwangHint"); if(gh) gh.innerHTML = t.ggwangHint.replace("{win}", `<b style="color:var(--good)">${t.win}</b>`);
+  setT("t_groupCount", t.groupCount); setT("t_groupHint", t.groupHint);
+  setT("t_totalMoney", t.totalMoney + " (" + state.currency + ")");
+  setT("t_winnerCount", t.winnerCount); setT("t_moneyHint", t.moneyHint);
+  setT("buildBtn", t.build); setT("t_boardHint", t.boardHint);
+  setT("reshuffleBtn", t.reshuffle); setT("revealAllBtn", t.revealAll);
+  setT("runAllSimBtn", t.runSim); setT("runAllBtn", t.runSeq);
+  setT("resetBtn", t.reset); setT("newGameBtn", t.newGame);
+  setT("t_sort", t.sort); setT("sortIndex", t.sortIndex); setT("sortAsc", t.sortAsc); setT("sortDesc", t.sortDesc);
+  setT("t_thP", t.thParticipant); setT("t_thR", t.thResult);
+  updatePlayPauseUI();
+  renderNameInputs(); // placeholder 갱신(입력값 보존)
+}
+function onCurrencyChanged(){
+  const c = CURRENCIES[state.currency];
+  const inp = $("totalMoney");
+  inp.min = c.minUnit; inp.step = c.minUnit;
+  let v = Math.floor((parseInt(inp.value)||0)/c.minUnit)*c.minUnit;
+  if(v < c.minUnit) v = c.def;
+  inp.value = v;
+  setT("t_totalMoney", T().totalMoney + " (" + state.currency + ")");
+}
+function refreshAfterLocale(){
+  if($("boardCard").classList.contains("hidden")) return;
+  if(state.results && state.results.length){ relabelResults(); buildResultColors(); }
+  draw(); renderTable();
+}
+function initLocale(){
+  $("langSel").innerHTML = LANGS.map(l=>`<option value="${l.code}">${l.name}</option>`).join("");
+  $("curSel").innerHTML = Object.keys(CURRENCIES).map(k=>`<option value="${k}">${k} (${CURRENCIES[k].symbol})</option>`).join("");
+  $("langSel").value = state.lang; $("curSel").value = state.currency;
+  $("langSel").addEventListener("change", e=>{
+    state.lang = e.target.value;
+    const L = LANGS.find(l=>l.code===state.lang);
+    if(L){ state.currency = L.cur; $("curSel").value = state.currency; }
+    applyLang(); onCurrencyChanged(); refreshAfterLocale();
+  });
+  $("curSel").addEventListener("change", e=>{
+    state.currency = e.target.value;
+    onCurrencyChanged(); refreshAfterLocale();
+  });
+  applyLang(); onCurrencyChanged();
+}
+
+/* ===================== UI 바인딩 ===================== */
+$("complexity").addEventListener("input", e => $("cxVal").textContent = e.target.value);
+
+// 인원 수 변경 시 이름 입력칸 자동 생성
+function renderNameInputs(){
+  const n = clamp(parseInt($("numPlayers").value)||2, 2, 30);
+  const box = $("nameInputs");
+  const prev = []; // 기존 입력값 보존
+  box.querySelectorAll("input").forEach(inp=>prev.push(inp.value));
+  box.innerHTML="";
+  for(let i=0;i<n;i++){
+    const cell=document.createElement("div");
+    cell.className="name-cell";
+    cell.innerHTML=`<span class="idx">${i+1}</span>`;
+    const inp=document.createElement("input");
+    inp.type="text"; inp.maxLength=12; inp.placeholder=defaultName(i);
+    inp.value = prev[i]!==undefined ? prev[i] : "";
+    cell.appendChild(inp);
+    box.appendChild(cell);
+  }
+}
+$("numPlayers").addEventListener("input", renderNameInputs);
+renderNameInputs();
+
+function readNames(n){
+  const inputs = $("nameInputs").querySelectorAll("input");
+  const names=[];
+  for(let i=0;i<n;i++){
+    const v = inputs[i] ? inputs[i].value.trim() : "";
+    names.push(v || defaultName(i));
+  }
+  return names;
+}
+
+document.querySelectorAll("#modeSeg button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll("#modeSeg button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    state.mode = b.dataset.mode;
+    ["ggwang","group","money"].forEach(m=>{
+      $("panel-"+m).classList.toggle("hidden", m!==state.mode);
+    });
+  });
+});
+
+$("buildBtn").addEventListener("click", buildGame);
+$("reshuffleBtn").addEventListener("click", ()=>{ if(state.animating) return; generateRungs(); resetReveal(); layout(); computeAllPaths(); draw(); renderTable(); });
+$("revealAllBtn").addEventListener("click", revealAll);
+$("runAllBtn").addEventListener("click", runAll);
+$("runAllSimBtn").addEventListener("click", runAllSimultaneous);
+$("stopBtn").addEventListener("click", togglePause);
+$("resetBtn").addEventListener("click", resetBoard);
+
+// 창 크기 변경 시 사다리 간격 재조정
+let resizeTimer=null;
+window.addEventListener("resize", ()=>{
+  if($("boardCard").classList.contains("hidden")) return;
+  if(state.animating) return;
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{ layout(); computeAllPaths(); draw(); }, 120);
+});
+
+// 정렬 버튼
+document.querySelectorAll(".sortbar button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".sortbar button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    state.sortMode = b.dataset.sort;
+    renderTable();
+  });
+});
+$("newGameBtn").addEventListener("click", ()=>{ $("boardCard").classList.add("hidden"); window.scrollTo({top:0,behavior:"smooth"}); });
+
+$("randomGgwang").addEventListener("click", ()=>{
+  // 인원 기준으로 꽝 위치만 다시 섞고, 빌드 전이라면 인원수 읽어 미리보기 X — 단순히 build 시 적용
+  const n = clamp(parseInt($("numPlayers").value)||2, 2, 30);
+  const g = clamp(parseInt($("ggwangCount").value)||0, 0, n-1);
+  $("ggwangCount").value = g;
+  // 즉시 적용: 보드가 떠 있으면 결과 재배치 (빌드 전이면 값만 갱신)
+  if(!$("boardCard").classList.contains("hidden") && state.mode==="ggwang"){
+    assignResults(); resetReveal(); draw(); renderTable();
+  }
+});
+
+/* ===================== 게임 생성 ===================== */
+function buildGame(){
+  const n = clamp(parseInt($("numPlayers").value)||2, 2, 30);
+  $("numPlayers").value = n;
+  state.n = n;
+  state.names = readNames(n);
+  state.complexity = clamp(parseInt($("complexity").value)||5,1,10);
+
+  // mode별 입력 검증
+  if(state.mode==="group"){
+    state.groupCount = clamp(parseInt($("groupCount").value)||2, 2, n);
+    $("groupCount").value = state.groupCount;
+  } else if(state.mode==="money"){
+    const U = CURRENCIES[state.currency].minUnit;
+    let total = parseInt($("totalMoney").value)||0;
+    total = Math.floor(total/U)*U;
+    if(total < U){ alert(T().totalMoney + " ≥ " + fmtMoney(U)); return; }
+    $("totalMoney").value = total;
+    state.totalMoney = total;
+    state.winnerCount = clamp(parseInt($("winnerCount").value)||1, 1, n);
+    $("winnerCount").value = state.winnerCount;
+  } else {
+    state.ggwangCount = clamp(parseInt($("ggwangCount").value)||0, 0, n-1);
+    $("ggwangCount").value = state.ggwangCount;
+  }
+
+  generateRungs();
+  assignResults();
+  resetReveal();
+  $("boardCard").classList.remove("hidden"); // 폭 측정을 위해 먼저 표시
+  layout();
+  computeAllPaths();
+  draw();
+  renderTable();
+  $("boardCard").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function generateRungs(){
+  const n = state.n;
+  // 복잡도에 따른 행 수 & 가지 밀도
+  state.rows = Math.max(8, Math.round(n*0.7) + state.complexity*2);
+  const p = 0.16 + state.complexity*0.045; // 가지 생성 확률
+  const rungs = [];
+  for(let i=0;i<state.rows;i++){
+    const s = new Set();
+    for(let c=0;c<n-1;c++){
+      if(s.has(c-1)) continue;           // 인접 가지가 한 노드를 공유하지 않도록
+      if(Math.random() < p) s.add(c);    // c 와 c+1 사이 가지
+    }
+    rungs.push(s);
+  }
+  state.rungs = rungs;
+}
+
+/* ===================== 결과 배정 ===================== */
+function assignResults(){
+  const n = state.n;
+  let res = [];
+  if(state.mode==="ggwang"){
+    const g = state.ggwangCount;
+    for(let i=0;i<n;i++) res.push({kind: i<g ? "lose" : "win"});
+    shuffle(res);
+  } else if(state.mode==="group"){
+    const G2 = state.groupCount;
+    for(let i=0;i<n;i++) res.push({kind:"neutral", gnum:(i%G2)+1});
+    shuffle(res);
+  } else { // money
+    const amounts = distributeMoney(state.totalMoney, n, state.winnerCount);
+    res = amounts.map(a => a>0 ? {kind:"win", raw:a} : {kind:"lose"});
+  }
+  state.results = res;
+  relabelResults();
+  buildResultColors();
+}
+
+// 현재 언어/통화로 결과 라벨 문자열 갱신 (원시값은 보존)
+function relabelResults(){
+  const t = T();
+  state.results.forEach(r=>{
+    if(r.kind==="lose") r.label = t.lose;
+    else if(r.raw!=null) r.label = fmtMoney(r.raw);
+    else if(r.kind==="neutral") r.label = t.groupFmt.replace("{n}", r.gnum);
+    else r.label = t.win; // ggwang 당첨
+  });
+}
+
+// 결과값별 색상 부여 — 같은 결과는 같은 색
+function labelValue(label){
+  const num = parseInt(String(label).replace(/[^0-9]/g,""));
+  return isNaN(num) ? 0 : num;
+}
+function mkColor(h,s,l){
+  return {
+    solid:`hsl(${h},${s}%,${l}%)`,
+    soft:`hsla(${h},${s}%,${l}%,0.20)`,
+    tint:`hsla(${h},${s}%,${l}%,0.13)`   // 결과 테이블 행 배경
+  };
+}
+function buildResultColors(){
+  // 꽝 제외한 고유 결과 라벨을 값 순으로 정렬해 색상(hue) 배분
+  const labels=[];
+  state.results.forEach(r=>{ if(r.kind!=="lose" && !labels.includes(r.label)) labels.push(r.label); });
+  labels.sort((a,b)=>labelValue(a)-labelValue(b));
+  const total=Math.max(1,labels.length);
+  state.resultColors = state.results.map(r=>{
+    if(r.kind==="lose") return mkColor(215,12,52);    // 꽝 = 회색 (모두 동일)
+    const idx=labels.indexOf(r.label);
+    return mkColor(Math.round(idx*320/total), 72, 62); // 값에 따라 색상 분산
+  });
+}
+
+function distributeMoney(total, n, winners){
+  const U = CURRENCIES[state.currency].minUnit;   // 통화별 최소 단위
+  total = Math.floor(total/U)*U;
+  winners = clamp(winners,1,n);
+  if(total < winners*U) winners = Math.max(1, Math.floor(total/U));
+  const amounts = new Array(n).fill(0);
+  const idx = shuffle(range(n)).slice(0, winners);
+
+  // 1) 최소 단위로 균등 분배 (편차 최소화의 기준)
+  const units = total/U;
+  const base = Math.floor(units/winners);
+  const w = idx.map(()=>base);
+  let rem = units - base*winners;            // 균등 분배 후 남는 1000원 단위
+  const order = shuffle(range(winners));
+  for(let k=0;k<rem;k++) w[order[k]]++;       // 나머지는 랜덤 당첨자에게 1단위씩
+
+  // 2) 약간의 변화를 주되, 평균 대비 일정 범위(±35%) 안으로 편차 제한
+  const maxDev = Math.max(1, Math.round(base*0.35));
+  const step   = Math.max(1, Math.round(base*0.15));
+  const swaps  = winners*2;
+  for(let s=0;s<swaps;s++){
+    const a = Math.floor(Math.random()*winners);
+    const b = Math.floor(Math.random()*winners);
+    if(a===b) continue;
+    const move = 1 + Math.floor(Math.random()*step);
+    if(w[a]-move >= base-maxDev && w[a]-move >= 1 && w[b]+move <= base+maxDev){
+      w[a]-=move; w[b]+=move;                  // 단위 이동(총액은 보존)
+    }
+  }
+
+  idx.forEach((pi,k)=> amounts[pi] = w[k]*U);
+  return amounts;
+}
+
+/* ===================== 경로 계산 ===================== */
+function tracePath(startCol){
+  const {marginTop, marginBottom} = G;
+  const usable = G.height - marginTop - marginBottom;
+  const gap = usable/(state.rows+1);
+  let col = startCol;
+  const pts = [{x:colX(col), y:marginTop}];
+  for(let i=0;i<state.rows;i++){
+    const y = marginTop + (i+1)*gap;
+    pts.push({x:colX(col), y});
+    if(state.rungs[i].has(col-1)){ col--; pts.push({x:colX(col), y}); }
+    else if(state.rungs[i].has(col)){ col++; pts.push({x:colX(col), y}); }
+  }
+  pts.push({x:colX(col), y:G.height-marginBottom});
+  return {points:pts, endCol:col};
+}
+function computeAllPaths(){
+  state.paths = {};
+  for(let c=0;c<state.n;c++) state.paths[c] = tracePath(c);
+}
+
+/* ===================== 캔버스 ===================== */
+// 화면(컨테이너) 폭에 맞춰 사다리 간격을 유동적으로 조정
+function layout(){
+  const wrapW = (canvas.parentElement && canvas.parentElement.clientWidth) || 900;
+  const avail = wrapW - G.marginLeft - G.marginRight - 4;
+  let sp = state.n>1 ? avail/(state.n-1) : avail;
+  sp = clamp(sp, 46, 130);  // 너무 좁거나(가독성) 너무 넓지 않게
+  G.colSpacing = Math.round(sp);
+  setupCanvas();
+}
+
+function setupCanvas(){
+  DPR = Math.max(1, window.devicePixelRatio || 1);
+  const logicalW = G.marginLeft + G.marginRight + (state.n-1)*G.colSpacing;
+  canvas.width = logicalW*DPR;
+  canvas.height = G.height*DPR;
+  canvas.style.width = logicalW+"px";
+  canvas.style.height = G.height+"px";
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+
+// active: 객체 {col: partialLen, ...} — 애니메이션 중인 참가자들
+function draw(active=null){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawLadder();
+  // 완료된 트레일 → 결과(매칭) 색상
+  state.traced.forEach(c=>{
+    if(active && c in active) return;
+    drawTrail(state.paths[c].points, Infinity, state.resultColors[state.paths[c].endCol].solid);
+  });
+  // 내려가는 중인 트레일 → 참가자(상단 이름) 색상 (결과는 아직 비공개)
+  if(active){
+    for(const c in active){
+      const col=+c;
+      drawTrail(state.paths[col].points, active[c], PALETTE[col%PALETTE.length], true);
+    }
+  }
+  drawLabels(active);
+}
+
+function drawLadder(){
+  // 세로줄
+  ctx.lineWidth=4; ctx.lineCap="round";
+  for(let c=0;c<state.n;c++){
+    ctx.strokeStyle = "#3b4a63";
+    ctx.beginPath();
+    ctx.moveTo(colX(c), G.marginTop);
+    ctx.lineTo(colX(c), G.height-G.marginBottom);
+    ctx.stroke();
+  }
+  // 가로줄
+  const usable = G.height - G.marginTop - G.marginBottom;
+  const gap = usable/(state.rows+1);
+  ctx.lineWidth=4; ctx.strokeStyle="#64748b";
+  for(let i=0;i<state.rows;i++){
+    const y = G.marginTop + (i+1)*gap;
+    state.rungs[i].forEach(c=>{
+      ctx.beginPath();
+      ctx.moveTo(colX(c), y);
+      ctx.lineTo(colX(c+1), y);
+      ctx.stroke();
+    });
+  }
+}
+
+function drawTrail(points, maxLen, color, withToken){
+  ctx.lineWidth=5; ctx.lineCap="round"; ctx.lineJoin="round";
+  ctx.strokeStyle=color;
+  ctx.shadowColor=color; ctx.shadowBlur=10;
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, points[0].y);
+  let acc=0, tip=points[0];
+  for(let i=1;i<points.length;i++){
+    const a=points[i-1], b=points[i];
+    const seg=Math.hypot(b.x-a.x, b.y-a.y);
+    if(maxLen!==Infinity && acc+seg>=maxLen){
+      const t=(maxLen-acc)/seg;
+      tip={x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t};
+      ctx.lineTo(tip.x, tip.y);
+      acc=maxLen; break;
+    }
+    ctx.lineTo(b.x,b.y); acc+=seg; tip=b;
+  }
+  ctx.stroke();
+  ctx.shadowBlur=0;
+  if(withToken){
+    ctx.fillStyle=color; ctx.beginPath();
+    ctx.arc(tip.x, tip.y, 8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle="#0b1220"; ctx.beginPath();
+    ctx.arc(tip.x, tip.y, 3.5, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function fitText(text, maxW, baseSize){
+  let size=baseSize;
+  ctx.font=`bold ${size}px Segoe UI`;
+  while(ctx.measureText(text).width>maxW && size>9){ size--; ctx.font=`bold ${size}px Segoe UI`; }
+  if(ctx.measureText(text).width>maxW){
+    let t=text;
+    while(t.length>1 && ctx.measureText(t+"…").width>maxW){ t=t.slice(0,-1); }
+    return t+"…";
+  }
+  return text;
+}
+
+function drawLabels(active){
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  // 박스 폭은 여백(margin) 안에 들어오도록 상한을 둠 → 양 옆 잘림 방지
+  const boxW = clamp(G.colSpacing-8, 38, 64);
+  for(let c=0;c<state.n;c++){
+    const x=colX(c), color=PALETTE[c%PALETTE.length];
+    // 상단 참가자
+    const isActive = active && (c in active);
+    ctx.fillStyle = isActive ? color : "#1e293b";
+    roundRect(x-boxW/2, 16, boxW, 36, 9); ctx.fill();
+    ctx.lineWidth=2; ctx.strokeStyle=color; ctx.stroke();
+    ctx.fillStyle = isActive ? "#0b1220" : "#e2e8f0";
+    const nm = state.names[c] || defaultName(c);
+    ctx.fillText(fitText(nm, boxW-8, 14), x, 34);
+
+    // 하단 결과
+    const r = state.results[c];
+    const revealed = state.revealedBottoms.has(c);
+    const y0 = G.height-52;
+    let fill="#0f172a", txt="#94a3b8", label="?";
+    if(revealed){
+      const rc = state.resultColors[c];
+      label = r.label;
+      fill = rc.soft;
+      txt = rc.solid;
+    }
+    ctx.fillStyle=fill;
+    const w = clamp(G.colSpacing-8, 42, 64);
+    roundRect(x-w/2, y0, w, 36, 9); ctx.fill();
+    ctx.lineWidth=1.5; ctx.strokeStyle=revealed?txt:"#334155"; ctx.stroke();
+    ctx.fillStyle=txt;
+    ctx.fillText(fitText(label, w-8, 13), x, y0+18);
+  }
+}
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+
+/* ===================== 인터랙션 / 애니메이션 ===================== */
+canvas.addEventListener("click", e=>{
+  if(state.animating) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX-rect.left);
+  const c = Math.round((x-G.marginLeft)/G.colSpacing);
+  if(c<0 || c>=state.n) return;
+  if(state.traced.has(c)){ return; } // 이미 실행됨
+  animateTrace(c);
+});
+
+function pathLength(points){
+  let L=0;
+  for(let i=1;i<points.length;i++) L+=Math.hypot(points[i].x-points[i-1].x, points[i].y-points[i-1].y);
+  return L;
+}
+
+function updatePlayPauseUI(){
+  const b=$("stopBtn"); if(!b) return; const t=T();
+  if(state.animating && state.paused){ b.textContent=t.resume; b.disabled=false; }
+  else if(state.animating){ b.textContent=t.pause; b.disabled=false; }
+  else { b.textContent=t.pause; b.disabled=true; }
+}
+function setRunning(on){
+  state.animating=on;
+  if(!on) state.paused=false;
+  updatePlayPauseUI();
+}
+// 멈춤 ↔ 재생 토글
+function togglePause(){
+  if(!state.animating) return;
+  if(state.paused){               // 재생: 멈춘 지점부터 이어서
+    state.paused=false;
+    updatePlayPauseUI();
+    const f=state.resumeFn; state.resumeFn=null;
+    if(f) f();
+  } else {                        // 멈춤: 다음 프레임에서 정지
+    state.paused=true;
+    updatePlayPauseUI();
+  }
+}
+// 초기화: 진행/공개된 결과를 모두 지우고 사다리만 남김(사다리/이름은 유지)
+function resetBoard(){
+  state.stopRequested=true;
+  state.paused=false; state.resumeFn=null;
+  if(state.rafId!=null){ cancelAnimationFrame(state.rafId); state.rafId=null; }
+  resetReveal();
+  draw();
+  renderTable();
+}
+
+function animateTrace(col, onDone, chained){
+  if(!chained) state.stopRequested=false;
+  setRunning(true);
+  const pts = state.paths[col].points;
+  const total = pathLength(pts);
+  const speed = 340; // px/초
+  let elapsed=0, last=null;
+  function frame(ts){
+    if(state.stopRequested){ state.stopRequested=false; state.rafId=null; setRunning(false); return; }
+    if(state.paused){ state.rafId=null; state.resumeFn=()=>{ last=null; state.rafId=requestAnimationFrame(frame); }; return; }
+    if(last==null) last=ts;
+    elapsed += (ts-last)/1000; last=ts;
+    const len = Math.min(total, elapsed*speed);
+    draw({[col]:len});  // 내려가는 동안: 참가자 색
+    if(len<total){ state.rafId=requestAnimationFrame(frame); }
+    else{
+      state.traced.add(col);                            // 도착 → 결과 매칭
+      state.revealedBottoms.add(state.paths[col].endCol);
+      state.rafId=null;
+      setRunning(false);
+      draw();           // 결과 색상으로 전환
+      renderTable();
+      if(onDone) onDone();
+    }
+  }
+  state.rafId=requestAnimationFrame(frame);
+}
+
+function runAll(){
+  if(state.animating) return;
+  state.stopRequested=false;
+  let c=0;
+  function next(){
+    while(c<state.n && state.traced.has(c)) c++;
+    if(c>=state.n) return;
+    animateTrace(c, ()=>{ c++; next(); }, true);
+  }
+  next();
+}
+
+// 모든 참가자 동시 애니메이션
+function runAllSimultaneous(){
+  if(state.animating) return;
+  const cols=[];
+  for(let c=0;c<state.n;c++) if(!state.traced.has(c)) cols.push(c);
+  if(!cols.length) return;
+  state.stopRequested=false;
+  setRunning(true);
+  const totals={};
+  cols.forEach(c=> totals[c]=pathLength(state.paths[c].points));
+  const speed=300; // px/초
+  let elapsed=0, last=null;
+  function frame(ts){
+    if(state.stopRequested){ state.stopRequested=false; state.rafId=null; setRunning(false); return; }
+    if(state.paused){ state.rafId=null; state.resumeFn=()=>{ last=null; state.rafId=requestAnimationFrame(frame); }; return; }
+    if(last==null) last=ts;
+    elapsed += (ts-last)/1000; last=ts;
+    const active={}; let allDone=true;
+    cols.forEach(c=>{
+      const len=Math.min(totals[c], elapsed*speed);
+      active[c]=len;
+      if(len<totals[c]) allDone=false;
+    });
+    draw(active);
+    if(!allDone){ state.rafId=requestAnimationFrame(frame); }
+    else{
+      cols.forEach(c=>{ state.traced.add(c); state.revealedBottoms.add(state.paths[c].endCol); });
+      state.rafId=null;
+      setRunning(false);
+      draw();
+      renderTable();
+    }
+  }
+  state.rafId=requestAnimationFrame(frame);
+}
+
+function revealAll(){
+  if(state.animating) return;
+  for(let c=0;c<state.n;c++){
+    state.traced.add(c);
+    state.revealedBottoms.add(state.paths[c].endCol);
+  }
+  draw(); renderTable();
+}
+
+function resetReveal(){
+  state.traced=new Set(); state.revealedBottoms=new Set();
+  state.animating=false; state.stopRequested=false; state.paused=false; state.resumeFn=null;
+  updatePlayPauseUI();
+}
+
+/* ===================== 결과 테이블 ===================== */
+function sortValue(r){
+  if(r.kind==="lose") return -1;
+  if(state.mode==="money") return r.raw!=null ? r.raw : labelValue(r.label);
+  if(state.mode==="group") return r.gnum!=null ? r.gnum : labelValue(r.label);
+  return r.kind==="win" ? 1 : 0; // ggwang: 당첨>꽝
+}
+
+function escapeHtml(s){ return s.replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[m])); }
+
+function renderTable(){
+  const tb = $("resultBody"); tb.innerHTML="";
+  // 행 데이터 구성
+  let rows=[];
+  for(let c=0;c<state.n;c++){
+    const revealed = state.traced.has(c);
+    const r = state.results[state.paths[c].endCol];
+    rows.push({c, revealed, r, sv: revealed ? sortValue(r) : null});
+  }
+  // 정렬: 공개된 항목만 결과값 기준 정렬, 미공개는 뒤로(번호순)
+  if(state.sortMode!=="index"){
+    const dir = state.sortMode==="asc" ? 1 : -1;
+    rows.sort((a,b)=>{
+      if(a.revealed!==b.revealed) return a.revealed ? -1 : 1;
+      if(!a.revealed) return a.c-b.c;
+      if(a.sv!==b.sv) return (a.sv-b.sv)*dir;
+      return a.c-b.c;
+    });
+  }
+  let rank=0;
+  for(const row of rows){
+    const tr=document.createElement("tr");
+    const color=PALETTE[row.c%PALETTE.length];
+    const nm = escapeHtml(state.names[row.c] || defaultName(row.c));
+    let pill;
+    if(!row.revealed){ pill=`<span class="pill q">${escapeHtml(T().unrevealed)}</span>`; }
+    else{
+      const rc = state.resultColors[state.paths[row.c].endCol];
+      pill=`<span class="pill" style="background:${rc.soft};color:${rc.solid}">${escapeHtml(row.r.label)}</span>`;
+      // 같은 결과값 행 = 같은 색으로 배경/좌측 강조
+      tr.style.background = rc.tint;
+      tr.style.boxShadow = `inset 4px 0 0 ${rc.solid}`;
+    }
+    const rankCell = (state.sortMode!=="index" && row.revealed) ? `<span style="color:var(--muted);font-size:12px">${++rank}. </span>` : "";
+    tr.innerHTML=`<td>${rankCell}<b style="color:${color}">${nm}</b></td><td>${pill}</td>`;
+    tb.appendChild(tr);
+  }
+  // 요약
+  const t = T();
+  let s="";
+  if(state.mode==="money"){
+    s = `${t.totalMoney}: <b>${fmtMoney(state.totalMoney)}</b> · ${t.win} ${state.winnerCount} · ${t.lose} ${state.n-state.winnerCount}`;
+  } else if(state.mode==="group"){
+    s = `${state.groupCount} ${t.teamsWord} · ${state.n}`;
+  } else {
+    s = `${t.win} ${state.n-state.ggwangCount} · ${t.lose} ${state.ggwangCount}`;
+  }
+  $("summary").innerHTML = s;
+}
+
+/* ===================== 초기화 ===================== */
+initLocale();
+</script>
+</body>
+</html>
