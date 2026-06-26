@@ -3,13 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SADARI · Climb your luck.</title>
-<meta name="description" content="SADARI — Climb your luck. The classic ladder game (Amidakuji / Ghost Leg) for up to 30 players. Win/Lose, team draws, and money splitting in 8 languages." />
+<title>SADARI - 만능 사다리타기 (조 편성·회식비 더치페이·룰렛·주사위)</title>
+<meta name="description" content="조 편성과 회식비/더치페이 자동 계산까지 — 최대 30명 사다리타기에 룰렛·제비뽑기·동전던지기·주사위·자리배치·타이머를 한 곳에. 카톡 공유·결과 복사 지원, 8개 언어." />
+<meta name="keywords" content="사다리타기, 조 편성, 회식비 더치페이, 룰렛, 제비뽑기, 동전던지기, 주사위, 자리배치, 타이머, ladder game, amidakuji" />
 <meta name="theme-color" content="#0f172a" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="SADARI · Climb your luck." />
-<meta property="og:description" content="The classic ladder game for up to 30 players — Win/Lose, team draws, and money splitting. 8 languages." />
+<meta property="og:url" content="https://sadari.singlena.workers.dev/" />
+<meta property="og:title" content="SADARI · 만능 사다리타기" />
+<meta property="og:description" content="조 편성·회식비 더치페이 자동 계산, 룰렛·제비뽑기·동전·주사위·자리배치·타이머까지. 결과를 카톡으로 한 번에 공유하세요." />
+<meta property="og:image" content="https://sadari.singlena.workers.dev/og.svg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SADARI · 만능 사다리타기" />
+<meta name="twitter:description" content="조 편성·회식비 더치페이·룰렛·주사위까지, 결과는 카톡으로 한 번에 공유." />
+<meta name="twitter:image" content="https://sadari.singlena.workers.dev/og.svg" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script src="https://t1.kakao.com/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
 <style>
   :root{
     --bg1:#0f172a; --bg2:#1e293b;
@@ -94,8 +104,90 @@
   .pill.neutral{background:rgba(167,139,250,.18); color:var(--accent2);}
   .pill.q{background:#334155; color:var(--muted);}
   .summary{font-size:13px; color:var(--muted); margin-top:8px;}
-  .topbar{display:flex; justify-content:flex-end; gap:10px; max-width:1100px; margin:0 auto 10px; flex-wrap:wrap;}
+  .topbar{display:flex; justify-content:flex-end; align-items:center; gap:10px; max-width:1100px; margin:0 auto 10px; flex-wrap:wrap;}
   .topbar select{padding:8px 12px; font-size:13px; cursor:pointer;}
+  .icon-btn{background:#0f172a; border:1px solid var(--border); color:var(--text); width:40px; height:40px; border-radius:10px; cursor:pointer; font-size:18px; display:inline-flex; align-items:center; justify-content:center;}
+  .icon-btn:hover{border-color:var(--accent);}
+  .icon-btn.off{opacity:.5;}
+
+  /* ===== 상단 도구 네비게이션 ===== */
+  .topnav{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; max-width:1100px; margin:0 auto 22px;}
+  .topnav button{
+    display:flex; flex-direction:column; align-items:center; gap:4px; min-width:84px;
+    background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--border);
+    color:var(--muted); border-radius:14px; padding:11px 8px; cursor:pointer; font-size:12px; font-weight:700; transition:.15s;
+  }
+  .topnav button .ico{font-size:22px; line-height:1;}
+  .topnav button:hover{transform:translateY(-2px); border-color:var(--accent);}
+  .topnav button.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0b1220; border-color:transparent;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+  .tool-head{text-align:center; margin-bottom:18px;}
+  .tool-head h2{font-size:26px; margin:0 0 4px; letter-spacing:-.5px;}
+  .tool-head p{color:var(--muted); font-size:13px; margin:0;}
+
+  /* ===== 공유/복사 버튼 ===== */
+  .share-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+  .btn.kakao{background:#FEE500; color:#191600;}
+  .btn.kakao:hover{filter:brightness(.97);}
+
+  /* ===== 모달 (일괄 붙여넣기) ===== */
+  .modal{position:fixed; inset:0; background:rgba(2,6,23,.7); display:none; align-items:center; justify-content:center; z-index:50; padding:16px;}
+  .modal.show{display:flex;}
+  .modal-box{background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--border); border-radius:16px; padding:22px; width:min(520px,100%); box-shadow:0 24px 60px rgba(0,0,0,.5);}
+  .modal-box h3{margin:0 0 6px; font-size:18px;}
+  .modal-box textarea{width:100%; min-height:160px; background:#0f172a; border:1px solid var(--border); color:var(--text); border-radius:10px; padding:12px; font-size:14px; resize:vertical; font-family:inherit;}
+
+  /* ===== 코인 ===== */
+  .coin-stage{display:flex; flex-direction:column; align-items:center; gap:22px; padding:24px 0;}
+  .coin{width:140px; height:140px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:46px; font-weight:800; color:#0b1220; background:radial-gradient(circle at 35% 30%,#fde68a,#f59e0b); box-shadow:0 12px 30px rgba(0,0,0,.4), inset 0 -6px 14px rgba(0,0,0,.25);}
+  .coin.flipping{animation:coinflip .12s linear infinite;}
+  @keyframes coinflip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg) scaleY(.85)}100%{transform:rotateX(180deg)}}
+
+  /* ===== 주사위 ===== */
+  .dice-stage{display:flex; flex-wrap:wrap; gap:16px; justify-content:center; padding:20px 0;}
+  .die{width:84px; height:84px; background:#fff; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.35); display:grid; grid-template:repeat(3,1fr)/repeat(3,1fr); padding:12px; gap:4px;}
+  .die .pip{background:#0f172a; border-radius:50%; align-self:center; justify-self:center; width:14px; height:14px;}
+  .die.rolling{animation:diceshake .25s ease-in-out infinite;}
+  @keyframes diceshake{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-10px) rotate(-8deg)}75%{transform:translateY(-10px) rotate(8deg)}}
+
+  /* ===== 타이머 ===== */
+  .timer-display{font-size:72px; font-weight:800; text-align:center; letter-spacing:2px; font-variant-numeric:tabular-nums; margin:18px 0;}
+  .timer-display.warn{color:var(--bad);}
+
+  /* ===== 룰렛 ===== */
+  .wheel-wrap{position:relative; width:340px; max-width:90vw; margin:8px auto; aspect-ratio:1;}
+  .wheel-wrap canvas{width:100%; height:100%;}
+  .wheel-pointer{position:absolute; top:-6px; left:50%; transform:translateX(-50%); font-size:30px; z-index:2;}
+
+  /* ===== 제비뽑기 ===== */
+  .lot-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(72px,1fr)); gap:10px; margin-top:18px;}
+  .lot-card{aspect-ratio:3/4; border-radius:12px; background:linear-gradient(160deg,#334155,#1e293b); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; transition:.2s; user-select:none;}
+  .lot-card.picked{font-size:13px; font-weight:800; padding:6px; text-align:center; color:#0b1220;}
+
+  /* ===== 자리배치 ===== */
+  .seat-grid{display:grid; gap:10px; margin-top:18px; justify-content:center;}
+  .seat{min-width:78px; min-height:54px; padding:8px; border-radius:12px; background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:700; font-size:13px;}
+  .seat .num{font-size:10px; color:var(--muted);}
+
+  /* ===== 푸터 ===== */
+  .footer-seo{max-width:900px; margin:36px auto 0; text-align:center; color:var(--muted); font-size:13px; line-height:1.8;}
+  footer{max-width:900px; margin:18px auto 0; text-align:center; color:var(--muted); font-size:12px; border-top:1px solid var(--border); padding-top:16px;}
+  footer a{color:var(--accent);}
+
+  .ta{width:100%; background:#0f172a; border:1px solid var(--border); color:var(--text); border-radius:10px; padding:12px; font-family:inherit; font-size:14px; resize:vertical;}
+  .ta:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.15); outline:none;}
+
+  /* ===== 라이트 모드 ===== */
+  [data-theme="light"]{ --card:#ffffff; --card2:#f8fafc; --text:#0f172a; --muted:#64748b; --border:#cbd5e1; }
+  [data-theme="light"] body{ background:radial-gradient(1200px 600px at 50% -10%,#f1f5f9,#e2e8f0); color:#0f172a; }
+  [data-theme="light"] input[type=number],[data-theme="light"] input[type=text],[data-theme="light"] select,
+  [data-theme="light"] .btn.ghost,[data-theme="light"] .icon-btn,[data-theme="light"] .name-cell,
+  [data-theme="light"] .seg button,[data-theme="light"] .sortbar button,[data-theme="light"] .modal-box textarea,[data-theme="light"] .ta{ background:#ffffff; color:#0f172a; }
+  [data-theme="light"] .name-cell input{ background:transparent; }
+  [data-theme="light"] .mode-panel{ background:#f1f5f933; }
+  /* 보드(캔버스)는 라이트 모드에서도 어두운 무대 유지 → 가독성 */
   @media (max-width:560px){ .field{min-width:100%;} h1{font-size:24px;} .topbar{justify-content:stretch;} .topbar select{flex:1;} }
 </style>
 </head>
@@ -103,6 +195,8 @@
 <div class="topbar">
   <select id="langSel" aria-label="Language / 언어"></select>
   <select id="curSel" aria-label="Currency / 통화"></select>
+  <button class="icon-btn" id="sfxBtn" title="효과음 On/Off">🔊</button>
+  <button class="icon-btn" id="themeBtn" title="다크/라이트 모드">🌙</button>
 </div>
 <div class="wrap">
   <h1 id="brandTitle" class="brand">
@@ -119,6 +213,19 @@
   <p class="tagline">Climb your luck.</p>
   <p class="sub" id="t_sub">최대 30명까지 · 복잡도 조절 · 애니메이션 사다리타기</p>
 
+  <!-- ===== 도구 네비게이션 ===== -->
+  <nav class="topnav" id="topnav">
+    <button data-tool="ladder" class="active"><span class="ico">🪜</span>사다리</button>
+    <button data-tool="roulette"><span class="ico">🎡</span>룰렛</button>
+    <button data-tool="draw"><span class="ico">🎫</span>제비뽑기</button>
+    <button data-tool="coin"><span class="ico">🪙</span>동전</button>
+    <button data-tool="dice"><span class="ico">🎲</span>주사위</button>
+    <button data-tool="seats"><span class="ico">💺</span>자리배치</button>
+    <button data-tool="timer"><span class="ico">⏱️</span>타이머</button>
+  </nav>
+
+  <!-- ===================== 사다리 ===================== -->
+  <div id="view-ladder" class="view active">
   <!-- ===== 설정 ===== -->
   <div class="card">
     <div class="row">
@@ -139,6 +246,10 @@
 
     <div class="field" id="namesField" style="margin-top:18px">
       <label><span id="t_names">참가자 이름</span> <span style="color:var(--muted);font-weight:400" id="t_namesNote">(비워두면 번호로 표시됩니다)</span></label>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn ghost" id="bulkPasteBtn" style="padding:8px 14px; font-size:13px;">📋 일괄 붙여넣기</button>
+        <button class="btn ghost" id="loadRosterBtn" style="padding:8px 14px; font-size:13px;">↻ 직전 명단 불러오기</button>
+      </div>
       <div id="nameInputs" class="name-grid"></div>
     </div>
 
@@ -222,6 +333,117 @@
       <tbody id="resultBody"></tbody>
     </table>
     <div class="summary" id="summary"></div>
+    <div class="share-row" id="shareRow">
+      <button class="btn ghost" id="copyTextBtn">📄 결과 복사</button>
+      <button class="btn ghost" id="downloadImgBtn">🖼️ 이미지 저장</button>
+      <button class="btn kakao" id="kakaoBtn">💬 카카오톡 공유</button>
+    </div>
+  </div><!-- /boardCard -->
+  </div><!-- /view-ladder -->
+
+  <!-- ===================== 룰렛 ===================== -->
+  <div id="view-roulette" class="view">
+    <div class="card">
+      <div class="tool-head"><h2>🎡 룰렛</h2><p>항목을 넣고 돌려서 하나를 뽑아요</p></div>
+      <div class="field"><label>항목 (줄바꿈 또는 쉼표로 구분)</label>
+        <textarea id="rouletteItems" class="ta" rows="4">치킨
+피자
+족발
+보쌈
+떡볶이</textarea></div>
+      <div class="wheel-wrap"><div class="wheel-pointer">▼</div><canvas id="wheelCanvas" width="600" height="600"></canvas></div>
+      <div style="text-align:center"><button class="btn" id="spinBtn">돌리기 🎡</button></div>
+      <div class="summary" id="rouletteResult" style="text-align:center; font-size:20px; font-weight:800; min-height:28px"></div>
+    </div>
+  </div>
+
+  <!-- ===================== 제비뽑기 ===================== -->
+  <div id="view-draw" class="view">
+    <div class="card">
+      <div class="tool-head"><h2>🎫 제비뽑기</h2><p>카드를 뽑아 당첨자를 정해요</p></div>
+      <div class="row">
+        <div class="field" style="max-width:150px"><label>제비 개수</label><input type="number" id="drawCount" min="2" max="40" value="6"></div>
+        <div class="field" style="max-width:150px"><label>당첨 개수</label><input type="number" id="drawWin" min="1" value="1"></div>
+        <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="drawBtn">제비 만들기 🎫</button></div>
+      </div>
+      <div class="hint">카드를 클릭해 한 장씩 뒤집으세요.</div>
+      <div class="lot-grid" id="lotGrid"></div>
+      <div class="summary" id="drawResult" style="text-align:center"></div>
+    </div>
+  </div>
+
+  <!-- ===================== 동전 ===================== -->
+  <div id="view-coin" class="view">
+    <div class="card">
+      <div class="tool-head"><h2>🪙 동전 던지기</h2><p>앞면/뒷면을 정해요</p></div>
+      <div class="coin-stage">
+        <div class="coin" id="coin">?</div>
+        <button class="btn" id="coinBtn">던지기 🪙</button>
+        <div class="summary" id="coinResult" style="font-size:20px; font-weight:800; min-height:28px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 주사위 ===================== -->
+  <div id="view-dice" class="view">
+    <div class="card">
+      <div class="tool-head"><h2>🎲 주사위</h2><p>개수를 정하고 굴려요</p></div>
+      <div class="field" style="max-width:180px; margin:0 auto"><label>주사위 개수 (1~6)</label><input type="number" id="diceCount" min="1" max="6" value="2"></div>
+      <div class="dice-stage" id="diceStage"></div>
+      <div style="text-align:center"><button class="btn" id="diceBtn">굴리기 🎲</button></div>
+      <div class="summary" id="diceResult" style="text-align:center; font-size:18px; font-weight:800; min-height:26px"></div>
+    </div>
+  </div>
+
+  <!-- ===================== 자리배치 ===================== -->
+  <div id="view-seats" class="view">
+    <div class="card">
+      <div class="tool-head"><h2>💺 자리 배치</h2><p>이름을 무작위로 자리에 배치해요</p></div>
+      <div class="field"><label>이름 (줄바꿈 또는 쉼표로 구분)</label>
+        <textarea id="seatNames" class="ta" rows="3">김철수, 이영희, 박민수, 최지우, 정해인, 강하늘, 손예진, 현빈</textarea></div>
+      <div class="row">
+        <div class="field" style="max-width:160px"><label>열(가로) 수</label><input type="number" id="seatCols" min="1" max="10" value="4"></div>
+        <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="seatBtn">자리 배치 🎲</button></div>
+      </div>
+      <div class="seat-grid" id="seatGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===================== 타이머 ===================== -->
+  <div id="view-timer" class="view">
+    <div class="card">
+      <div class="tool-head"><h2>⏱️ 타이머</h2><p>카운트다운 타이머</p></div>
+      <div class="row" style="justify-content:center">
+        <div class="field" style="max-width:110px"><label>분</label><input type="number" id="timerMin" min="0" max="180" value="3"></div>
+        <div class="field" style="max-width:110px"><label>초</label><input type="number" id="timerSec" min="0" max="59" value="0"></div>
+      </div>
+      <div class="timer-display" id="timerDisplay">03:00</div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+        <button class="btn" id="timerStart">시작 ▶</button>
+        <button class="btn ghost" id="timerPause">일시정지 ⏸</button>
+        <button class="btn ghost" id="timerReset">리셋 🔄</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 푸터 ===================== -->
+  <div class="footer-seo">
+    기존 사다리타기로 부족했던 <b>대규모 인원 조 편성</b>, <b>회식비·더치페이 자동 계산</b>을 제공하는 만능 사다리타기 프로그램입니다.<br>
+    룰렛·제비뽑기·동전던지기·주사위·자리배치·타이머까지 한 곳에서 즐기고, 결과는 카카오톡으로 바로 공유하세요.
+  </div>
+  <footer>© 2026 SADARI · <a href="https://sadari.singlena.workers.dev">sadari.singlena.workers.dev</a> · Climb your luck.</footer>
+</div>
+
+<!-- 일괄 붙여넣기 모달 -->
+<div class="modal" id="bulkModal">
+  <div class="modal-box">
+    <h3>📋 명단 일괄 붙여넣기</h3>
+    <p class="hint" style="margin-bottom:10px">메모장·카톡에서 복사한 이름을 붙여넣으세요. 쉼표 / 줄바꿈 / 탭으로 구분됩니다.</p>
+    <textarea id="bulkText" placeholder="김철수, 이영희, 박민수&#10;또는 한 줄에 한 명씩"></textarea>
+    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px">
+      <button class="btn ghost" id="bulkCancel">취소</button>
+      <button class="btn" id="bulkApply">적용</button>
+    </div>
   </div>
 </div>
 
@@ -460,6 +682,7 @@ function buildGame(){
   $("numPlayers").value = n;
   state.n = n;
   state.names = readNames(n);
+  saveRoster();                         // 직전 명단 저장(LocalStorage)
   state.complexity = clamp(parseInt($("complexity").value)||5,1,10);
   state.diagonal = $("diagonalChk").checked;
 
@@ -812,6 +1035,7 @@ function setRunning(on){
   state.animating=on;
   if(!on) state.paused=false;
   updatePlayPauseUI();
+  if(window.SFX){ on ? SFX.startTick() : SFX.stopTick(); }
 }
 // 멈춤 ↔ 재생 토글
 function togglePause(){
@@ -858,6 +1082,7 @@ function animateTrace(col, onDone, chained){
       setRunning(false);
       draw();           // 결과 색상으로 전환
       renderTable();
+      if(window.SFX) SFX.result(state.results[state.paths[col].endCol].kind);
       if(onDone) onDone();
     }
   }
@@ -907,6 +1132,7 @@ function runAllSimultaneous(){
       setRunning(false);
       draw();
       renderTable();
+      if(window.SFX) SFX.result("win");
     }
   }
   state.rafId=requestAnimationFrame(frame);
@@ -989,6 +1215,294 @@ function renderTable(){
 
 /* ===================== 초기화 ===================== */
 initLocale();
+
+/* ============================================================
+   효과음 (WebAudio · 외부 파일 없음)
+============================================================ */
+const SFX = (()=>{
+  let ctx=null, on=true, tickTimer=null;
+  function ac(){ try{ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==="suspended") ctx.resume(); }catch(e){} return ctx; }
+  function beep(freq,dur,type,vol,slideTo){
+    if(!on) return; const c=ac(); if(!c) return;
+    const o=c.createOscillator(), g=c.createGain();
+    o.type=type||"square"; o.frequency.value=freq;
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, c.currentTime+dur);
+    g.gain.value=vol||0.12; g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime+dur);
+    o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime+dur);
+  }
+  function startTick(){ if(!on||tickTimer) return; tickTimer=setInterval(()=>beep(400+Math.random()*160,0.05,"square",0.05),70); }
+  function stopTick(){ if(tickTimer){ clearInterval(tickTimer); tickTimer=null; } }
+  function result(kind){ if(!on) return;
+    if(kind==="lose"){ beep(220,0.5,"sawtooth",0.18,70); }                       // 콰광-
+    else { beep(660,0.12,"square",0.14); setTimeout(()=>beep(990,0.25,"square",0.14),110); } // 짜잔!
+  }
+  function click(){ beep(520,0.05,"square",0.07); }
+  function setOn(v){ on=v; if(!v) stopTick(); }
+  return { isOn:()=>on, setOn, startTick, stopTick, result, click };
+})();
+window.SFX = SFX;
+
+/* ============================================================
+   공통 UI: 토스트 / 테마 / 효과음 토글 / 도구 네비게이션
+============================================================ */
+let _toastT=null;
+function toast(msg){
+  let el=$("toastEl");
+  if(!el){ el=document.createElement("div"); el.id="toastEl";
+    el.style.cssText="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#0b1220;color:#e2e8f0;border:1px solid #334155;padding:11px 18px;border-radius:10px;font-size:14px;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transition:.2s;max-width:90vw;text-align:center";
+    document.body.appendChild(el); }
+  el.textContent=msg; el.style.opacity="1";
+  clearTimeout(_toastT); _toastT=setTimeout(()=>el.style.opacity="0",2400);
+}
+function promptCopy(text){ try{ window.prompt("복사하세요 (Ctrl+C):", text); }catch(e){} }
+
+(function initChrome(){
+  // 테마
+  if(localStorage.getItem("sadari_theme")==="light"){ document.documentElement.setAttribute("data-theme","light"); $("themeBtn").textContent="☀️"; }
+  $("themeBtn").addEventListener("click",()=>{
+    const toLight = document.documentElement.getAttribute("data-theme")!=="light";
+    if(toLight) document.documentElement.setAttribute("data-theme","light");
+    else document.documentElement.removeAttribute("data-theme");
+    $("themeBtn").textContent = toLight ? "☀️" : "🌙";
+    localStorage.setItem("sadari_theme", toLight ? "light" : "dark");
+    if(typeof draw==="function" && !$("boardCard").classList.contains("hidden")) draw();
+  });
+  // 효과음
+  if(localStorage.getItem("sadari_sfx")==="off"){ SFX.setOn(false); $("sfxBtn").textContent="🔇"; $("sfxBtn").classList.add("off"); }
+  $("sfxBtn").addEventListener("click",()=>{
+    const now=!SFX.isOn(); SFX.setOn(now);
+    $("sfxBtn").textContent= now ? "🔊" : "🔇"; $("sfxBtn").classList.toggle("off",!now);
+    localStorage.setItem("sadari_sfx", now ? "on" : "off"); if(now) SFX.click();
+  });
+})();
+
+(function initNav(){
+  const views={ladder:"view-ladder",roulette:"view-roulette",draw:"view-draw",coin:"view-coin",dice:"view-dice",seats:"view-seats",timer:"view-timer"};
+  document.querySelectorAll("#topnav button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      document.querySelectorAll("#topnav button").forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
+      const tool=b.dataset.tool;
+      Object.values(views).forEach(id=>$(id).classList.remove("active"));
+      $(views[tool]).classList.add("active");
+      SFX.click();
+      if(tool==="roulette") Roulette.draw();
+      window.scrollTo({top:0,behavior:"smooth"});
+    });
+  });
+})();
+
+/* ============================================================
+   명단: 직전 명단 저장/불러오기 · 일괄 붙여넣기
+============================================================ */
+function saveRoster(){
+  try{ const vals=[...$("nameInputs").querySelectorAll("input")].map(i=>i.value.trim());
+    if(vals.some(v=>v)) localStorage.setItem("sadari_roster", JSON.stringify(vals)); }catch(e){}
+}
+function applyNames(names){
+  const n=clamp(names.length,2,30); $("numPlayers").value=n; renderNameInputs();
+  const inputs=$("nameInputs").querySelectorAll("input");
+  for(let i=0;i<n;i++){ if(inputs[i]) inputs[i].value=names[i]||""; }
+}
+$("loadRosterBtn").addEventListener("click",()=>{
+  let names=[]; try{ names=(JSON.parse(localStorage.getItem("sadari_roster")||"[]")).filter(x=>x&&x.trim()); }catch(e){}
+  if(!names.length){ toast("저장된 직전 명단이 없습니다"); return; }
+  applyNames(names); toast(names.length+"명 명단을 불러왔어요");
+});
+$("bulkPasteBtn").addEventListener("click",()=>{ $("bulkText").value=""; $("bulkModal").classList.add("show"); setTimeout(()=>$("bulkText").focus(),50); });
+$("bulkCancel").addEventListener("click",()=>$("bulkModal").classList.remove("show"));
+$("bulkModal").addEventListener("click",e=>{ if(e.target===$("bulkModal")) $("bulkModal").classList.remove("show"); });
+$("bulkApply").addEventListener("click",()=>{
+  const names=$("bulkText").value.split(/[,\n\t;]+/).map(s=>s.trim()).filter(Boolean);
+  if(names.length<2){ toast("이름을 2개 이상 입력하세요"); return; }
+  applyNames(names); $("bulkModal").classList.remove("show"); toast(Math.min(names.length,30)+"명 입력되었어요");
+});
+
+/* ============================================================
+   결과 공유: 텍스트 복사 / 이미지 저장 / 카카오톡
+============================================================ */
+function resultPairs(){
+  const arr=[];
+  for(let c=0;c<state.n;c++){
+    const r=state.results[state.paths[c].endCol];
+    arr.push({ name: state.names[c]||defaultName(c), result: state.traced.has(c)? r.label : T().unrevealed, kind:r.kind });
+  }
+  return arr;
+}
+function hasResults(){ return state.results && state.results.length && Object.keys(state.paths).length; }
+function copyResultText(){
+  if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
+  const text="🪜 "+BRAND+" 사다리 결과\n"+resultPairs().map(p=>`${p.name}: ${p.result}`).join("\n")+"\n"+location.href;
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast("결과가 복사되었습니다 📄")).catch(()=>promptCopy(text));
+  else promptCopy(text);
+}
+function rrect(x,a,b,w,h,r){ x.beginPath(); x.moveTo(a+r,b); x.arcTo(a+w,b,a+w,b+h,r); x.arcTo(a+w,b+h,a,b+h,r); x.arcTo(a,b+h,a,b,r); x.arcTo(a,b,a+w,b,r); x.closePath(); }
+function downloadResultImage(){
+  if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
+  const pairs=resultPairs(), pad=24, rowH=44, headH=64, w=460, h=headH+pad+pairs.length*rowH+pad, s=2;
+  const cv=document.createElement("canvas"); cv.width=w*s; cv.height=h*s;
+  const x=cv.getContext("2d"); x.scale(s,s);
+  x.fillStyle="#0f172a"; x.fillRect(0,0,w,h);
+  x.fillStyle="#38bdf8"; x.font="bold 24px Segoe UI"; x.textBaseline="middle";
+  x.fillText("🪜 "+BRAND+" 결과", pad, 36);
+  pairs.forEach((p,i)=>{
+    const y=headH+pad+i*rowH, rh=rowH-8;
+    const col = p.kind==="lose" ? "#f87171" : p.kind==="neutral" ? "#c084fc" : "#34d399";
+    x.fillStyle="#1e293b"; rrect(x,pad,y,w-2*pad,rh,9); x.fill();
+    x.fillStyle="#e2e8f0"; x.font="600 16px Segoe UI"; x.textAlign="left"; x.fillText(p.name, pad+14, y+rh/2);
+    x.fillStyle=col; x.font="bold 16px Segoe UI"; x.textAlign="right"; x.fillText(p.result, w-pad-14, y+rh/2);
+  });
+  cv.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="sadari-result.png"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("이미지를 저장했어요 🖼️"); });
+}
+const KAKAO_KEY=""; // ← 카카오 JavaScript 앱 키를 입력하면 카톡 공유가 활성화됩니다
+function kakaoShare(){
+  if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
+  const pairs=resultPairs(), desc=pairs.map(p=>`${p.name}: ${p.result}`).join("\n");
+  const sender=(state.names[0]||"누군가");
+  try{ if(window.Kakao && KAKAO_KEY && !Kakao.isInitialized()) Kakao.init(KAKAO_KEY); }catch(e){}
+  if(window.Kakao && KAKAO_KEY && Kakao.isInitialized()){
+    Kakao.Share.sendDefault({
+      objectType:"feed",
+      content:{ title:`🪜 ${sender}님이 보낸 사다리타기 결과`, description:desc, imageUrl:"https://sadari.singlena.workers.dev/og.svg", link:{mobileWebUrl:location.href, webUrl:location.href} },
+      buttons:[{ title:"결과 확인하기", link:{mobileWebUrl:location.href, webUrl:location.href} }]
+    });
+  } else {
+    const text=`🪜 ${sender}님이 보낸 사다리타기 결과\n${desc}\n${location.href}`;
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast("카카오 키 미설정 — 결과를 복사했어요. 붙여넣어 공유하세요")).catch(()=>promptCopy(text));
+    else promptCopy(text);
+  }
+}
+$("copyTextBtn").addEventListener("click",copyResultText);
+$("downloadImgBtn").addEventListener("click",downloadResultImage);
+$("kakaoBtn").addEventListener("click",kakaoShare);
+
+/* ============================================================
+   형제 도구
+============================================================ */
+const TOOLPAL=["#38bdf8","#a78bfa","#f472b6","#34d399","#fbbf24","#fb923c","#60a5fa","#f87171","#2dd4bf","#c084fc"];
+
+const Roulette=(()=>{
+  const cv=$("wheelCanvas"), x=cv.getContext("2d"); let rot=0, spinning=false;
+  function items(){ return $("rouletteItems").value.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean); }
+  function draw(){
+    const it=items(), n=Math.max(1,it.length), R=296, cx=300, cy=300;
+    x.clearRect(0,0,600,600); x.save(); x.translate(cx,cy); x.rotate(rot);
+    for(let i=0;i<n;i++){
+      const a0=i/n*2*Math.PI, a1=(i+1)/n*2*Math.PI;
+      x.beginPath(); x.moveTo(0,0); x.arc(0,0,R,a0,a1); x.closePath(); x.fillStyle=TOOLPAL[i%TOOLPAL.length]; x.fill();
+      x.save(); x.rotate((a0+a1)/2); x.textAlign="right"; x.fillStyle="#0b1220"; x.font="bold 22px Segoe UI"; x.textBaseline="middle";
+      const lb=it[i]||""; x.fillText(lb.length>11?lb.slice(0,10)+"…":lb, R-18, 0); x.restore();
+    }
+    x.restore();
+    x.beginPath(); x.arc(cx,cy,30,0,2*Math.PI); x.fillStyle="#0f172a"; x.fill(); x.lineWidth=4; x.strokeStyle="#e2e8f0"; x.stroke();
+  }
+  function spin(){
+    if(spinning) return; const it=items(); if(it.length<2){ toast("항목을 2개 이상 입력하세요"); return; }
+    spinning=true; SFX.startTick(); $("rouletteResult").textContent="";
+    const start=rot, target=rot + (5+Math.random()*3)*2*Math.PI + Math.random()*2*Math.PI, dur=4200; let t0=null;
+    function fr(ts){ if(t0==null)t0=ts; const p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+      rot=start+(target-start)*e; draw();
+      if(p<1) requestAnimationFrame(fr);
+      else { spinning=false; SFX.stopTick();
+        const n=it.length, slice=2*Math.PI/n, la=(((-Math.PI/2-rot)%(2*Math.PI))+2*Math.PI)%(2*Math.PI), idx=Math.floor(la/slice)%n;
+        SFX.result("win"); $("rouletteResult").textContent="🎉 "+it[idx];
+      }
+    }
+    requestAnimationFrame(fr);
+  }
+  return { draw, spin };
+})();
+
+const Coin=(()=>{
+  let busy=false;
+  function flip(){ if(busy) return; busy=true; const el=$("coin"); el.classList.add("flipping"); $("coinResult").textContent=""; SFX.startTick();
+    const res=Math.random()<0.5?"앞":"뒤";
+    setTimeout(()=>{ el.classList.remove("flipping"); el.textContent=res;
+      el.style.background = res==="앞" ? "radial-gradient(circle at 35% 30%,#fde68a,#f59e0b)" : "radial-gradient(circle at 35% 30%,#cbd5e1,#94a3b8)";
+      $("coinResult").textContent = res==="앞" ? "🪙 앞면 (Heads)" : "🪙 뒷면 (Tails)";
+      SFX.stopTick(); SFX.result("win"); busy=false; },1100);
+  }
+  return { flip };
+})();
+
+const Dice=(()=>{
+  const PIP={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+  function render(vals){ const st=$("diceStage"); st.innerHTML="";
+    vals.forEach(v=>{ const d=document.createElement("div"); d.className="die";
+      for(let i=0;i<9;i++){ const p=document.createElement("div"); if(PIP[v].includes(i)) p.className="pip"; d.appendChild(p); } st.appendChild(d); });
+  }
+  let busy=false;
+  function roll(){ if(busy) return; const n=clamp(parseInt($("diceCount").value)||1,1,6); $("diceCount").value=n; busy=true; SFX.startTick(); $("diceResult").textContent="";
+    let ticks=0; const iv=setInterval(()=>{
+      render(Array.from({length:n},()=>1+Math.floor(Math.random()*6)));
+      document.querySelectorAll("#diceStage .die").forEach(d=>d.classList.add("rolling"));
+      if(++ticks>=10){ clearInterval(iv);
+        const vals=Array.from({length:n},()=>1+Math.floor(Math.random()*6)); render(vals);
+        SFX.stopTick(); SFX.result("win"); $("diceResult").textContent="합계 "+vals.reduce((a,b)=>a+b,0)+"  ( "+vals.join(", ")+" )"; busy=false;
+      }
+    },90);
+  }
+  return { roll, render };
+})();
+
+const Draw=(()=>{
+  let cards=[];
+  function build(){ const n=clamp(parseInt($("drawCount").value)||2,2,40); $("drawCount").value=n;
+    const w=clamp(parseInt($("drawWin").value)||1,1,n); $("drawWin").value=w;
+    cards=Array.from({length:n},(_,i)=>({win:i<w,revealed:false})); shuffle(cards); render(); $("drawResult").textContent="";
+  }
+  function render(){ const g=$("lotGrid"); g.innerHTML="";
+    cards.forEach((c)=>{ const el=document.createElement("div"); el.className="lot-card"+(c.revealed?" picked":"");
+      if(c.revealed){ el.textContent=c.win?"🎉당첨":"꽝"; el.style.background=c.win?"linear-gradient(160deg,#34d399,#10b981)":"linear-gradient(160deg,#475569,#334155)"; }
+      else { el.textContent="🎫"; el.addEventListener("click",()=>{ if(c.revealed) return; c.revealed=true; SFX.result(c.win?"win":"lose"); render(); }); }
+      g.appendChild(el);
+    });
+  }
+  return { build };
+})();
+
+const Seats=(()=>{
+  function place(){ const names=$("seatNames").value.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean);
+    if(!names.length){ toast("이름을 입력하세요"); return; }
+    const cols=clamp(parseInt($("seatCols").value)||4,1,10); $("seatCols").value=cols;
+    const arr=shuffle(names.slice()), g=$("seatGrid");
+    g.style.gridTemplateColumns="repeat("+cols+",minmax(78px,1fr))"; g.innerHTML="";
+    arr.forEach((nm,i)=>{ const s=document.createElement("div"); s.className="seat"; s.innerHTML='<span class="num">'+(i+1)+'</span>'+nm.replace(/[<>&]/g,""); g.appendChild(s); });
+    SFX.result("win");
+  }
+  return { place };
+})();
+
+const Timer=(()=>{
+  let total=180, remain=180, iv=null, running=false;
+  function fmt(s){ const m=Math.floor(s/60), ss=s%60; return String(m).padStart(2,"0")+":"+String(ss).padStart(2,"0"); }
+  function upd(){ const el=$("timerDisplay"); el.textContent=fmt(remain); el.classList.toggle("warn", remain<=10); }
+  function setFromInputs(){ const m=clamp(parseInt($("timerMin").value)||0,0,180), s=clamp(parseInt($("timerSec").value)||0,0,59); total=remain=m*60+s; running=false; if(iv){clearInterval(iv);iv=null;} upd(); }
+  function start(){ if(running||remain<=0) return; running=true;
+    iv=setInterval(()=>{ remain--; upd();
+      if(remain<=0){ stop(); SFX.result("lose"); }
+      else if(remain<=5){ SFX.click(); } },1000);
+  }
+  function stop(){ running=false; if(iv){clearInterval(iv);iv=null;} }
+  function reset(){ setFromInputs(); }
+  return { start, pause:stop, reset, setFromInputs };
+})();
+
+// 도구 이벤트 바인딩
+$("spinBtn").addEventListener("click",Roulette.spin);
+$("rouletteItems").addEventListener("input",Roulette.draw);
+$("coinBtn").addEventListener("click",Coin.flip);
+$("diceBtn").addEventListener("click",Dice.roll);
+$("drawBtn").addEventListener("click",Draw.build);
+$("seatBtn").addEventListener("click",Seats.place);
+$("timerStart").addEventListener("click",Timer.start);
+$("timerPause").addEventListener("click",Timer.pause);
+$("timerReset").addEventListener("click",Timer.reset);
+$("timerMin").addEventListener("input",Timer.setFromInputs);
+$("timerSec").addEventListener("input",Timer.setFromInputs);
+
+// 초기 렌더
+Roulette.draw(); Dice.render([1,1]); Draw.build(); Timer.setFromInputs();
 </script>
 </body>
 </html>
