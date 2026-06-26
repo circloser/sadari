@@ -1354,7 +1354,7 @@ function downloadResultImage(){
   });
   cv.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="sadari-result.png"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("이미지를 저장했어요 🖼️"); });
 }
-const KAKAO_KEY=""; // ← 카카오 JavaScript 앱 키를 입력하면 카톡 공유가 활성화됩니다
+const KAKAO_KEY="a10bf3085949229f31c00e3cea70699c"; // 카카오 JavaScript 앱 키(공개 키)
 function kakaoShare(){
   if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
   const pairs=resultPairs(), desc=pairs.map(p=>`${p.name}: ${p.result}`).join("\n");
