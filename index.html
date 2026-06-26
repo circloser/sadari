@@ -130,6 +130,10 @@
         <label><span id="t_complexity">사다리 복잡도</span> <span class="gauge-val" id="cxVal">5</span> / 10</label>
         <input type="range" id="complexity" min="1" max="10" value="5" />
         <div class="hint" id="t_complexityHint">높을수록 가로줄(가지)이 촘촘해집니다.</div>
+        <label style="display:flex; align-items:center; gap:8px; margin-top:8px; font-weight:600; cursor:pointer; color:var(--text)">
+          <input type="checkbox" id="diagonalChk" checked style="width:auto; accent-color:var(--accent2)" />
+          <span id="t_diagonal">사선(대각선) 가지 사용</span>
+        </label>
       </div>
     </div>
 
@@ -230,6 +234,7 @@ let state = {
   n: 5, complexity: 5, rows: 0, rungs: [], mode: "ggwang",
   lang: "ko",         // UI 언어
   currency: "KRW",    // 통화
+  diagonal: true,     // 사선 가지 사용
   names: [],          // 참가자 이름
   results: [],        // 하단 칸 c 의 결과 {label, kind}
   paths: {},          // 참가자 -> {points, endCol}
@@ -285,14 +290,14 @@ const LANGS = [
   {code:"pt", name:"Português",  cur:"BRL"}
 ];
 const I18N = {
-  ko:{title:"🪜 사다리 게임", subtitle:"최대 30명까지 · 복잡도 조절 · 애니메이션 사다리타기", numPlayers:"참여 인원 수 (2 ~ 30)", complexity:"사다리 복잡도", complexityHint:"높을수록 가로줄(가지)이 촘촘해집니다.", names:"참가자 이름", namesNote:"(비워두면 번호로 표시됩니다)", mode:"결과 모드 선택", modeGgwang:"🎯 당첨 / 꽝", modeGroup:"👥 조 편성", modeMoney:"💰 금액 배분", ggwangCount:"꽝 개수", randomGgwang:"🎲 꽝 위치 랜덤 배치", ggwangHint:"나머지 인원은 {win} 으로 배정됩니다.", groupCount:"조 개수", groupHint:"인원을 균등하게 각 조로 배정합니다.", totalMoney:"총 금액", winnerCount:"당첨 인원 (나머지 꽝)", moneyHint:"총액을 자동으로 배분하고, 당첨 인원 외에는 꽝 처리됩니다.", build:"🪜 사다리 만들기", boardHint:"상단의 참가자(또는 세로줄)를 클릭하면 사다리를 타고 내려가는 애니메이션이 재생됩니다.", reshuffle:"🔀 다시 섞기", revealAll:"👁️ 결과 전체 공개", runSim:"▶️ 전체 동시 실행", runSeq:"⏩ 전체 순차 실행", pause:"⏸️ 멈춤", resume:"▶️ 재생", reset:"🔄 초기화", newGame:"↩️ 새 게임", sort:"정렬:", sortIndex:"참가자 번호순", sortAsc:"결과 오름차순 ▲", sortDesc:"결과 내림차순 ▼", thParticipant:"참가자", thResult:"결과", unrevealed:"미공개", win:"🎉 당첨", lose:"꽝", groupFmt:"{n}조", nameFmt:"{n}번", teamsWord:"개 조"},
-  en:{title:"🪜 Ladder Game", subtitle:"Up to 30 players · adjustable complexity · animated", numPlayers:"Number of players (2–30)", complexity:"Ladder complexity", complexityHint:"Higher = more rungs.", names:"Player names", namesNote:"(blank = numbered)", mode:"Result mode", modeGgwang:"🎯 Win / Lose", modeGroup:"👥 Teams", modeMoney:"💰 Money split", ggwangCount:"Number of losers", randomGgwang:"🎲 Shuffle losers", ggwangHint:"Everyone else gets {win}.", groupCount:"Number of teams", groupHint:"Players are split evenly into teams.", totalMoney:"Total amount", winnerCount:"Winners (rest lose)", moneyHint:"The total is split automatically; non-winners get nothing.", build:"🪜 Build ladder", boardHint:"Click a player at the top to animate their path down the ladder.", reshuffle:"🔀 Reshuffle", revealAll:"👁️ Reveal all", runSim:"▶️ Run all (sync)", runSeq:"⏩ Run all (seq)", pause:"⏸️ Pause", resume:"▶️ Resume", reset:"🔄 Reset", newGame:"↩️ New game", sort:"Sort:", sortIndex:"By player", sortAsc:"Result ▲", sortDesc:"Result ▼", thParticipant:"Player", thResult:"Result", unrevealed:"Hidden", win:"🎉 Win", lose:"Lose", groupFmt:"Team {n}", nameFmt:"#{n}", teamsWord:"teams"},
-  ja:{title:"🪜 あみだくじ", subtitle:"最大30人 · 複雑さ調整 · アニメーション", numPlayers:"参加人数 (2〜30)", complexity:"複雑さ", complexityHint:"高いほど横線が増えます。", names:"参加者の名前", namesNote:"(空欄なら番号表示)", mode:"結果モード", modeGgwang:"🎯 当たり / はずれ", modeGroup:"👥 チーム分け", modeMoney:"💰 金額配分", ggwangCount:"はずれの数", randomGgwang:"🎲 はずれをランダム配置", ggwangHint:"残りの人は{win}になります。", groupCount:"チーム数", groupHint:"均等にチーム分けします。", totalMoney:"合計金額", winnerCount:"当選人数 (残りはずれ)", moneyHint:"合計を自動で配分し、当選者以外ははずれです。", build:"🪜 あみだを作成", boardHint:"上部の参加者をクリックすると下までアニメーションが再生されます。", reshuffle:"🔀 シャッフル", revealAll:"👁️ 全結果表示", runSim:"▶️ 一斉スタート", runSeq:"⏩ 順番に実行", pause:"⏸️ 一時停止", resume:"▶️ 再開", reset:"🔄 リセット", newGame:"↩️ 新しいゲーム", sort:"並び替え:", sortIndex:"参加者順", sortAsc:"結果 昇順 ▲", sortDesc:"結果 降順 ▼", thParticipant:"参加者", thResult:"結果", unrevealed:"未公開", win:"🎉 当たり", lose:"はずれ", groupFmt:"{n}組", nameFmt:"{n}番", teamsWord:"組"},
-  zh:{title:"🪜 梯子游戏", subtitle:"最多30人 · 可调复杂度 · 动画演示", numPlayers:"参与人数 (2~30)", complexity:"梯子复杂度", complexityHint:"数值越大横线越多。", names:"参与者姓名", namesNote:"(留空则用编号)", mode:"结果模式", modeGgwang:"🎯 中奖 / 谢谢", modeGroup:"👥 分组", modeMoney:"💰 金额分配", ggwangCount:"谢谢数量", randomGgwang:"🎲 随机分配谢谢", ggwangHint:"其余人为{win}。", groupCount:"分组数", groupHint:"将人员平均分组。", totalMoney:"总金额", winnerCount:"中奖人数 (其余谢谢)", moneyHint:"自动分配总额，非中奖者为谢谢。", build:"🪜 生成梯子", boardHint:"点击顶部参与者即可播放下行动画。", reshuffle:"🔀 重新洗牌", revealAll:"👁️ 全部揭晓", runSim:"▶️ 同时开始", runSeq:"⏩ 依次开始", pause:"⏸️ 暂停", resume:"▶️ 继续", reset:"🔄 重置", newGame:"↩️ 新游戏", sort:"排序：", sortIndex:"按参与者", sortAsc:"结果升序 ▲", sortDesc:"结果降序 ▼", thParticipant:"参与者", thResult:"结果", unrevealed:"未揭晓", win:"🎉 中奖", lose:"谢谢", groupFmt:"{n}组", nameFmt:"{n}号", teamsWord:"组"},
-  es:{title:"🪜 Juego de la escalera", subtitle:"Hasta 30 jugadores · complejidad ajustable · animación", numPlayers:"Número de jugadores (2–30)", complexity:"Complejidad", complexityHint:"Mayor = más travesaños.", names:"Nombres de jugadores", namesNote:"(vacío = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Premio / Nada", modeGroup:"👥 Equipos", modeMoney:"💰 Reparto", ggwangCount:"Cantidad de 'Nada'", randomGgwang:"🎲 Mezclar 'Nada'", ggwangHint:"El resto recibe {win}.", groupCount:"Número de equipos", groupHint:"Reparte equitativamente en equipos.", totalMoney:"Importe total", winnerCount:"Ganadores (resto nada)", moneyHint:"El total se reparte automáticamente; los demás no reciben nada.", build:"🪜 Crear escalera", boardHint:"Haz clic en un jugador arriba para animar su recorrido.", reshuffle:"🔀 Rebarajar", revealAll:"👁️ Revelar todo", runSim:"▶️ Todos a la vez", runSeq:"⏩ Uno por uno", pause:"⏸️ Pausa", resume:"▶️ Reanudar", reset:"🔄 Reiniciar", newGame:"↩️ Nuevo juego", sort:"Ordenar:", sortIndex:"Por jugador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jugador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Premio", lose:"Nada", groupFmt:"Equipo {n}", nameFmt:"#{n}", teamsWord:"equipos"},
-  de:{title:"🪜 Leiterspiel", subtitle:"Bis zu 30 Spieler · einstellbare Komplexität · Animation", numPlayers:"Anzahl der Spieler (2–30)", complexity:"Komplexität", complexityHint:"Höher = mehr Sprossen.", names:"Spielernamen", namesNote:"(leer = nummeriert)", mode:"Ergebnismodus", modeGgwang:"🎯 Gewinn / Niete", modeGroup:"👥 Teams", modeMoney:"💰 Geld aufteilen", ggwangCount:"Anzahl Nieten", randomGgwang:"🎲 Nieten mischen", ggwangHint:"Alle anderen erhalten {win}.", groupCount:"Anzahl Teams", groupHint:"Spieler werden gleichmäßig aufgeteilt.", totalMoney:"Gesamtbetrag", winnerCount:"Gewinner (Rest Niete)", moneyHint:"Der Betrag wird automatisch verteilt; die Übrigen gehen leer aus.", build:"🪜 Leiter erstellen", boardHint:"Oben auf einen Spieler klicken, um die Animation zu starten.", reshuffle:"🔀 Neu mischen", revealAll:"👁️ Alle zeigen", runSim:"▶️ Alle gleichzeitig", runSeq:"⏩ Nacheinander", pause:"⏸️ Pause", resume:"▶️ Fortsetzen", reset:"🔄 Zurücksetzen", newGame:"↩️ Neues Spiel", sort:"Sortieren:", sortIndex:"Nach Spieler", sortAsc:"Ergebnis ▲", sortDesc:"Ergebnis ▼", thParticipant:"Spieler", thResult:"Ergebnis", unrevealed:"Verdeckt", win:"🎉 Gewinn", lose:"Niete", groupFmt:"Team {n}", nameFmt:"#{n}", teamsWord:"Teams"},
-  ru:{title:"🪜 Лестница", subtitle:"До 30 участников · регулируемая сложность · анимация", numPlayers:"Число участников (2–30)", complexity:"Сложность", complexityHint:"Больше — больше перекладин.", names:"Имена участников", namesNote:"(пусто — номер)", mode:"Режим результата", modeGgwang:"🎯 Приз / Мимо", modeGroup:"👥 Команды", modeMoney:"💰 Деньги", ggwangCount:"Число проигрышей", randomGgwang:"🎲 Перемешать", ggwangHint:"Остальные получают {win}.", groupCount:"Число команд", groupHint:"Участники делятся поровну.", totalMoney:"Общая сумма", winnerCount:"Победители (ост. мимо)", moneyHint:"Сумма делится автоматически; остальные — мимо.", build:"🪜 Создать", boardHint:"Нажмите участника вверху, чтобы запустить анимацию.", reshuffle:"🔀 Перемешать", revealAll:"👁️ Показать все", runSim:"▶️ Все сразу", runSeq:"⏩ По очереди", pause:"⏸️ Пауза", resume:"▶️ Продолжить", reset:"🔄 Сброс", newGame:"↩️ Новая игра", sort:"Сортировка:", sortIndex:"По участнику", sortAsc:"Результат ▲", sortDesc:"Результат ▼", thParticipant:"Участник", thResult:"Результат", unrevealed:"Скрыто", win:"🎉 Приз", lose:"Мимо", groupFmt:"Команда {n}", nameFmt:"№{n}", teamsWord:"команд"},
-  pt:{title:"🪜 Jogo da escada", subtitle:"Até 30 jogadores · complexidade ajustável · animação", numPlayers:"Número de jogadores (2–30)", complexity:"Complexidade", complexityHint:"Maior = mais degraus.", names:"Nomes dos jogadores", namesNote:"(vazio = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Prêmio / Nada", modeGroup:"👥 Equipes", modeMoney:"💰 Dividir dinheiro", ggwangCount:"Quantidade de 'Nada'", randomGgwang:"🎲 Embaralhar 'Nada'", ggwangHint:"Os demais recebem {win}.", groupCount:"Número de equipes", groupHint:"Divide igualmente em equipes.", totalMoney:"Valor total", winnerCount:"Ganhadores (resto nada)", moneyHint:"O total é dividido automaticamente; os demais ficam sem nada.", build:"🪜 Criar escada", boardHint:"Clique em um jogador no topo para animar o percurso.", reshuffle:"🔀 Embaralhar", revealAll:"👁️ Revelar tudo", runSim:"▶️ Todos juntos", runSeq:"⏩ Um a um", pause:"⏸️ Pausar", resume:"▶️ Continuar", reset:"🔄 Reiniciar", newGame:"↩️ Novo jogo", sort:"Ordenar:", sortIndex:"Por jogador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jogador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Prêmio", lose:"Nada", groupFmt:"Equipe {n}", nameFmt:"#{n}", teamsWord:"equipes"}
+  ko:{title:"🪜 사다리 게임", subtitle:"최대 30명까지 · 복잡도 조절 · 애니메이션 사다리타기", numPlayers:"참여 인원 수 (2 ~ 30)", complexity:"사다리 복잡도", complexityHint:"높을수록 가로줄(가지)이 촘촘해집니다.", names:"참가자 이름", namesNote:"(비워두면 번호로 표시됩니다)", mode:"결과 모드 선택", modeGgwang:"🎯 당첨 / 꽝", modeGroup:"👥 조 편성", modeMoney:"💰 금액 배분", ggwangCount:"꽝 개수", randomGgwang:"🎲 꽝 위치 랜덤 배치", ggwangHint:"나머지 인원은 {win} 으로 배정됩니다.", groupCount:"조 개수", groupHint:"인원을 균등하게 각 조로 배정합니다.", totalMoney:"총 금액", winnerCount:"당첨 인원 (나머지 꽝)", moneyHint:"총액을 자동으로 배분하고, 당첨 인원 외에는 꽝 처리됩니다.", build:"🪜 사다리 만들기", boardHint:"상단의 참가자(또는 세로줄)를 클릭하면 사다리를 타고 내려가는 애니메이션이 재생됩니다.", reshuffle:"🔀 다시 섞기", revealAll:"👁️ 결과 전체 공개", runSim:"▶️ 전체 동시 실행", runSeq:"⏩ 전체 순차 실행", pause:"⏸️ 멈춤", resume:"▶️ 재생", reset:"🔄 초기화", newGame:"↩️ 새 게임", sort:"정렬:", sortIndex:"참가자 번호순", sortAsc:"결과 오름차순 ▲", sortDesc:"결과 내림차순 ▼", thParticipant:"참가자", thResult:"결과", unrevealed:"미공개", win:"🎉 당첨", lose:"꽝", groupFmt:"{n}조", nameFmt:"{n}번", teamsWord:"개 조", diagonal:"사선(대각선) 가지 사용"},
+  en:{title:"🪜 Ladder Game", subtitle:"Up to 30 players · adjustable complexity · animated", numPlayers:"Number of players (2–30)", complexity:"Ladder complexity", complexityHint:"Higher = more rungs.", names:"Player names", namesNote:"(blank = numbered)", mode:"Result mode", modeGgwang:"🎯 Win / Lose", modeGroup:"👥 Teams", modeMoney:"💰 Money split", ggwangCount:"Number of losers", randomGgwang:"🎲 Shuffle losers", ggwangHint:"Everyone else gets {win}.", groupCount:"Number of teams", groupHint:"Players are split evenly into teams.", totalMoney:"Total amount", winnerCount:"Winners (rest lose)", moneyHint:"The total is split automatically; non-winners get nothing.", build:"🪜 Build ladder", boardHint:"Click a player at the top to animate their path down the ladder.", reshuffle:"🔀 Reshuffle", revealAll:"👁️ Reveal all", runSim:"▶️ Run all (sync)", runSeq:"⏩ Run all (seq)", pause:"⏸️ Pause", resume:"▶️ Resume", reset:"🔄 Reset", newGame:"↩️ New game", sort:"Sort:", sortIndex:"By player", sortAsc:"Result ▲", sortDesc:"Result ▼", thParticipant:"Player", thResult:"Result", unrevealed:"Hidden", win:"🎉 Win", lose:"Lose", groupFmt:"Team {n}", nameFmt:"#{n}", teamsWord:"teams", diagonal:"Diagonal rungs"},
+  ja:{title:"🪜 あみだくじ", subtitle:"最大30人 · 複雑さ調整 · アニメーション", numPlayers:"参加人数 (2〜30)", complexity:"複雑さ", complexityHint:"高いほど横線が増えます。", names:"参加者の名前", namesNote:"(空欄なら番号表示)", mode:"結果モード", modeGgwang:"🎯 当たり / はずれ", modeGroup:"👥 チーム分け", modeMoney:"💰 金額配分", ggwangCount:"はずれの数", randomGgwang:"🎲 はずれをランダム配置", ggwangHint:"残りの人は{win}になります。", groupCount:"チーム数", groupHint:"均等にチーム分けします。", totalMoney:"合計金額", winnerCount:"当選人数 (残りはずれ)", moneyHint:"合計を自動で配分し、当選者以外ははずれです。", build:"🪜 あみだを作成", boardHint:"上部の参加者をクリックすると下までアニメーションが再生されます。", reshuffle:"🔀 シャッフル", revealAll:"👁️ 全結果表示", runSim:"▶️ 一斉スタート", runSeq:"⏩ 順番に実行", pause:"⏸️ 一時停止", resume:"▶️ 再開", reset:"🔄 リセット", newGame:"↩️ 新しいゲーム", sort:"並び替え:", sortIndex:"参加者順", sortAsc:"結果 昇順 ▲", sortDesc:"結果 降順 ▼", thParticipant:"参加者", thResult:"結果", unrevealed:"未公開", win:"🎉 当たり", lose:"はずれ", groupFmt:"{n}組", nameFmt:"{n}番", teamsWord:"組", diagonal:"斜めの横線を使う"},
+  zh:{title:"🪜 梯子游戏", subtitle:"最多30人 · 可调复杂度 · 动画演示", numPlayers:"参与人数 (2~30)", complexity:"梯子复杂度", complexityHint:"数值越大横线越多。", names:"参与者姓名", namesNote:"(留空则用编号)", mode:"结果模式", modeGgwang:"🎯 中奖 / 谢谢", modeGroup:"👥 分组", modeMoney:"💰 金额分配", ggwangCount:"谢谢数量", randomGgwang:"🎲 随机分配谢谢", ggwangHint:"其余人为{win}。", groupCount:"分组数", groupHint:"将人员平均分组。", totalMoney:"总金额", winnerCount:"中奖人数 (其余谢谢)", moneyHint:"自动分配总额，非中奖者为谢谢。", build:"🪜 生成梯子", boardHint:"点击顶部参与者即可播放下行动画。", reshuffle:"🔀 重新洗牌", revealAll:"👁️ 全部揭晓", runSim:"▶️ 同时开始", runSeq:"⏩ 依次开始", pause:"⏸️ 暂停", resume:"▶️ 继续", reset:"🔄 重置", newGame:"↩️ 新游戏", sort:"排序：", sortIndex:"按参与者", sortAsc:"结果升序 ▲", sortDesc:"结果降序 ▼", thParticipant:"参与者", thResult:"结果", unrevealed:"未揭晓", win:"🎉 中奖", lose:"谢谢", groupFmt:"{n}组", nameFmt:"{n}号", teamsWord:"组", diagonal:"使用斜向横线"},
+  es:{title:"🪜 Juego de la escalera", subtitle:"Hasta 30 jugadores · complejidad ajustable · animación", numPlayers:"Número de jugadores (2–30)", complexity:"Complejidad", complexityHint:"Mayor = más travesaños.", names:"Nombres de jugadores", namesNote:"(vacío = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Premio / Nada", modeGroup:"👥 Equipos", modeMoney:"💰 Reparto", ggwangCount:"Cantidad de 'Nada'", randomGgwang:"🎲 Mezclar 'Nada'", ggwangHint:"El resto recibe {win}.", groupCount:"Número de equipos", groupHint:"Reparte equitativamente en equipos.", totalMoney:"Importe total", winnerCount:"Ganadores (resto nada)", moneyHint:"El total se reparte automáticamente; los demás no reciben nada.", build:"🪜 Crear escalera", boardHint:"Haz clic en un jugador arriba para animar su recorrido.", reshuffle:"🔀 Rebarajar", revealAll:"👁️ Revelar todo", runSim:"▶️ Todos a la vez", runSeq:"⏩ Uno por uno", pause:"⏸️ Pausa", resume:"▶️ Reanudar", reset:"🔄 Reiniciar", newGame:"↩️ Nuevo juego", sort:"Ordenar:", sortIndex:"Por jugador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jugador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Premio", lose:"Nada", groupFmt:"Equipo {n}", nameFmt:"#{n}", teamsWord:"equipos", diagonal:"Travesaños diagonales"},
+  de:{title:"🪜 Leiterspiel", subtitle:"Bis zu 30 Spieler · einstellbare Komplexität · Animation", numPlayers:"Anzahl der Spieler (2–30)", complexity:"Komplexität", complexityHint:"Höher = mehr Sprossen.", names:"Spielernamen", namesNote:"(leer = nummeriert)", mode:"Ergebnismodus", modeGgwang:"🎯 Gewinn / Niete", modeGroup:"👥 Teams", modeMoney:"💰 Geld aufteilen", ggwangCount:"Anzahl Nieten", randomGgwang:"🎲 Nieten mischen", ggwangHint:"Alle anderen erhalten {win}.", groupCount:"Anzahl Teams", groupHint:"Spieler werden gleichmäßig aufgeteilt.", totalMoney:"Gesamtbetrag", winnerCount:"Gewinner (Rest Niete)", moneyHint:"Der Betrag wird automatisch verteilt; die Übrigen gehen leer aus.", build:"🪜 Leiter erstellen", boardHint:"Oben auf einen Spieler klicken, um die Animation zu starten.", reshuffle:"🔀 Neu mischen", revealAll:"👁️ Alle zeigen", runSim:"▶️ Alle gleichzeitig", runSeq:"⏩ Nacheinander", pause:"⏸️ Pause", resume:"▶️ Fortsetzen", reset:"🔄 Zurücksetzen", newGame:"↩️ Neues Spiel", sort:"Sortieren:", sortIndex:"Nach Spieler", sortAsc:"Ergebnis ▲", sortDesc:"Ergebnis ▼", thParticipant:"Spieler", thResult:"Ergebnis", unrevealed:"Verdeckt", win:"🎉 Gewinn", lose:"Niete", groupFmt:"Team {n}", nameFmt:"#{n}", teamsWord:"Teams", diagonal:"Diagonale Sprossen"},
+  ru:{title:"🪜 Лестница", subtitle:"До 30 участников · регулируемая сложность · анимация", numPlayers:"Число участников (2–30)", complexity:"Сложность", complexityHint:"Больше — больше перекладин.", names:"Имена участников", namesNote:"(пусто — номер)", mode:"Режим результата", modeGgwang:"🎯 Приз / Мимо", modeGroup:"👥 Команды", modeMoney:"💰 Деньги", ggwangCount:"Число проигрышей", randomGgwang:"🎲 Перемешать", ggwangHint:"Остальные получают {win}.", groupCount:"Число команд", groupHint:"Участники делятся поровну.", totalMoney:"Общая сумма", winnerCount:"Победители (ост. мимо)", moneyHint:"Сумма делится автоматически; остальные — мимо.", build:"🪜 Создать", boardHint:"Нажмите участника вверху, чтобы запустить анимацию.", reshuffle:"🔀 Перемешать", revealAll:"👁️ Показать все", runSim:"▶️ Все сразу", runSeq:"⏩ По очереди", pause:"⏸️ Пауза", resume:"▶️ Продолжить", reset:"🔄 Сброс", newGame:"↩️ Новая игра", sort:"Сортировка:", sortIndex:"По участнику", sortAsc:"Результат ▲", sortDesc:"Результат ▼", thParticipant:"Участник", thResult:"Результат", unrevealed:"Скрыто", win:"🎉 Приз", lose:"Мимо", groupFmt:"Команда {n}", nameFmt:"№{n}", teamsWord:"команд", diagonal:"Диагональные перекладины"},
+  pt:{title:"🪜 Jogo da escada", subtitle:"Até 30 jogadores · complexidade ajustável · animação", numPlayers:"Número de jogadores (2–30)", complexity:"Complexidade", complexityHint:"Maior = mais degraus.", names:"Nomes dos jogadores", namesNote:"(vazio = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Prêmio / Nada", modeGroup:"👥 Equipes", modeMoney:"💰 Dividir dinheiro", ggwangCount:"Quantidade de 'Nada'", randomGgwang:"🎲 Embaralhar 'Nada'", ggwangHint:"Os demais recebem {win}.", groupCount:"Número de equipes", groupHint:"Divide igualmente em equipes.", totalMoney:"Valor total", winnerCount:"Ganhadores (resto nada)", moneyHint:"O total é dividido automaticamente; os demais ficam sem nada.", build:"🪜 Criar escada", boardHint:"Clique em um jogador no topo para animar o percurso.", reshuffle:"🔀 Embaralhar", revealAll:"👁️ Revelar tudo", runSim:"▶️ Todos juntos", runSeq:"⏩ Um a um", pause:"⏸️ Pausar", resume:"▶️ Continuar", reset:"🔄 Reiniciar", newGame:"↩️ Novo jogo", sort:"Ordenar:", sortIndex:"Por jogador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jogador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Prêmio", lose:"Nada", groupFmt:"Equipe {n}", nameFmt:"#{n}", teamsWord:"equipes", diagonal:"Degraus diagonais"}
 };
 function T(){ return I18N[state.lang] || I18N.ko; }
 function fmtMoney(v){
@@ -309,6 +314,7 @@ function applyLang(){
   document.title = BRAND + " · " + TAGLINE;   // 브랜드명은 언어와 무관하게 고정
   setT("t_sub", t.subtitle);
   setT("t_numPlayers", t.numPlayers); setT("t_complexity", t.complexity); setT("t_complexityHint", t.complexityHint);
+  setT("t_diagonal", t.diagonal);
   setT("t_names", t.names); setT("t_namesNote", t.namesNote); setT("t_mode", t.mode);
   const q = (m,txt)=>{ const e=document.querySelector(`#modeSeg button[data-mode="${m}"]`); if(e) e.textContent=txt; };
   q("ggwang", t.modeGgwang); q("group", t.modeGroup); q("money", t.modeMoney);
@@ -403,7 +409,14 @@ document.querySelectorAll("#modeSeg button").forEach(b=>{
 });
 
 $("buildBtn").addEventListener("click", buildGame);
-$("reshuffleBtn").addEventListener("click", ()=>{ if(state.animating) return; generateRungs(); resetReveal(); layout(); computeAllPaths(); draw(); renderTable(); });
+$("reshuffleBtn").addEventListener("click", ()=>{ if(state.animating) return; state.diagonal=$("diagonalChk").checked; generateRungs(); resetReveal(); layout(); computeAllPaths(); draw(); renderTable(); });
+
+// 사선 토글: 보드가 떠 있으면 즉시 사다리 재생성
+$("diagonalChk").addEventListener("change", ()=>{
+  if($("boardCard").classList.contains("hidden") || state.animating) return;
+  state.diagonal=$("diagonalChk").checked;
+  generateRungs(); resetReveal(); layout(); computeAllPaths(); draw(); renderTable();
+});
 $("revealAllBtn").addEventListener("click", revealAll);
 $("runAllBtn").addEventListener("click", runAll);
 $("runAllSimBtn").addEventListener("click", runAllSimultaneous);
@@ -448,6 +461,7 @@ function buildGame(){
   state.n = n;
   state.names = readNames(n);
   state.complexity = clamp(parseInt($("complexity").value)||5,1,10);
+  state.diagonal = $("diagonalChk").checked;
 
   // mode별 입력 검증
   if(state.mode==="group"){
@@ -483,14 +497,20 @@ function generateRungs(){
   // 복잡도에 따른 행 수 & 가지 밀도
   state.rows = Math.max(8, Math.round(n*0.7) + state.complexity*2);
   const p = 0.16 + state.complexity*0.045; // 가지 생성 확률
+  const diag = state.diagonal;
+  // rungs[i] = Map(c -> slant)  slant: -1=오른쪽이 위로(사선↗), 0=수평, +1=오른쪽이 아래로(사선↘)
   const rungs = [];
   for(let i=0;i<state.rows;i++){
-    const s = new Set();
+    const m = new Map();
     for(let c=0;c<n-1;c++){
-      if(s.has(c-1)) continue;           // 인접 가지가 한 노드를 공유하지 않도록
-      if(Math.random() < p) s.add(c);    // c 와 c+1 사이 가지
+      if(m.has(c-1)) continue;           // 인접 가지가 한 노드를 공유하지 않도록
+      if(Math.random() < p){
+        let slant = 0;
+        if(diag){ const r=Math.random(); slant = r<0.5 ? 0 : (r<0.75 ? -1 : 1); }
+        m.set(c, slant);                 // c 와 c+1 사이 가지
+      }
     }
-    rungs.push(s);
+    rungs.push(m);
   }
   state.rungs = rungs;
 }
@@ -591,13 +611,24 @@ function tracePath(startCol){
   const {marginTop, marginBottom} = G;
   const usable = G.height - marginTop - marginBottom;
   const gap = usable/(state.rows+1);
+  const amt = 0.7*gap;                 // 사선 기울기 크기 (|offset| < gap/2 유지 → 단조 하강 보장)
   let col = startCol;
   const pts = [{x:colX(col), y:marginTop}];
   for(let i=0;i<state.rows;i++){
-    const y = marginTop + (i+1)*gap;
-    pts.push({x:colX(col), y});
-    if(state.rungs[i].has(col-1)){ col--; pts.push({x:colX(col), y}); }
-    else if(state.rungs[i].has(col)){ col++; pts.push({x:colX(col), y}); }
+    const yi = marginTop + (i+1)*gap;
+    let cross = null;
+    if(state.rungs[i].has(col-1)){      // 가지(i,col-1): 왼쪽=col-1, 오른쪽=col → 현재 칸은 오른쪽
+      const off = state.rungs[i].get(col-1)*amt/2;
+      cross = { entryY: yi + off, exitCol: col-1, exitY: yi - off };
+    } else if(state.rungs[i].has(col)){ // 가지(i,col): 왼쪽=col, 오른쪽=col+1 → 현재 칸은 왼쪽
+      const off = state.rungs[i].get(col)*amt/2;
+      cross = { entryY: yi - off, exitCol: col+1, exitY: yi + off };
+    }
+    if(cross){
+      pts.push({x:colX(col), y:cross.entryY});       // 진입 지점까지 수직
+      col = cross.exitCol;
+      pts.push({x:colX(col), y:cross.exitY});         // 사선으로 인접 칸 이동(↗/↘/수평)
+    }
   }
   pts.push({x:colX(col), y:G.height-marginBottom});
   return {points:pts, endCol:col};
@@ -657,16 +688,18 @@ function drawLadder(){
     ctx.lineTo(colX(c), G.height-G.marginBottom);
     ctx.stroke();
   }
-  // 가로줄
+  // 가지 (수평 또는 사선)
   const usable = G.height - G.marginTop - G.marginBottom;
   const gap = usable/(state.rows+1);
+  const amt = 0.7*gap;
   ctx.lineWidth=4; ctx.strokeStyle="#64748b";
   for(let i=0;i<state.rows;i++){
-    const y = G.marginTop + (i+1)*gap;
-    state.rungs[i].forEach(c=>{
+    const yi = G.marginTop + (i+1)*gap;
+    state.rungs[i].forEach((slant,c)=>{
+      const off = slant*amt/2;
       ctx.beginPath();
-      ctx.moveTo(colX(c), y);
-      ctx.lineTo(colX(c+1), y);
+      ctx.moveTo(colX(c),   yi - off);   // 왼쪽 끝
+      ctx.lineTo(colX(c+1), yi + off);   // 오른쪽 끝
       ctx.stroke();
     });
   }
