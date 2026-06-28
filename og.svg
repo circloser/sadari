@@ -8,7 +8,6 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <!-- ladder mark -->
   <g transform="translate(120,150)" stroke="url(#brand)" stroke-width="14" stroke-linecap="round" fill="none">
     <line x1="40" y1="40" x2="40" y2="300"/>
     <line x1="160" y1="40" x2="160" y2="300"/>
@@ -17,9 +16,9 @@
     <line x1="40" y1="250" x2="160" y2="250"/>
   </g>
   <polygon points="200,70 214,108 256,110 222,136 234,178 200,154 166,178 178,136 144,110 186,108" fill="#fde047" transform="translate(-40,40)"/>
-  <text x="400" y="270" font-family="Segoe UI, sans-serif" font-size="120" font-weight="800" fill="url(#brand)">SADARI</text>
-  <text x="404" y="340" font-family="Segoe UI, sans-serif" font-size="40" font-weight="700" fill="#a78bfa" letter-spacing="3">CLIMB YOUR LUCK</text>
-  <text x="404" y="420" font-family="Segoe UI, sans-serif" font-size="34" fill="#e2e8f0">만능 사다리타기 · 조 편성 · 회식비 더치페이</text>
-  <text x="404" y="468" font-family="Segoe UI, sans-serif" font-size="30" fill="#94a3b8">룰렛 · 제비뽑기 · 동전 · 주사위 · 자리배치 · 타이머</text>
-  <text x="404" y="540" font-family="Segoe UI, sans-serif" font-size="26" fill="#64748b">최대 30명 · 8개 언어 · sadari.singlena.workers.dev</text>
+  <text x="400" y="262" font-family="Arial, Segoe UI, sans-serif" font-size="118" font-weight="800" fill="url(#brand)">SADARI</text>
+  <text x="404" y="332" font-family="Arial, Segoe UI, sans-serif" font-size="40" font-weight="700" fill="#a78bfa" letter-spacing="3">CLIMB YOUR LUCK</text>
+  <text x="404" y="410" font-family="Arial, Segoe UI, sans-serif" font-size="36" fill="#e2e8f0">All-in-one ladder game &amp; group/cost splitter</text>
+  <text x="404" y="462" font-family="Arial, Segoe UI, sans-serif" font-size="30" fill="#94a3b8">Roulette · Draw · Coin · Dice · Seating · Timer</text>
+  <text x="404" y="536" font-family="Arial, Segoe UI, sans-serif" font-size="26" fill="#64748b">Up to 30 players · 8 languages · sadari.singlena.workers.dev</text>
 </svg>
