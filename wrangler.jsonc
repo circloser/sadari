@@ -1,8 +1,12 @@
 {
   "name": "sadari",
+  "main": "worker.js",
   "compatibility_date": "2026-06-20",
   "assets": {
     "directory": ".",
-    "not_found_handling": "single-page-application"
-  }
+    "binding": "ASSETS"
+  },
+  "kv_namespaces": [
+    { "binding": "SHARE", "id": "d78f29edab3448008c87279fd1f2b61c" }
+  ]
 }
