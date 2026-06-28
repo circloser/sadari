@@ -178,6 +178,10 @@
   .modal-box{background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--border); border-radius:16px; padding:22px; width:min(520px,100%); box-shadow:0 24px 60px rgba(0,0,0,.5);}
   .modal-box h3{margin:0 0 6px; font-size:18px;}
   .modal-box textarea{width:100%; min-height:160px; background:#0f172a; border:1px solid var(--border); color:var(--text); border-radius:10px; padding:12px; font-size:14px; resize:vertical; font-family:inherit;}
+  .snd-row{display:flex; align-items:center; gap:12px; margin:14px 0; flex-wrap:wrap;}
+  .snd-row .snd-toggle{display:flex; align-items:center; gap:8px; font-weight:700; font-size:14px; min-width:104px; cursor:pointer;}
+  .snd-row .snd-toggle input{width:auto; accent-color:var(--accent2);}
+  .snd-row select{flex:0 1 auto;}
 
   /* ===== 코인 ===== */
   .coin-stage{display:flex; flex-direction:column; align-items:center; gap:22px; padding:24px 0;}
@@ -252,7 +256,7 @@
 <div class="topbar">
   <select id="langSel" aria-label="Language / 언어"></select>
   <select id="curSel" aria-label="Currency / 통화"></select>
-  <button class="icon-btn" id="sfxBtn" title="효과음 On/Off">🔊</button>
+  <button class="icon-btn" id="sfxBtn" title="사운드 설정 (효과음·배경음악)">🔊</button>
   <button class="icon-btn" id="themeBtn" title="다크/라이트 모드">🌙</button>
 </div>
 <div class="wrap">
@@ -528,6 +532,36 @@
       <button class="btn ghost" id="bulkCancel" data-i18n="bk_cancel">취소</button>
       <button class="btn" id="bulkApply" data-i18n="bk_apply">적용</button>
     </div>
+  </div>
+</div>
+
+<!-- 사운드 설정 모달 -->
+<div class="modal" id="soundModal">
+  <div class="modal-box">
+    <h3>🎵 사운드 설정</h3>
+    <div class="snd-row">
+      <label class="snd-toggle"><input type="checkbox" id="sfxOn"> 🔊 효과음</label>
+      <select id="sfxTheme">
+        <option value="classic">기본</option>
+        <option value="retro">레트로 8비트</option>
+        <option value="soft">부드러움</option>
+        <option value="comic">코믹</option>
+      </select>
+      <button class="btn ghost" id="sfxPreview" style="padding:7px 14px; font-size:13px">미리듣기 ▶</button>
+    </div>
+    <div class="snd-row">
+      <label class="snd-toggle"><input type="checkbox" id="bgmOn"> 🎶 배경음악</label>
+      <select id="bgmTrack">
+        <option value="lofi">Lo-fi</option>
+        <option value="cheerful">경쾌</option>
+        <option value="calm">잔잔</option>
+      </select>
+    </div>
+    <div class="snd-row">
+      <label class="snd-toggle">🔈 볼륨</label>
+      <input type="range" id="bgmVol" min="0" max="100" value="25" style="flex:1; accent-color:var(--accent2)">
+    </div>
+    <div style="text-align:right; margin-top:16px"><button class="btn" id="soundClose">닫기</button></div>
   </div>
 </div>
 
@@ -1331,27 +1365,85 @@ initLocale();
    효과음 (WebAudio · 외부 파일 없음)
 ============================================================ */
 const SFX = (()=>{
-  let ctx=null, on=true, tickTimer=null;
+  let ctx=null, on=true, theme="classic", tickTimer=null;
   function ac(){ try{ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==="suspended") ctx.resume(); }catch(e){} return ctx; }
-  function beep(freq,dur,type,vol,slideTo){
-    if(!on) return; const c=ac(); if(!c) return;
-    const o=c.createOscillator(), g=c.createGain();
-    o.type=type||"square"; o.frequency.value=freq;
-    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, c.currentTime+dur);
-    g.gain.value=vol||0.12; g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime+dur);
-    o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime+dur);
+  const NOTE={C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.0,A4:440.0,B4:493.88,C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880.0,C6:1046.5,E6:1318.5,G6:1568.0};
+  function fr(x){ return typeof x==="number" ? x : (NOTE[x]||440); }
+  function tone(freq,t0,dur,wave,vol,slideTo){
+    const c=ac(); if(!c) return; const o=c.createOscillator(), g=c.createGain(), st=c.currentTime+t0;
+    o.type=wave||"square"; o.frequency.setValueAtTime(fr(freq),st);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(fr(slideTo), st+dur);
+    g.gain.setValueAtTime(0.0001,st); g.gain.exponentialRampToValueAtTime(vol||0.12, st+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, st+dur);
+    o.connect(g).connect(c.destination); o.start(st); o.stop(st+dur+0.03);
   }
-  function startTick(){ if(!on||tickTimer) return; tickTimer=setInterval(()=>beep(400+Math.random()*160,0.05,"square",0.05),70); }
+  function seq(notes){ notes.forEach(n=>tone(n.f,n.t,n.d,n.w,n.v,n.s)); }
+  const THEMES={
+    classic:{ tick:{lo:400,hi:560,d:.05,v:.05,w:"square"},
+      win:[{f:"C5",t:0,d:.1,w:"square",v:.13},{f:"E5",t:.09,d:.1,w:"square",v:.13},{f:"G5",t:.18,d:.22,w:"square",v:.14}],
+      lose:[{f:330,t:0,d:.18,w:"sawtooth",v:.16,s:180},{f:170,t:.16,d:.32,w:"sawtooth",v:.16,s:90}],
+      click:{f:520,d:.05,v:.07,w:"square"} },
+    retro:{ tick:{lo:600,hi:900,d:.03,v:.045,w:"square"},
+      win:[{f:"C5",t:0,d:.07,w:"square",v:.12},{f:"G5",t:.07,d:.07,w:"square",v:.12},{f:"C6",t:.14,d:.07,w:"square",v:.12},{f:"E6",t:.21,d:.18,w:"square",v:.13}],
+      lose:[{f:200,t:0,d:.09,w:"square",v:.15,s:120},{f:120,t:.09,d:.09,w:"square",v:.15},{f:70,t:.18,d:.26,w:"square",v:.15,s:50}],
+      click:{f:760,d:.03,v:.06,w:"square"} },
+    soft:{ tick:{lo:520,hi:660,d:.06,v:.05,w:"triangle"},
+      win:[{f:"E5",t:0,d:.32,w:"triangle",v:.12},{f:"A5",t:.05,d:.3,w:"triangle",v:.1},{f:"C6",t:.1,d:.34,w:"triangle",v:.1}],
+      lose:[{f:"A4",t:0,d:.32,w:"sine",v:.14,s:"E4"},{f:"E4",t:.22,d:.34,w:"sine",v:.12,s:"C4"}],
+      click:{f:660,d:.06,v:.06,w:"triangle"} },
+    comic:{ tick:{lo:300,hi:880,d:.04,v:.05,w:"sine"},
+      win:[{f:300,t:0,d:.18,w:"sine",v:.16,s:880},{f:880,t:.16,d:.22,w:"sine",v:.14,s:1300}],
+      lose:[{f:520,t:0,d:.3,w:"sine",v:.16,s:120},{f:160,t:.26,d:.22,w:"sine",v:.12,s:80}],
+      click:{f:440,d:.07,v:.07,w:"sine",s:880} }
+  };
+  function cur(){ return THEMES[theme]||THEMES.classic; }
+  function startTick(){ if(!on||tickTimer) return; const tk=cur().tick;
+    tickTimer=setInterval(()=>tone(tk.lo+Math.random()*(tk.hi-tk.lo),0,tk.d,tk.w,tk.v),70); }
   function stopTick(){ if(tickTimer){ clearInterval(tickTimer); tickTimer=null; } }
-  function result(kind){ if(!on) return;
-    if(kind==="lose"){ beep(220,0.5,"sawtooth",0.18,70); }                       // 콰광-
-    else { beep(660,0.12,"square",0.14); setTimeout(()=>beep(990,0.25,"square",0.14),110); } // 짜잔!
-  }
-  function click(){ beep(520,0.05,"square",0.07); }
+  function result(kind){ if(!on) return; seq(kind==="lose" ? cur().lose : cur().win); }
+  function click(){ if(!on) return; const c=cur().click; tone(c.f,0,c.d,c.w,c.v,c.s); }
   function setOn(v){ on=v; if(!v) stopTick(); }
-  return { isOn:()=>on, setOn, startTick, stopTick, result, click };
+  function setTheme(t){ theme=t; }
+  function preview(){ const w=on; on=true; result("win"); on=w; }
+  return { isOn:()=>on, setOn, setTheme, get theme(){return theme;}, startTick, stopTick, result, click, preview };
 })();
 window.SFX = SFX;
+
+/* ============================================================
+   배경음악 (WebAudio 생성형 루프 · 외부 파일 없음)
+============================================================ */
+const BGM = (()=>{
+  let ctx=null, on=false, trackName="lofi", vol=0.25, master=null, look=null, nextTime=0, beat=0;
+  function ac(){ try{ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==="suspended") ctx.resume(); }catch(e){} return ctx; }
+  const N={C2:65.41,D2:73.42,E2:82.41,F2:87.31,G2:98.0,A2:110.0,B2:123.47,C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196.0,A3:220.0,B3:246.94,C4:261.63,D4:293.66,E4:329.63};
+  const TRACKS={
+    lofi:{ bpm:72, wave:"sine", arpW:"triangle", arp:true, prog:[["D3","F3","A3","C4"],["G2","B2","D3","F3"],["C3","E3","G3","B3"],["A2","C3","E3","G3"]] },
+    cheerful:{ bpm:112, wave:"triangle", arpW:"square", arp:true, prog:[["C3","E3","G3"],["G2","B2","D3"],["A2","C3","E3"],["F2","A2","C3"]] },
+    calm:{ bpm:54, wave:"sine", arpW:"sine", arp:false, prog:[["C3","E3","G3"],["A2","C3","E3"],["F2","A2","C3"],["G2","B2","D3"]] }
+  };
+  function note(f,t,dur,wave,peak){
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=wave; o.frequency.value=f;
+    g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(peak,t+Math.min(0.25,dur*0.3));
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g).connect(master); o.start(t); o.stop(t+dur+0.05);
+  }
+  function schedule(){
+    const tr=TRACKS[trackName], spb=60/tr.bpm, BB=4, c=ac();
+    while(nextTime < c.currentTime + 0.4){
+      const bar=Math.floor(beat/BB)%tr.prog.length, inBar=beat%BB, chord=tr.prog[bar].map(n=>N[n]||220);
+      if(inBar===0){ chord.forEach(f=>note(f, nextTime, spb*BB*0.95, tr.wave, 0.15)); }
+      if(tr.arp){ note(chord[inBar%chord.length]*2, nextTime, spb*0.85, tr.arpW, 0.11); }
+      beat++; nextTime+=spb;
+    }
+  }
+  function start(){ if(on) return; const c=ac(); if(!c) return; on=true; master=c.createGain(); master.gain.value=vol; master.connect(c.destination); beat=0; nextTime=c.currentTime+0.12; look=setInterval(schedule,90); schedule(); }
+  function stop(){ if(!on) return; on=false; if(look){clearInterval(look);look=null;} if(master){ const m=master, c=ctx; try{ m.gain.linearRampToValueAtTime(0.0001,c.currentTime+0.4); }catch(e){} master=null; setTimeout(()=>{try{m.disconnect();}catch(e){}},500); } }
+  function setVol(v){ vol=v; if(master){ try{ master.gain.setTargetAtTime(v, ac().currentTime, 0.05); }catch(e){} } }
+  function setTrack(t){ trackName=t; if(on){ stop(); setTimeout(start,60); } }
+  return { start, stop, isOn:()=>on, setVol, setTrack, get track(){return trackName;} };
+})();
+window.BGM = BGM;
 
 /* ============================================================
    공통 UI: 토스트 / 테마 / 효과음 토글 / 도구 네비게이션
@@ -1378,13 +1470,32 @@ function promptCopy(text){ try{ window.prompt("복사하세요 (Ctrl+C):", text)
     localStorage.setItem("sadari_theme", toLight ? "light" : "dark");
     if(typeof draw==="function" && !$("boardCard").classList.contains("hidden")) draw();
   });
+})();
+
+/* ===== 사운드 설정 (효과음 테마 + 배경음악) ===== */
+function refreshSfxBtn(){ var b=$("sfxBtn"); if(!b) return; b.textContent=SFX.isOn()?"🔊":"🔇"; b.classList.toggle("off",!SFX.isOn()); }
+(function initSound(){
+  var sfxOff=localStorage.getItem("sadari_sfx")==="off"; SFX.setOn(!sfxOff);
+  var sfxTheme=localStorage.getItem("sadari_sfxtheme")||"classic"; SFX.setTheme(sfxTheme);
+  var bgmTrack=localStorage.getItem("sadari_bgmtrack")||"lofi"; BGM.setTrack(bgmTrack);
+  var bgmVol=parseInt(localStorage.getItem("sadari_bgmvol")); if(isNaN(bgmVol)) bgmVol=25; BGM.setVol(bgmVol/100);
+  var bgmWanted=localStorage.getItem("sadari_bgm")==="on";
+  $("sfxOn").checked=!sfxOff; $("sfxTheme").value=sfxTheme; $("bgmOn").checked=bgmWanted; $("bgmTrack").value=bgmTrack; $("bgmVol").value=bgmVol;
+  refreshSfxBtn();
+  // 🔊 버튼 → 사운드 설정 열기
+  $("sfxBtn").addEventListener("click",()=>$("soundModal").classList.add("show"));
+  $("soundClose").addEventListener("click",()=>$("soundModal").classList.remove("show"));
+  $("soundModal").addEventListener("click",e=>{ if(e.target===$("soundModal")) $("soundModal").classList.remove("show"); });
   // 효과음
-  if(localStorage.getItem("sadari_sfx")==="off"){ SFX.setOn(false); $("sfxBtn").textContent="🔇"; $("sfxBtn").classList.add("off"); }
-  $("sfxBtn").addEventListener("click",()=>{
-    const now=!SFX.isOn(); SFX.setOn(now);
-    $("sfxBtn").textContent= now ? "🔊" : "🔇"; $("sfxBtn").classList.toggle("off",!now);
-    localStorage.setItem("sadari_sfx", now ? "on" : "off"); if(now) SFX.click();
-  });
+  $("sfxOn").addEventListener("change",e=>{ SFX.setOn(e.target.checked); localStorage.setItem("sadari_sfx", e.target.checked?"on":"off"); refreshSfxBtn(); if(e.target.checked) SFX.click(); });
+  $("sfxTheme").addEventListener("change",e=>{ SFX.setTheme(e.target.value); localStorage.setItem("sadari_sfxtheme", e.target.value); SFX.preview(); });
+  $("sfxPreview").addEventListener("click",()=>SFX.preview());
+  // 배경음악
+  $("bgmOn").addEventListener("change",e=>{ if(e.target.checked) BGM.start(); else BGM.stop(); localStorage.setItem("sadari_bgm", e.target.checked?"on":"off"); });
+  $("bgmTrack").addEventListener("change",e=>{ BGM.setTrack(e.target.value); localStorage.setItem("sadari_bgmtrack", e.target.value); });
+  $("bgmVol").addEventListener("input",e=>{ BGM.setVol(e.target.value/100); localStorage.setItem("sadari_bgmvol", e.target.value); });
+  // 저장된 BGM 켜짐 → 첫 사용자 제스처에서 자동 재생(브라우저 autoplay 정책)
+  if(bgmWanted){ var arm=function(){ if($("bgmOn").checked) BGM.start(); document.removeEventListener("pointerdown",arm); }; document.addEventListener("pointerdown",arm,{once:true}); }
 })();
 
 (function initNav(){
