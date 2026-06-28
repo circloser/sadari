@@ -28,6 +28,11 @@
   footer{max-width:640px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
   footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
   footer a{color:#38bdf8;}
+  .ad-slot{max-width:640px;margin:22px auto 0;min-height:120px;display:flex;align-items:center;justify-content:center;border:1px dashed #334155;border-radius:14px;background:#0f172a55;position:relative;}
+  .ad-slot .ad-label{position:absolute;top:7px;left:11px;font-size:10px;letter-spacing:1px;color:#475569;text-transform:uppercase;}
+  .ad-slot .ad-ph{color:#475569;font-size:13px;}
+  .ad-slot.live{border:none;background:transparent;min-height:0;display:block;}
+  .ad-slot ins{display:block;}
 </style>
 </head>
 <body>
@@ -56,6 +61,7 @@
 
     <p class="muted" style="margin-top:18px"><a href="/about.html">소개</a> · <a href="/privacy.html">개인정보처리방침</a> · <a href="/">홈으로</a></p>
   </div>
+  <div class="ad-slot"><span class="ad-label">광고 · Advertisement</span><span class="ad-ph">광고 영역</span></div>
   <footer>
     <nav>
       <a href="/about.html">소개</a>
@@ -76,6 +82,19 @@
     var body=msg+"\n\n---\n보낸 사람: "+(name||"-")+"\n회신 이메일: "+(from||"-");
     window.location.href="mailto:singlena@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
   });
+  /* Google AdSense — 승인 후 CLIENT(게시자 ID)와 SLOT(광고 단위 ID) 입력 */
+  (function(){
+    var CLIENT="", SLOT="";
+    if(CLIENT){ var s=document.createElement("script"); s.async=true; s.crossOrigin="anonymous";
+      s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+CLIENT; document.head.appendChild(s); }
+    var box=document.querySelector(".ad-slot"); if(!box) return;
+    if(CLIENT && SLOT){ box.classList.add("live"); box.innerHTML="";
+      var ins=document.createElement("ins"); ins.className="adsbygoogle"; ins.style.display="block";
+      ins.setAttribute("data-ad-client",CLIENT); ins.setAttribute("data-ad-slot",SLOT);
+      ins.setAttribute("data-ad-format","auto"); ins.setAttribute("data-full-width-responsive","true");
+      box.appendChild(ins); try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){} }
+    else if(CLIENT){ box.style.display="none"; }
+  })();
 </script>
 </body>
 </html>

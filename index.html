@@ -180,6 +180,14 @@
   .ta{width:100%; background:#0f172a; border:1px solid var(--border); color:var(--text); border-radius:10px; padding:12px; font-family:inherit; font-size:14px; resize:vertical;}
   .ta:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.15); outline:none;}
 
+  /* ===== 광고 슬롯 (AdSense) ===== */
+  .ad-slot{max-width:970px; margin:22px auto; min-height:100px; display:flex; align-items:center; justify-content:center; border:1px dashed var(--border); border-radius:12px; background:#0f172a55; position:relative; overflow:hidden;}
+  .ad-slot.rect{min-height:260px;}
+  .ad-slot .ad-label{position:absolute; top:7px; left:11px; font-size:10px; letter-spacing:1px; color:#475569; text-transform:uppercase;}
+  .ad-slot .ad-ph{color:#475569; font-size:13px;}
+  .ad-slot.live{border:none; background:transparent; min-height:0; display:block;}
+  .ad-slot ins{display:block;}
+
   /* ===== 라이트 모드 ===== */
   [data-theme="light"]{ --card:#ffffff; --card2:#f8fafc; --text:#0f172a; --muted:#64748b; --border:#cbd5e1; }
   [data-theme="light"] body{ background:radial-gradient(1200px 600px at 50% -10%,#f1f5f9,#e2e8f0); color:#0f172a; }
@@ -224,6 +232,9 @@
     <button data-tool="seats"><span class="ico">💺</span><span data-i18n="nav_seats">자리배치</span></button>
     <button data-tool="timer"><span class="ico">⏱️</span><span data-i18n="nav_timer">타이머</span></button>
   </nav>
+
+  <!-- 광고: 상단 (전역) -->
+  <div class="ad-slot" data-ad-key="top"><span class="ad-label">광고 · Advertisement</span><span class="ad-ph">광고 영역</span></div>
 
   <!-- ===================== 사다리 ===================== -->
   <div id="view-ladder" class="view active">
@@ -340,6 +351,8 @@
       <button class="btn kakao" id="kakaoBtn" data-i18n="sh_kakao">💬 카카오톡 공유</button>
     </div>
   </div><!-- /boardCard -->
+  <!-- 광고: 결과 직후 (사다리 도구, 최고 노출 위치) -->
+  <div class="ad-slot rect" data-ad-key="result"><span class="ad-label">광고 · Advertisement</span><span class="ad-ph">광고 영역 (결과 하단)</span></div>
   </div><!-- /view-ladder -->
 
   <!-- ===================== 룰렛 ===================== -->
@@ -426,6 +439,9 @@
       </div>
     </div>
   </div>
+
+  <!-- 광고: 하단 (전역) -->
+  <div class="ad-slot" data-ad-key="bottom"><span class="ad-label">광고 · Advertisement</span><span class="ad-ph">광고 영역</span></div>
 
   <!-- ===================== 푸터 ===================== -->
   <div class="footer-seo">
@@ -1541,6 +1557,40 @@ $("timerSec").addEventListener("input",Timer.setFromInputs);
 
 // 초기 렌더
 Roulette.draw(); Dice.render([1,1]); Draw.build(); Timer.setFromInputs();
+
+/* ============================================================
+   Google AdSense
+   ▶ 승인 후 client(게시자 ID)와 slots(광고 단위 ID)를 입력하면
+     플레이스홀더가 실제 광고로 교체됩니다.
+   ▶ 자동 광고(앵커/비네트)만 쓰려면 client만 입력하고 slots는 비워두세요.
+============================================================ */
+const ADSENSE = {
+  client: "",   // 예: "ca-pub-1234567890123456"
+  slots: { top:"", result:"", bottom:"" }  // AdSense에서 만든 광고 단위(슬롯) ID
+};
+(function mountAds(){
+  if(ADSENSE.client){
+    var s=document.createElement("script"); s.async=true; s.crossOrigin="anonymous";
+    s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+ADSENSE.client;
+    document.head.appendChild(s);
+  }
+  document.querySelectorAll(".ad-slot[data-ad-key]").forEach(function(box){
+    var key=box.getAttribute("data-ad-key"), slot=ADSENSE.slots[key];
+    if(ADSENSE.client && slot){
+      box.classList.add("live"); box.innerHTML="";
+      var ins=document.createElement("ins"); ins.className="adsbygoogle"; ins.style.display="block";
+      ins.setAttribute("data-ad-client",ADSENSE.client);
+      ins.setAttribute("data-ad-slot",slot);
+      ins.setAttribute("data-ad-format","auto");
+      ins.setAttribute("data-full-width-responsive","true");
+      box.appendChild(ins);
+      try{ (window.adsbygoogle=window.adsbygoogle||[]).push({}); }catch(e){}
+    } else if(ADSENSE.client){
+      box.style.display="none";   // 자동광고만 사용 — 빈 플레이스홀더 숨김
+    }
+    // client 미설정 시: 플레이스홀더 유지(배치 미리보기)
+  });
+})();
 </script>
 </body>
 </html>
