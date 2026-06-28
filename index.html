@@ -51,6 +51,7 @@
 </script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
 <style>
   :root{
     --bg1:#0f172a; --bg2:#1e293b;
@@ -1616,15 +1617,10 @@ Roulette.draw(); Dice.render([1,1]); Draw.build(); Timer.setFromInputs();
    ▶ 자동 광고(앵커/비네트)만 쓰려면 client만 입력하고 slots는 비워두세요.
 ============================================================ */
 const ADSENSE = {
-  client: "",   // 예: "ca-pub-1234567890123456"
-  slots: { top:"", result:"", bottom:"" }  // AdSense에서 만든 광고 단위(슬롯) ID
+  client: "ca-pub-6947130056543786",        // 게시자 ID (head 스니펫에서 SDK 로드)
+  slots: { top:"", result:"", bottom:"" }   // 광고 단위(슬롯) ID 입력 시 해당 위치에 수동 광고 게재, 비우면 자동광고에 위임
 };
 (function mountAds(){
-  if(ADSENSE.client){
-    var s=document.createElement("script"); s.async=true; s.crossOrigin="anonymous";
-    s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+ADSENSE.client;
-    document.head.appendChild(s);
-  }
   document.querySelectorAll(".ad-slot[data-ad-key]").forEach(function(box){
     var key=box.getAttribute("data-ad-key"), slot=ADSENSE.slots[key];
     if(ADSENSE.client && slot){
