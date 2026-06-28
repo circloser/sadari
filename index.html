@@ -215,13 +215,13 @@
 
   <!-- ===== 도구 네비게이션 ===== -->
   <nav class="topnav" id="topnav">
-    <button data-tool="ladder" class="active"><span class="ico">🪜</span>사다리</button>
-    <button data-tool="roulette"><span class="ico">🎡</span>룰렛</button>
-    <button data-tool="draw"><span class="ico">🎫</span>제비뽑기</button>
-    <button data-tool="coin"><span class="ico">🪙</span>동전</button>
-    <button data-tool="dice"><span class="ico">🎲</span>주사위</button>
-    <button data-tool="seats"><span class="ico">💺</span>자리배치</button>
-    <button data-tool="timer"><span class="ico">⏱️</span>타이머</button>
+    <button data-tool="ladder" class="active"><span class="ico">🪜</span><span data-i18n="nav_ladder">사다리</span></button>
+    <button data-tool="roulette"><span class="ico">🎡</span><span data-i18n="nav_roulette">룰렛</span></button>
+    <button data-tool="draw"><span class="ico">🎫</span><span data-i18n="nav_draw">제비뽑기</span></button>
+    <button data-tool="coin"><span class="ico">🪙</span><span data-i18n="nav_coin">동전</span></button>
+    <button data-tool="dice"><span class="ico">🎲</span><span data-i18n="nav_dice">주사위</span></button>
+    <button data-tool="seats"><span class="ico">💺</span><span data-i18n="nav_seats">자리배치</span></button>
+    <button data-tool="timer"><span class="ico">⏱️</span><span data-i18n="nav_timer">타이머</span></button>
   </nav>
 
   <!-- ===================== 사다리 ===================== -->
@@ -247,8 +247,8 @@
     <div class="field" id="namesField" style="margin-top:18px">
       <label><span id="t_names">참가자 이름</span> <span style="color:var(--muted);font-weight:400" id="t_namesNote">(비워두면 번호로 표시됩니다)</span></label>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn ghost" id="bulkPasteBtn" style="padding:8px 14px; font-size:13px;">📋 일괄 붙여넣기</button>
-        <button class="btn ghost" id="loadRosterBtn" style="padding:8px 14px; font-size:13px;">↻ 직전 명단 불러오기</button>
+        <button class="btn ghost" id="bulkPasteBtn" data-i18n="nm_bulk" style="padding:8px 14px; font-size:13px;">📋 일괄 붙여넣기</button>
+        <button class="btn ghost" id="loadRosterBtn" data-i18n="nm_load" style="padding:8px 14px; font-size:13px;">↻ 직전 명단 불러오기</button>
       </div>
       <div id="nameInputs" class="name-grid"></div>
     </div>
@@ -334,9 +334,9 @@
     </table>
     <div class="summary" id="summary"></div>
     <div class="share-row" id="shareRow">
-      <button class="btn ghost" id="copyTextBtn">📄 결과 복사</button>
-      <button class="btn ghost" id="downloadImgBtn">🖼️ 이미지 저장</button>
-      <button class="btn kakao" id="kakaoBtn">💬 카카오톡 공유</button>
+      <button class="btn ghost" id="copyTextBtn" data-i18n="sh_copy">📄 결과 복사</button>
+      <button class="btn ghost" id="downloadImgBtn" data-i18n="sh_image">🖼️ 이미지 저장</button>
+      <button class="btn kakao" id="kakaoBtn" data-i18n="sh_kakao">💬 카카오톡 공유</button>
     </div>
   </div><!-- /boardCard -->
   </div><!-- /view-ladder -->
@@ -344,15 +344,15 @@
   <!-- ===================== 룰렛 ===================== -->
   <div id="view-roulette" class="view">
     <div class="card">
-      <div class="tool-head"><h2>🎡 룰렛</h2><p>항목을 넣고 돌려서 하나를 뽑아요</p></div>
-      <div class="field"><label>항목 (줄바꿈 또는 쉼표로 구분)</label>
+      <div class="tool-head"><h2 data-i18n="rl_title">🎡 룰렛</h2><p data-i18n="rl_sub">항목을 넣고 돌려서 하나를 뽑아요</p></div>
+      <div class="field"><label data-i18n="rl_label">항목 (줄바꿈 또는 쉼표로 구분)</label>
         <textarea id="rouletteItems" class="ta" rows="4">치킨
 피자
 족발
 보쌈
 떡볶이</textarea></div>
       <div class="wheel-wrap"><div class="wheel-pointer">▼</div><canvas id="wheelCanvas" width="600" height="600"></canvas></div>
-      <div style="text-align:center"><button class="btn" id="spinBtn">돌리기 🎡</button></div>
+      <div style="text-align:center"><button class="btn" id="spinBtn" data-i18n="rl_spin">돌리기 🎡</button></div>
       <div class="summary" id="rouletteResult" style="text-align:center; font-size:20px; font-weight:800; min-height:28px"></div>
     </div>
   </div>
@@ -360,13 +360,13 @@
   <!-- ===================== 제비뽑기 ===================== -->
   <div id="view-draw" class="view">
     <div class="card">
-      <div class="tool-head"><h2>🎫 제비뽑기</h2><p>카드를 뽑아 당첨자를 정해요</p></div>
+      <div class="tool-head"><h2 data-i18n="dw_title">🎫 제비뽑기</h2><p data-i18n="dw_sub">카드를 뽑아 당첨자를 정해요</p></div>
       <div class="row">
-        <div class="field" style="max-width:150px"><label>제비 개수</label><input type="number" id="drawCount" min="2" max="40" value="6"></div>
-        <div class="field" style="max-width:150px"><label>당첨 개수</label><input type="number" id="drawWin" min="1" value="1"></div>
-        <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="drawBtn">제비 만들기 🎫</button></div>
+        <div class="field" style="max-width:150px"><label data-i18n="dw_count">제비 개수</label><input type="number" id="drawCount" min="2" max="40" value="6"></div>
+        <div class="field" style="max-width:150px"><label data-i18n="dw_win">당첨 개수</label><input type="number" id="drawWin" min="1" value="1"></div>
+        <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="drawBtn" data-i18n="dw_make">제비 만들기 🎫</button></div>
       </div>
-      <div class="hint">카드를 클릭해 한 장씩 뒤집으세요.</div>
+      <div class="hint" data-i18n="dw_hint">카드를 클릭해 한 장씩 뒤집으세요.</div>
       <div class="lot-grid" id="lotGrid"></div>
       <div class="summary" id="drawResult" style="text-align:center"></div>
     </div>
@@ -375,10 +375,10 @@
   <!-- ===================== 동전 ===================== -->
   <div id="view-coin" class="view">
     <div class="card">
-      <div class="tool-head"><h2>🪙 동전 던지기</h2><p>앞면/뒷면을 정해요</p></div>
+      <div class="tool-head"><h2 data-i18n="cn_title">🪙 동전 던지기</h2><p data-i18n="cn_sub">앞면/뒷면을 정해요</p></div>
       <div class="coin-stage">
         <div class="coin" id="coin">?</div>
-        <button class="btn" id="coinBtn">던지기 🪙</button>
+        <button class="btn" id="coinBtn" data-i18n="cn_flip">던지기 🪙</button>
         <div class="summary" id="coinResult" style="font-size:20px; font-weight:800; min-height:28px"></div>
       </div>
     </div>
@@ -387,10 +387,10 @@
   <!-- ===================== 주사위 ===================== -->
   <div id="view-dice" class="view">
     <div class="card">
-      <div class="tool-head"><h2>🎲 주사위</h2><p>개수를 정하고 굴려요</p></div>
-      <div class="field" style="max-width:180px; margin:0 auto"><label>주사위 개수 (1~6)</label><input type="number" id="diceCount" min="1" max="6" value="2"></div>
+      <div class="tool-head"><h2 data-i18n="dc_title">🎲 주사위</h2><p data-i18n="dc_sub">개수를 정하고 굴려요</p></div>
+      <div class="field" style="max-width:180px; margin:0 auto"><label data-i18n="dc_count">주사위 개수 (1~6)</label><input type="number" id="diceCount" min="1" max="6" value="2"></div>
       <div class="dice-stage" id="diceStage"></div>
-      <div style="text-align:center"><button class="btn" id="diceBtn">굴리기 🎲</button></div>
+      <div style="text-align:center"><button class="btn" id="diceBtn" data-i18n="dc_roll">굴리기 🎲</button></div>
       <div class="summary" id="diceResult" style="text-align:center; font-size:18px; font-weight:800; min-height:26px"></div>
     </div>
   </div>
@@ -398,12 +398,12 @@
   <!-- ===================== 자리배치 ===================== -->
   <div id="view-seats" class="view">
     <div class="card">
-      <div class="tool-head"><h2>💺 자리 배치</h2><p>이름을 무작위로 자리에 배치해요</p></div>
-      <div class="field"><label>이름 (줄바꿈 또는 쉼표로 구분)</label>
+      <div class="tool-head"><h2 data-i18n="st_title">💺 자리 배치</h2><p data-i18n="st_sub">이름을 무작위로 자리에 배치해요</p></div>
+      <div class="field"><label data-i18n="st_names">이름 (줄바꿈 또는 쉼표로 구분)</label>
         <textarea id="seatNames" class="ta" rows="3">김철수, 이영희, 박민수, 최지우, 정해인, 강하늘, 손예진, 현빈</textarea></div>
       <div class="row">
-        <div class="field" style="max-width:160px"><label>열(가로) 수</label><input type="number" id="seatCols" min="1" max="10" value="4"></div>
-        <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="seatBtn">자리 배치 🎲</button></div>
+        <div class="field" style="max-width:160px"><label data-i18n="st_cols">열(가로) 수</label><input type="number" id="seatCols" min="1" max="10" value="4"></div>
+        <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="seatBtn" data-i18n="st_place">자리 배치 🎲</button></div>
       </div>
       <div class="seat-grid" id="seatGrid"></div>
     </div>
@@ -412,16 +412,16 @@
   <!-- ===================== 타이머 ===================== -->
   <div id="view-timer" class="view">
     <div class="card">
-      <div class="tool-head"><h2>⏱️ 타이머</h2><p>카운트다운 타이머</p></div>
+      <div class="tool-head"><h2 data-i18n="tm_title">⏱️ 타이머</h2><p data-i18n="tm_sub">카운트다운 타이머</p></div>
       <div class="row" style="justify-content:center">
-        <div class="field" style="max-width:110px"><label>분</label><input type="number" id="timerMin" min="0" max="180" value="3"></div>
-        <div class="field" style="max-width:110px"><label>초</label><input type="number" id="timerSec" min="0" max="59" value="0"></div>
+        <div class="field" style="max-width:110px"><label data-i18n="tm_min">분</label><input type="number" id="timerMin" min="0" max="180" value="3"></div>
+        <div class="field" style="max-width:110px"><label data-i18n="tm_sec">초</label><input type="number" id="timerSec" min="0" max="59" value="0"></div>
       </div>
       <div class="timer-display" id="timerDisplay">03:00</div>
       <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
-        <button class="btn" id="timerStart">시작 ▶</button>
-        <button class="btn ghost" id="timerPause">일시정지 ⏸</button>
-        <button class="btn ghost" id="timerReset">리셋 🔄</button>
+        <button class="btn" id="timerStart" data-i18n="tm_start">시작 ▶</button>
+        <button class="btn ghost" id="timerPause" data-i18n="tm_pause">일시정지 ⏸</button>
+        <button class="btn ghost" id="timerReset" data-i18n="tm_reset">리셋 🔄</button>
       </div>
     </div>
   </div>
@@ -437,12 +437,12 @@
 <!-- 일괄 붙여넣기 모달 -->
 <div class="modal" id="bulkModal">
   <div class="modal-box">
-    <h3>📋 명단 일괄 붙여넣기</h3>
-    <p class="hint" style="margin-bottom:10px">메모장·카톡에서 복사한 이름을 붙여넣으세요. 쉼표 / 줄바꿈 / 탭으로 구분됩니다.</p>
-    <textarea id="bulkText" placeholder="김철수, 이영희, 박민수&#10;또는 한 줄에 한 명씩"></textarea>
+    <h3 data-i18n="bk_title">📋 명단 일괄 붙여넣기</h3>
+    <p class="hint" style="margin-bottom:10px" data-i18n="bk_hint">메모장·카톡에서 복사한 이름을 붙여넣으세요. 쉼표 / 줄바꿈 / 탭으로 구분됩니다.</p>
+    <textarea id="bulkText" data-i18n-ph="bk_ph" placeholder="김철수, 이영희, 박민수&#10;또는 한 줄에 한 명씩"></textarea>
     <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px">
-      <button class="btn ghost" id="bulkCancel">취소</button>
-      <button class="btn" id="bulkApply">적용</button>
+      <button class="btn ghost" id="bulkCancel" data-i18n="bk_cancel">취소</button>
+      <button class="btn" id="bulkApply" data-i18n="bk_apply">적용</button>
     </div>
   </div>
 </div>
@@ -521,7 +521,19 @@ const I18N = {
   ru:{title:"🪜 Лестница", subtitle:"До 30 участников · регулируемая сложность · анимация", numPlayers:"Число участников (2–30)", complexity:"Сложность", complexityHint:"Больше — больше перекладин.", names:"Имена участников", namesNote:"(пусто — номер)", mode:"Режим результата", modeGgwang:"🎯 Приз / Мимо", modeGroup:"👥 Команды", modeMoney:"💰 Деньги", ggwangCount:"Число проигрышей", randomGgwang:"🎲 Перемешать", ggwangHint:"Остальные получают {win}.", groupCount:"Число команд", groupHint:"Участники делятся поровну.", totalMoney:"Общая сумма", winnerCount:"Победители (ост. мимо)", moneyHint:"Сумма делится автоматически; остальные — мимо.", build:"🪜 Создать", boardHint:"Нажмите участника вверху, чтобы запустить анимацию.", reshuffle:"🔀 Перемешать", revealAll:"👁️ Показать все", runSim:"▶️ Все сразу", runSeq:"⏩ По очереди", pause:"⏸️ Пауза", resume:"▶️ Продолжить", reset:"🔄 Сброс", newGame:"↩️ Новая игра", sort:"Сортировка:", sortIndex:"По участнику", sortAsc:"Результат ▲", sortDesc:"Результат ▼", thParticipant:"Участник", thResult:"Результат", unrevealed:"Скрыто", win:"🎉 Приз", lose:"Мимо", groupFmt:"Команда {n}", nameFmt:"№{n}", teamsWord:"команд", diagonal:"Диагональные перекладины"},
   pt:{title:"🪜 Jogo da escada", subtitle:"Até 30 jogadores · complexidade ajustável · animação", numPlayers:"Número de jogadores (2–30)", complexity:"Complexidade", complexityHint:"Maior = mais degraus.", names:"Nomes dos jogadores", namesNote:"(vazio = numerado)", mode:"Modo de resultado", modeGgwang:"🎯 Prêmio / Nada", modeGroup:"👥 Equipes", modeMoney:"💰 Dividir dinheiro", ggwangCount:"Quantidade de 'Nada'", randomGgwang:"🎲 Embaralhar 'Nada'", ggwangHint:"Os demais recebem {win}.", groupCount:"Número de equipes", groupHint:"Divide igualmente em equipes.", totalMoney:"Valor total", winnerCount:"Ganhadores (resto nada)", moneyHint:"O total é dividido automaticamente; os demais ficam sem nada.", build:"🪜 Criar escada", boardHint:"Clique em um jogador no topo para animar o percurso.", reshuffle:"🔀 Embaralhar", revealAll:"👁️ Revelar tudo", runSim:"▶️ Todos juntos", runSeq:"⏩ Um a um", pause:"⏸️ Pausar", resume:"▶️ Continuar", reset:"🔄 Reiniciar", newGame:"↩️ Novo jogo", sort:"Ordenar:", sortIndex:"Por jogador", sortAsc:"Resultado ▲", sortDesc:"Resultado ▼", thParticipant:"Jogador", thResult:"Resultado", unrevealed:"Oculto", win:"🎉 Prêmio", lose:"Nada", groupFmt:"Equipe {n}", nameFmt:"#{n}", teamsWord:"equipes", diagonal:"Degraus diagonais"}
 };
+// 형제 도구 / 공유 / 모달 번역
+const I18N_TOOLS = {
+  ko:{nav_ladder:"사다리",nav_roulette:"룰렛",nav_draw:"제비뽑기",nav_coin:"동전",nav_dice:"주사위",nav_seats:"자리배치",nav_timer:"타이머",rl_title:"🎡 룰렛",rl_sub:"항목을 넣고 돌려서 하나를 뽑아요",rl_label:"항목 (줄바꿈 또는 쉼표로 구분)",rl_spin:"돌리기 🎡",dw_title:"🎫 제비뽑기",dw_sub:"카드를 뽑아 당첨자를 정해요",dw_count:"제비 개수",dw_win:"당첨 개수",dw_make:"제비 만들기 🎫",dw_hint:"카드를 클릭해 한 장씩 뒤집으세요.",dw_won:"🎉당첨",dw_lose:"꽝",cn_title:"🪙 동전 던지기",cn_sub:"앞면/뒷면을 정해요",cn_flip:"던지기 🪙",cn_heads:"🪙 앞면",cn_tails:"🪙 뒷면",dc_title:"🎲 주사위",dc_sub:"개수를 정하고 굴려요",dc_count:"주사위 개수 (1~6)",dc_roll:"굴리기 🎲",dc_sum:"합계",st_title:"💺 자리 배치",st_sub:"이름을 무작위로 자리에 배치해요",st_names:"이름 (줄바꿈 또는 쉼표로 구분)",st_cols:"열(가로) 수",st_place:"자리 배치 🎲",tm_title:"⏱️ 타이머",tm_sub:"카운트다운 타이머",tm_min:"분",tm_sec:"초",tm_start:"시작 ▶",tm_pause:"일시정지 ⏸",tm_reset:"리셋 🔄",sh_copy:"📄 결과 복사",sh_image:"🖼️ 이미지 저장",sh_kakao:"💬 카카오톡 공유",nm_bulk:"📋 일괄 붙여넣기",nm_load:"↻ 직전 명단 불러오기",bk_title:"📋 명단 일괄 붙여넣기",bk_hint:"메모장·카톡에서 복사한 이름을 붙여넣으세요. 쉼표 / 줄바꿈 / 탭으로 구분됩니다.",bk_ph:"김철수, 이영희, 박민수\n또는 한 줄에 한 명씩",bk_cancel:"취소",bk_apply:"적용",ts_copied:"결과가 복사되었습니다 📄",ts_runfirst:"먼저 사다리를 실행하세요",ts_imgsaved:"이미지를 저장했어요 🖼️",ts_noroster:"저장된 직전 명단이 없습니다",ts_loaded:"{n}명 명단을 불러왔어요",ts_min2names:"이름을 2개 이상 입력하세요",ts_entered:"{n}명 입력되었어요",ts_kakaofb:"카카오 공유를 사용할 수 없어 결과를 복사했어요. 붙여넣어 공유하세요",ts_min2items:"항목을 2개 이상 입력하세요",ts_needname:"이름을 입력하세요",rl_winprefix:"🎉 ",share_title:"{name}님이 보낸 사다리타기 결과",result_btn:"결과 확인하기"},
+  en:{nav_ladder:"Ladder",nav_roulette:"Roulette",nav_draw:"Draw",nav_coin:"Coin",nav_dice:"Dice",nav_seats:"Seating",nav_timer:"Timer",rl_title:"🎡 Roulette",rl_sub:"Add options and spin to pick one",rl_label:"Options (one per line or comma-separated)",rl_spin:"Spin 🎡",dw_title:"🎫 Draw Lots",dw_sub:"Flip cards to pick winners",dw_count:"Number of lots",dw_win:"Winners",dw_make:"Make lots 🎫",dw_hint:"Click a card to flip it.",dw_won:"🎉Win",dw_lose:"Lose",cn_title:"🪙 Coin Flip",cn_sub:"Heads or tails",cn_flip:"Flip 🪙",cn_heads:"🪙 Heads",cn_tails:"🪙 Tails",dc_title:"🎲 Dice",dc_sub:"Choose how many and roll",dc_count:"Number of dice (1–6)",dc_roll:"Roll 🎲",dc_sum:"Sum",st_title:"💺 Seating",st_sub:"Randomly assign names to seats",st_names:"Names (one per line or comma-separated)",st_cols:"Columns",st_place:"Assign 🎲",tm_title:"⏱️ Timer",tm_sub:"Countdown timer",tm_min:"Min",tm_sec:"Sec",tm_start:"Start ▶",tm_pause:"Pause ⏸",tm_reset:"Reset 🔄",sh_copy:"📄 Copy result",sh_image:"🖼️ Save image",sh_kakao:"💬 Share to KakaoTalk",nm_bulk:"📋 Bulk paste",nm_load:"↻ Load last list",bk_title:"📋 Bulk paste names",bk_hint:"Paste names copied from notes/chat. Separated by comma / newline / tab.",bk_ph:"John, Mary, Mike\nor one name per line",bk_cancel:"Cancel",bk_apply:"Apply",ts_copied:"Result copied 📄",ts_runfirst:"Run the ladder first",ts_imgsaved:"Image saved 🖼️",ts_noroster:"No saved list found",ts_loaded:"Loaded {n} names",ts_min2names:"Enter at least 2 names",ts_entered:"{n} names entered",ts_kakaofb:"Kakao share unavailable — result copied. Paste to share",ts_min2items:"Enter at least 2 options",ts_needname:"Enter names",rl_winprefix:"🎉 ",share_title:"{name}'s ladder result",result_btn:"See the result"},
+  ja:{nav_ladder:"あみだ",nav_roulette:"ルーレット",nav_draw:"くじ引き",nav_coin:"コイン",nav_dice:"サイコロ",nav_seats:"席決め",nav_timer:"タイマー",rl_title:"🎡 ルーレット",rl_sub:"項目を入れて回して選びます",rl_label:"項目 (改行またはカンマ区切り)",rl_spin:"回す 🎡",dw_title:"🎫 くじ引き",dw_sub:"カードをめくって当選者を決めます",dw_count:"くじの数",dw_win:"当たりの数",dw_make:"くじを作る 🎫",dw_hint:"カードをクリックしてめくってください。",dw_won:"🎉当たり",dw_lose:"はずれ",cn_title:"🪙 コイントス",cn_sub:"表か裏か",cn_flip:"投げる 🪙",cn_heads:"🪙 表",cn_tails:"🪙 裏",dc_title:"🎲 サイコロ",dc_sub:"個数を決めて振ります",dc_count:"サイコロの数 (1〜6)",dc_roll:"振る 🎲",dc_sum:"合計",st_title:"💺 席決め",st_sub:"名前をランダムに席へ配置",st_names:"名前 (改行またはカンマ区切り)",st_cols:"列数",st_place:"席を決める 🎲",tm_title:"⏱️ タイマー",tm_sub:"カウントダウンタイマー",tm_min:"分",tm_sec:"秒",tm_start:"スタート ▶",tm_pause:"一時停止 ⏸",tm_reset:"リセット 🔄",sh_copy:"📄 結果をコピー",sh_image:"🖼️ 画像を保存",sh_kakao:"💬 カカオトークで共有",nm_bulk:"📋 一括貼り付け",nm_load:"↻ 前回の名簿を読込",bk_title:"📋 名簿を一括貼り付け",bk_hint:"メモやチャットからコピーした名前を貼り付け。カンマ / 改行 / タブで区切ります。",bk_ph:"田中, 鈴木, 佐藤\nまたは1行に1名",bk_cancel:"キャンセル",bk_apply:"適用",ts_copied:"結果をコピーしました 📄",ts_runfirst:"先にあみだを実行してください",ts_imgsaved:"画像を保存しました 🖼️",ts_noroster:"保存された名簿がありません",ts_loaded:"{n}名の名簿を読み込みました",ts_min2names:"名前を2つ以上入力してください",ts_entered:"{n}名を入力しました",ts_kakaofb:"カカオ共有が使えないため結果をコピーしました。貼り付けて共有してください",ts_min2items:"項目を2つ以上入力してください",ts_needname:"名前を入力してください",rl_winprefix:"🎉 ",share_title:"{name}さんからのあみだくじ結果",result_btn:"結果を見る"},
+  zh:{nav_ladder:"梯子",nav_roulette:"轮盘",nav_draw:"抽签",nav_coin:"硬币",nav_dice:"骰子",nav_seats:"座位",nav_timer:"计时器",rl_title:"🎡 轮盘",rl_sub:"输入项目并转动来抽取",rl_label:"项目 (换行或逗号分隔)",rl_spin:"转动 🎡",dw_title:"🎫 抽签",dw_sub:"翻牌决定中奖者",dw_count:"签的数量",dw_win:"中奖数量",dw_make:"生成签 🎫",dw_hint:"点击卡片逐张翻开。",dw_won:"🎉中奖",dw_lose:"谢谢",cn_title:"🪙 抛硬币",cn_sub:"正面或反面",cn_flip:"抛 🪙",cn_heads:"🪙 正面",cn_tails:"🪙 反面",dc_title:"🎲 骰子",dc_sub:"选择数量并掷出",dc_count:"骰子数量 (1~6)",dc_roll:"掷骰 🎲",dc_sum:"合计",st_title:"💺 座位安排",st_sub:"将姓名随机分配到座位",st_names:"姓名 (换行或逗号分隔)",st_cols:"列数",st_place:"安排座位 🎲",tm_title:"⏱️ 计时器",tm_sub:"倒计时",tm_min:"分",tm_sec:"秒",tm_start:"开始 ▶",tm_pause:"暂停 ⏸",tm_reset:"重置 🔄",sh_copy:"📄 复制结果",sh_image:"🖼️ 保存图片",sh_kakao:"💬 分享到KakaoTalk",nm_bulk:"📋 批量粘贴",nm_load:"↻ 载入上次名单",bk_title:"📋 批量粘贴名单",bk_hint:"粘贴从记事本/聊天复制的名字。用逗号 / 换行 / 制表符分隔。",bk_ph:"张三, 李四, 王五\n或每行一个",bk_cancel:"取消",bk_apply:"应用",ts_copied:"已复制结果 📄",ts_runfirst:"请先运行梯子",ts_imgsaved:"已保存图片 🖼️",ts_noroster:"没有已保存的名单",ts_loaded:"已载入{n}人名单",ts_min2names:"请输入至少2个名字",ts_entered:"已输入{n}人",ts_kakaofb:"无法使用Kakao分享，已复制结果。粘贴即可分享",ts_min2items:"请输入至少2个项目",ts_needname:"请输入姓名",rl_winprefix:"🎉 ",share_title:"{name}发来的梯子结果",result_btn:"查看结果"},
+  es:{nav_ladder:"Escalera",nav_roulette:"Ruleta",nav_draw:"Sorteo",nav_coin:"Moneda",nav_dice:"Dados",nav_seats:"Asientos",nav_timer:"Temporiz.",rl_title:"🎡 Ruleta",rl_sub:"Añade opciones y gira para elegir",rl_label:"Opciones (una por línea o separadas por comas)",rl_spin:"Girar 🎡",dw_title:"🎫 Sorteo",dw_sub:"Voltea cartas para elegir ganadores",dw_count:"Número de papeletas",dw_win:"Ganadores",dw_make:"Crear 🎫",dw_hint:"Haz clic en una carta para voltearla.",dw_won:"🎉Premio",dw_lose:"Nada",cn_title:"🪙 Cara o cruz",cn_sub:"Cara o cruz",cn_flip:"Lanzar 🪙",cn_heads:"🪙 Cara",cn_tails:"🪙 Cruz",dc_title:"🎲 Dados",dc_sub:"Elige cuántos y tira",dc_count:"Número de dados (1–6)",dc_roll:"Tirar 🎲",dc_sum:"Suma",st_title:"💺 Asientos",st_sub:"Asigna nombres a asientos al azar",st_names:"Nombres (uno por línea o separados por comas)",st_cols:"Columnas",st_place:"Asignar 🎲",tm_title:"⏱️ Temporizador",tm_sub:"Cuenta atrás",tm_min:"Min",tm_sec:"Seg",tm_start:"Iniciar ▶",tm_pause:"Pausa ⏸",tm_reset:"Reiniciar 🔄",sh_copy:"📄 Copiar resultado",sh_image:"🖼️ Guardar imagen",sh_kakao:"💬 Compartir en KakaoTalk",nm_bulk:"📋 Pegar lista",nm_load:"↻ Cargar última lista",bk_title:"📋 Pegar nombres en lote",bk_hint:"Pega nombres copiados de notas/chat. Separados por coma / salto de línea / tab.",bk_ph:"Juan, María, Miguel\no uno por línea",bk_cancel:"Cancelar",bk_apply:"Aplicar",ts_copied:"Resultado copiado 📄",ts_runfirst:"Ejecuta la escalera primero",ts_imgsaved:"Imagen guardada 🖼️",ts_noroster:"No hay lista guardada",ts_loaded:"{n} nombres cargados",ts_min2names:"Introduce al menos 2 nombres",ts_entered:"{n} nombres introducidos",ts_kakaofb:"Kakao no disponible — resultado copiado. Pégalo para compartir",ts_min2items:"Introduce al menos 2 opciones",ts_needname:"Introduce nombres",rl_winprefix:"🎉 ",share_title:"Resultado de la escalera de {name}",result_btn:"Ver el resultado"},
+  de:{nav_ladder:"Leiter",nav_roulette:"Roulette",nav_draw:"Losen",nav_coin:"Münze",nav_dice:"Würfel",nav_seats:"Sitzplan",nav_timer:"Timer",rl_title:"🎡 Roulette",rl_sub:"Optionen eingeben und drehen",rl_label:"Optionen (pro Zeile oder mit Komma getrennt)",rl_spin:"Drehen 🎡",dw_title:"🎫 Losen",dw_sub:"Karten umdrehen, um Gewinner zu ziehen",dw_count:"Anzahl Lose",dw_win:"Gewinner",dw_make:"Lose erstellen 🎫",dw_hint:"Klicke eine Karte zum Umdrehen.",dw_won:"🎉Gewinn",dw_lose:"Niete",cn_title:"🪙 Münzwurf",cn_sub:"Kopf oder Zahl",cn_flip:"Werfen 🪙",cn_heads:"🪙 Kopf",cn_tails:"🪙 Zahl",dc_title:"🎲 Würfel",dc_sub:"Anzahl wählen und würfeln",dc_count:"Anzahl Würfel (1–6)",dc_roll:"Würfeln 🎲",dc_sum:"Summe",st_title:"💺 Sitzplan",st_sub:"Namen zufällig auf Plätze verteilen",st_names:"Namen (pro Zeile oder mit Komma getrennt)",st_cols:"Spalten",st_place:"Zuweisen 🎲",tm_title:"⏱️ Timer",tm_sub:"Countdown-Timer",tm_min:"Min",tm_sec:"Sek",tm_start:"Start ▶",tm_pause:"Pause ⏸",tm_reset:"Reset 🔄",sh_copy:"📄 Ergebnis kopieren",sh_image:"🖼️ Bild speichern",sh_kakao:"💬 Auf KakaoTalk teilen",nm_bulk:"📋 Sammeleinfügen",nm_load:"↻ Letzte Liste laden",bk_title:"📋 Namen sammeln einfügen",bk_hint:"Aus Notizen/Chat kopierte Namen einfügen. Getrennt durch Komma / Zeile / Tab.",bk_ph:"Anna, Max, Lena\noder einer pro Zeile",bk_cancel:"Abbrechen",bk_apply:"Übernehmen",ts_copied:"Ergebnis kopiert 📄",ts_runfirst:"Zuerst die Leiter starten",ts_imgsaved:"Bild gespeichert 🖼️",ts_noroster:"Keine gespeicherte Liste",ts_loaded:"{n} Namen geladen",ts_min2names:"Mindestens 2 Namen eingeben",ts_entered:"{n} Namen eingegeben",ts_kakaofb:"Kakao nicht verfügbar — Ergebnis kopiert. Zum Teilen einfügen",ts_min2items:"Mindestens 2 Optionen eingeben",ts_needname:"Namen eingeben",rl_winprefix:"🎉 ",share_title:"Leiter-Ergebnis von {name}",result_btn:"Ergebnis ansehen"},
+  ru:{nav_ladder:"Лестница",nav_roulette:"Рулетка",nav_draw:"Жребий",nav_coin:"Монета",nav_dice:"Кубики",nav_seats:"Места",nav_timer:"Таймер",rl_title:"🎡 Рулетка",rl_sub:"Добавьте варианты и крутите",rl_label:"Варианты (по одному в строке или через запятую)",rl_spin:"Крутить 🎡",dw_title:"🎫 Жребий",dw_sub:"Переворачивайте карты, выбирая победителей",dw_count:"Число жребиев",dw_win:"Победителей",dw_make:"Создать 🎫",dw_hint:"Нажмите карту, чтобы перевернуть.",dw_won:"🎉Приз",dw_lose:"Мимо",cn_title:"🪙 Монетка",cn_sub:"Орёл или решка",cn_flip:"Бросить 🪙",cn_heads:"🪙 Орёл",cn_tails:"🪙 Решка",dc_title:"🎲 Кубики",dc_sub:"Выберите количество и бросьте",dc_count:"Число кубиков (1–6)",dc_roll:"Бросить 🎲",dc_sum:"Сумма",st_title:"💺 Рассадка",st_sub:"Случайно распределить имена по местам",st_names:"Имена (по одному в строке или через запятую)",st_cols:"Столбцов",st_place:"Распределить 🎲",tm_title:"⏱️ Таймер",tm_sub:"Таймер обратного отсчёта",tm_min:"Мин",tm_sec:"Сек",tm_start:"Старт ▶",tm_pause:"Пауза ⏸",tm_reset:"Сброс 🔄",sh_copy:"📄 Копировать результат",sh_image:"🖼️ Сохранить картинку",sh_kakao:"💬 Поделиться в KakaoTalk",nm_bulk:"📋 Вставить списком",nm_load:"↻ Загрузить прошлый список",bk_title:"📋 Массовая вставка имён",bk_hint:"Вставьте имена из заметок/чата. Разделители: запятая / перенос / таб.",bk_ph:"Иван, Мария, Пётр\nили по одному в строке",bk_cancel:"Отмена",bk_apply:"Применить",ts_copied:"Результат скопирован 📄",ts_runfirst:"Сначала запустите лестницу",ts_imgsaved:"Картинка сохранена 🖼️",ts_noroster:"Нет сохранённого списка",ts_loaded:"Загружено имён: {n}",ts_min2names:"Введите минимум 2 имени",ts_entered:"Введено имён: {n}",ts_kakaofb:"Kakao недоступен — результат скопирован. Вставьте, чтобы поделиться",ts_min2items:"Введите минимум 2 варианта",ts_needname:"Введите имена",rl_winprefix:"🎉 ",share_title:"Результат лестницы от {name}",result_btn:"Посмотреть результат"},
+  pt:{nav_ladder:"Escada",nav_roulette:"Roleta",nav_draw:"Sorteio",nav_coin:"Moeda",nav_dice:"Dados",nav_seats:"Lugares",nav_timer:"Timer",rl_title:"🎡 Roleta",rl_sub:"Adicione opções e gire para escolher",rl_label:"Opções (uma por linha ou separadas por vírgula)",rl_spin:"Girar 🎡",dw_title:"🎫 Sorteio",dw_sub:"Vire cartas para escolher ganhadores",dw_count:"Número de papéis",dw_win:"Ganhadores",dw_make:"Criar 🎫",dw_hint:"Clique numa carta para virar.",dw_won:"🎉Prêmio",dw_lose:"Nada",cn_title:"🪙 Cara ou coroa",cn_sub:"Cara ou coroa",cn_flip:"Lançar 🪙",cn_heads:"🪙 Cara",cn_tails:"🪙 Coroa",dc_title:"🎲 Dados",dc_sub:"Escolha quantos e role",dc_count:"Número de dados (1–6)",dc_roll:"Rolar 🎲",dc_sum:"Soma",st_title:"💺 Lugares",st_sub:"Atribui nomes aos lugares aleatoriamente",st_names:"Nomes (um por linha ou separados por vírgula)",st_cols:"Colunas",st_place:"Atribuir 🎲",tm_title:"⏱️ Timer",tm_sub:"Temporizador regressivo",tm_min:"Min",tm_sec:"Seg",tm_start:"Iniciar ▶",tm_pause:"Pausar ⏸",tm_reset:"Reiniciar 🔄",sh_copy:"📄 Copiar resultado",sh_image:"🖼️ Salvar imagem",sh_kakao:"💬 Compartilhar no KakaoTalk",nm_bulk:"📋 Colar em lote",nm_load:"↻ Carregar última lista",bk_title:"📋 Colar nomes em lote",bk_hint:"Cole nomes copiados de notas/chat. Separados por vírgula / linha / tab.",bk_ph:"João, Maria, Pedro\nou um por linha",bk_cancel:"Cancelar",bk_apply:"Aplicar",ts_copied:"Resultado copiado 📄",ts_runfirst:"Rode a escada primeiro",ts_imgsaved:"Imagem salva 🖼️",ts_noroster:"Nenhuma lista salva",ts_loaded:"{n} nomes carregados",ts_min2names:"Insira pelo menos 2 nomes",ts_entered:"{n} nomes inseridos",ts_kakaofb:"Kakao indisponível — resultado copiado. Cole para compartilhar",ts_min2items:"Insira pelo menos 2 opções",ts_needname:"Insira nomes",rl_winprefix:"🎉 ",share_title:"Resultado da escada de {name}",result_btn:"Ver o resultado"}
+};
 function T(){ return I18N[state.lang] || I18N.ko; }
+function TT(k){ const d=I18N_TOOLS[state.lang]||I18N_TOOLS.ko; return d[k]!=null?d[k]:I18N_TOOLS.ko[k]; }
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];
   const s = Math.round(v).toLocaleString(c.locale);
@@ -551,6 +563,9 @@ function applyLang(){
   setT("resetBtn", t.reset); setT("newGameBtn", t.newGame);
   setT("t_sort", t.sort); setT("sortIndex", t.sortIndex); setT("sortAsc", t.sortAsc); setT("sortDesc", t.sortDesc);
   setT("t_thP", t.thParticipant); setT("t_thR", t.thResult);
+  // 형제 도구/공유/모달 (data-i18n 일괄 적용)
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ const v=TT(el.dataset.i18n); if(v!=null) el.textContent=v; });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ const v=TT(el.dataset.i18nPh); if(v!=null) el.placeholder=v; });
   updatePlayPauseUI();
   renderNameInputs(); // placeholder 갱신(입력값 보존)
 }
@@ -1306,16 +1321,16 @@ function applyNames(names){
 }
 $("loadRosterBtn").addEventListener("click",()=>{
   let names=[]; try{ names=(JSON.parse(localStorage.getItem("sadari_roster")||"[]")).filter(x=>x&&x.trim()); }catch(e){}
-  if(!names.length){ toast("저장된 직전 명단이 없습니다"); return; }
-  applyNames(names); toast(names.length+"명 명단을 불러왔어요");
+  if(!names.length){ toast(TT("ts_noroster")); return; }
+  applyNames(names); toast(TT("ts_loaded").replace("{n}", names.length));
 });
 $("bulkPasteBtn").addEventListener("click",()=>{ $("bulkText").value=""; $("bulkModal").classList.add("show"); setTimeout(()=>$("bulkText").focus(),50); });
 $("bulkCancel").addEventListener("click",()=>$("bulkModal").classList.remove("show"));
 $("bulkModal").addEventListener("click",e=>{ if(e.target===$("bulkModal")) $("bulkModal").classList.remove("show"); });
 $("bulkApply").addEventListener("click",()=>{
   const names=$("bulkText").value.split(/[,\n\t;]+/).map(s=>s.trim()).filter(Boolean);
-  if(names.length<2){ toast("이름을 2개 이상 입력하세요"); return; }
-  applyNames(names); $("bulkModal").classList.remove("show"); toast(Math.min(names.length,30)+"명 입력되었어요");
+  if(names.length<2){ toast(TT("ts_min2names")); return; }
+  applyNames(names); $("bulkModal").classList.remove("show"); toast(TT("ts_entered").replace("{n}", Math.min(names.length,30)));
 });
 
 /* ============================================================
@@ -1330,15 +1345,16 @@ function resultPairs(){
   return arr;
 }
 function hasResults(){ return state.results && state.results.length && Object.keys(state.paths).length; }
+function shareHeader(){ const sender=(state.names[0]||"🙂"); return "🪜 "+TT("share_title").replace("{name}", sender); }
 function copyResultText(){
-  if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
-  const text="🪜 "+BRAND+" 사다리 결과\n"+resultPairs().map(p=>`${p.name}: ${p.result}`).join("\n")+"\n"+location.href;
-  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast("결과가 복사되었습니다 📄")).catch(()=>promptCopy(text));
+  if(!hasResults()){ toast(TT("ts_runfirst")); return; }
+  const text=shareHeader()+"\n"+resultPairs().map(p=>`${p.name}: ${p.result}`).join("\n")+"\n"+location.href;
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast(TT("ts_copied"))).catch(()=>promptCopy(text));
   else promptCopy(text);
 }
 function rrect(x,a,b,w,h,r){ x.beginPath(); x.moveTo(a+r,b); x.arcTo(a+w,b,a+w,b+h,r); x.arcTo(a+w,b+h,a,b+h,r); x.arcTo(a,b+h,a,b,r); x.arcTo(a,b,a+w,b,r); x.closePath(); }
 function downloadResultImage(){
-  if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
+  if(!hasResults()){ toast(TT("ts_runfirst")); return; }
   const pairs=resultPairs(), pad=24, rowH=44, headH=64, w=460, h=headH+pad+pairs.length*rowH+pad, s=2;
   const cv=document.createElement("canvas"); cv.width=w*s; cv.height=h*s;
   const x=cv.getContext("2d"); x.scale(s,s);
@@ -1352,23 +1368,23 @@ function downloadResultImage(){
     x.fillStyle="#e2e8f0"; x.font="600 16px Segoe UI"; x.textAlign="left"; x.fillText(p.name, pad+14, y+rh/2);
     x.fillStyle=col; x.font="bold 16px Segoe UI"; x.textAlign="right"; x.fillText(p.result, w-pad-14, y+rh/2);
   });
-  cv.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="sadari-result.png"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast("이미지를 저장했어요 🖼️"); });
+  cv.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="sadari-result.png"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast(TT("ts_imgsaved")); });
 }
 const KAKAO_KEY="a10bf3085949229f31c00e3cea70699c"; // 카카오 JavaScript 앱 키(공개 키)
 function kakaoShare(){
-  if(!hasResults()){ toast("먼저 사다리를 실행하세요"); return; }
+  if(!hasResults()){ toast(TT("ts_runfirst")); return; }
   const pairs=resultPairs(), desc=pairs.map(p=>`${p.name}: ${p.result}`).join("\n");
-  const sender=(state.names[0]||"누군가");
+  const header=shareHeader();
   try{ if(window.Kakao && KAKAO_KEY && !Kakao.isInitialized()) Kakao.init(KAKAO_KEY); }catch(e){}
   if(window.Kakao && KAKAO_KEY && Kakao.isInitialized()){
     Kakao.Share.sendDefault({
       objectType:"feed",
-      content:{ title:`🪜 ${sender}님이 보낸 사다리타기 결과`, description:desc, imageUrl:"https://sadari.singlena.workers.dev/og.svg", link:{mobileWebUrl:location.href, webUrl:location.href} },
-      buttons:[{ title:"결과 확인하기", link:{mobileWebUrl:location.href, webUrl:location.href} }]
+      content:{ title:header, description:desc, imageUrl:"https://sadari.singlena.workers.dev/og.svg", link:{mobileWebUrl:location.href, webUrl:location.href} },
+      buttons:[{ title:TT("result_btn"), link:{mobileWebUrl:location.href, webUrl:location.href} }]
     });
   } else {
-    const text=`🪜 ${sender}님이 보낸 사다리타기 결과\n${desc}\n${location.href}`;
-    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast("카카오 키 미설정 — 결과를 복사했어요. 붙여넣어 공유하세요")).catch(()=>promptCopy(text));
+    const text=header+"\n"+desc+"\n"+location.href;
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast(TT("ts_kakaofb"))).catch(()=>promptCopy(text));
     else promptCopy(text);
   }
 }
@@ -1397,7 +1413,7 @@ const Roulette=(()=>{
     x.beginPath(); x.arc(cx,cy,30,0,2*Math.PI); x.fillStyle="#0f172a"; x.fill(); x.lineWidth=4; x.strokeStyle="#e2e8f0"; x.stroke();
   }
   function spin(){
-    if(spinning) return; const it=items(); if(it.length<2){ toast("항목을 2개 이상 입력하세요"); return; }
+    if(spinning) return; const it=items(); if(it.length<2){ toast(TT("ts_min2items")); return; }
     spinning=true; SFX.startTick(); $("rouletteResult").textContent="";
     const start=rot, target=rot + (5+Math.random()*3)*2*Math.PI + Math.random()*2*Math.PI, dur=4200; let t0=null;
     function fr(ts){ if(t0==null)t0=ts; const p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
@@ -1405,7 +1421,7 @@ const Roulette=(()=>{
       if(p<1) requestAnimationFrame(fr);
       else { spinning=false; SFX.stopTick();
         const n=it.length, slice=2*Math.PI/n, la=(((-Math.PI/2-rot)%(2*Math.PI))+2*Math.PI)%(2*Math.PI), idx=Math.floor(la/slice)%n;
-        SFX.result("win"); $("rouletteResult").textContent="🎉 "+it[idx];
+        SFX.result("win"); $("rouletteResult").textContent=TT("rl_winprefix")+it[idx];
       }
     }
     requestAnimationFrame(fr);
@@ -1416,10 +1432,11 @@ const Roulette=(()=>{
 const Coin=(()=>{
   let busy=false;
   function flip(){ if(busy) return; busy=true; const el=$("coin"); el.classList.add("flipping"); $("coinResult").textContent=""; SFX.startTick();
-    const res=Math.random()<0.5?"앞":"뒤";
-    setTimeout(()=>{ el.classList.remove("flipping"); el.textContent=res;
-      el.style.background = res==="앞" ? "radial-gradient(circle at 35% 30%,#fde68a,#f59e0b)" : "radial-gradient(circle at 35% 30%,#cbd5e1,#94a3b8)";
-      $("coinResult").textContent = res==="앞" ? "🪙 앞면 (Heads)" : "🪙 뒷면 (Tails)";
+    const heads=Math.random()<0.5;
+    setTimeout(()=>{ el.classList.remove("flipping");
+      const full=TT(heads?"cn_heads":"cn_tails"); el.style.fontSize="26px"; el.textContent=full.replace("🪙","").trim();
+      el.style.background = heads ? "radial-gradient(circle at 35% 30%,#fde68a,#f59e0b)" : "radial-gradient(circle at 35% 30%,#cbd5e1,#94a3b8)";
+      $("coinResult").textContent = full;
       SFX.stopTick(); SFX.result("win"); busy=false; },1100);
   }
   return { flip };
@@ -1438,7 +1455,7 @@ const Dice=(()=>{
       document.querySelectorAll("#diceStage .die").forEach(d=>d.classList.add("rolling"));
       if(++ticks>=10){ clearInterval(iv);
         const vals=Array.from({length:n},()=>1+Math.floor(Math.random()*6)); render(vals);
-        SFX.stopTick(); SFX.result("win"); $("diceResult").textContent="합계 "+vals.reduce((a,b)=>a+b,0)+"  ( "+vals.join(", ")+" )"; busy=false;
+        SFX.stopTick(); SFX.result("win"); $("diceResult").textContent=TT("dc_sum")+" "+vals.reduce((a,b)=>a+b,0)+"  ( "+vals.join(", ")+" )"; busy=false;
       }
     },90);
   }
@@ -1453,7 +1470,7 @@ const Draw=(()=>{
   }
   function render(){ const g=$("lotGrid"); g.innerHTML="";
     cards.forEach((c)=>{ const el=document.createElement("div"); el.className="lot-card"+(c.revealed?" picked":"");
-      if(c.revealed){ el.textContent=c.win?"🎉당첨":"꽝"; el.style.background=c.win?"linear-gradient(160deg,#34d399,#10b981)":"linear-gradient(160deg,#475569,#334155)"; }
+      if(c.revealed){ el.textContent=c.win?TT("dw_won"):TT("dw_lose"); el.style.background=c.win?"linear-gradient(160deg,#34d399,#10b981)":"linear-gradient(160deg,#475569,#334155)"; }
       else { el.textContent="🎫"; el.addEventListener("click",()=>{ if(c.revealed) return; c.revealed=true; SFX.result(c.win?"win":"lose"); render(); }); }
       g.appendChild(el);
     });
@@ -1463,7 +1480,7 @@ const Draw=(()=>{
 
 const Seats=(()=>{
   function place(){ const names=$("seatNames").value.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean);
-    if(!names.length){ toast("이름을 입력하세요"); return; }
+    if(!names.length){ toast(TT("ts_needname")); return; }
     const cols=clamp(parseInt($("seatCols").value)||4,1,10); $("seatCols").value=cols;
     const arr=shuffle(names.slice()), g=$("seatGrid");
     g.style.gridTemplateColumns="repeat("+cols+",minmax(78px,1fr))"; g.innerHTML="";
