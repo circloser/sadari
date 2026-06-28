@@ -3,6 +3,18 @@ const ALPH = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // 혼�
 const KIND = { win:"#34d399", lose:"#f87171", neutral:"#c084fc" };
 const GA = "G-GX8871G3D0";
 const ADS = "ca-pub-6947130056543786";
+const SUP = ["ko","en","ja","zh","es","de","fr","ru","pt"];
+const W = {
+  ko:{namedTpl:"{n}님이 보낸 사다리타기 결과",plain:"사다리타기 결과",toggle:"결과 표로 보기",cta:"나도 사다리 돌려보기 →",foot:"이 결과는 SADARI 에서 생성되었습니다",hint:"상단 이름을 클릭하면 사다리를 타고 내려갑니다.",reveal:"👁️ 전체 결과 보기"},
+  en:{namedTpl:"{n}'s ladder result",plain:"Ladder result",toggle:"View as table",cta:"Try it yourself →",foot:"Generated with SADARI",hint:"Tap a name at the top to trace it down.",reveal:"👁️ Reveal all"},
+  ja:{namedTpl:"{n}さんからのあみだくじ結果",plain:"あみだくじ結果",toggle:"結果を表で見る",cta:"自分でもやってみる →",foot:"この結果は SADARI で作成されました",hint:"上部の名前をタップすると下までたどります。",reveal:"👁️ 全結果を見る"},
+  zh:{namedTpl:"{n}发来的梯子结果",plain:"梯子结果",toggle:"以表格查看",cta:"我也来试试 →",foot:"此结果由 SADARI 生成",hint:"点击顶部名字即可沿梯子下行。",reveal:"👁️ 查看全部结果"},
+  es:{namedTpl:"Resultado de la escalera de {n}",plain:"Resultado de la escalera",toggle:"Ver como tabla",cta:"Pruébalo tú →",foot:"Generado con SADARI",hint:"Toca un nombre arriba para trazar su recorrido.",reveal:"👁️ Revelar todo"},
+  de:{namedTpl:"Leiter-Ergebnis von {n}",plain:"Leiter-Ergebnis",toggle:"Als Tabelle ansehen",cta:"Selbst ausprobieren →",foot:"Erstellt mit SADARI",hint:"Tippe oben auf einen Namen, um zu verfolgen.",reveal:"👁️ Alle zeigen"},
+  fr:{namedTpl:"Résultat de l'échelle de {n}",plain:"Résultat de l'échelle",toggle:"Voir en tableau",cta:"Essayez vous-même →",foot:"Généré avec SADARI",hint:"Touchez un nom en haut pour suivre le tracé.",reveal:"👁️ Tout révéler"},
+  ru:{namedTpl:"Результат лестницы от {n}",plain:"Результат лестницы",toggle:"Показать таблицей",cta:"Попробовать самому →",foot:"Создано в SADARI",hint:"Нажмите имя вверху, чтобы проследить путь.",reveal:"👁️ Показать все"},
+  pt:{namedTpl:"Resultado da escada de {n}",plain:"Resultado da escada",toggle:"Ver como tabela",cta:"Faça você também →",foot:"Gerado com SADARI",hint:"Toque num nome no topo para traçar.",reveal:"👁️ Revelar tudo"}
+};
 
 function genId(n = 8){
   const a = new Uint8Array(n); crypto.getRandomValues(a);
@@ -39,6 +51,7 @@ export default {
           v: 2,
           mode: typeof data.mode === "string" ? data.mode.slice(0, 16) : "",
           sender: typeof data.sender === "string" ? data.sender.slice(0, 40) : "",
+          lang: (typeof data.lang === "string" && SUP.includes(data.lang)) ? data.lang : "ko",
           rows: data.rows.slice(0, 60).map(r => ({
             n: String(r.n == null ? "" : r.n).slice(0, 40),
             r: String(r.r == null ? "" : r.r).slice(0, 40),
@@ -129,38 +142,41 @@ function tableRows(rec){
 }
 
 function resultHtml(rec, origin){
+  const lang = (rec.lang && W[rec.lang]) ? rec.lang : "ko";
+  const t = W[lang];
   const sender = rec.sender ? esc(rec.sender) : "";
-  const who = sender ? sender + "님이 보낸 " : "";
-  const title = who + "사다리타기 결과 · SADARI";
+  const T = sender ? t.namedTpl.replace("{n}", sender) : t.plain;
+  const title = T + " · SADARI";
   const desc = rec.rows.slice(0, 8).map(r => esc(r.n) + ": " + esc(r.r)).join(" · ");
   const rows = tableRows(rec);
 
   if (rec.board){
     // 사다리 재현(인터랙티브 리플레이) + 결과 표(접기)
-    return `<!DOCTYPE html><html lang="ko"><head>${head(title, desc, origin, '<script src="/replay.js" defer></script>')}</head><body>
+    const board = Object.assign({}, rec.board, { _t: { hint: t.hint, reveal: t.reveal } });
+    return `<!DOCTYPE html><html lang="${lang}"><head>${head(title, desc, origin, '<script src="/replay.js" defer></script>')}</head><body>
 <div class="wrap">
 <a class="brand" href="/">🪜 SADARI</a><p class="tagline">Climb your luck.</p>
 <div class="card">
-<h1>${who}🪜 사다리타기</h1>
+<h1>🪜 ${T}</h1>
 <div id="replay-root"></div>
-<details style="margin-top:18px"><summary>결과 표로 보기</summary><table style="margin-top:10px"><tbody>${rows}</tbody></table></details>
-<a class="cta" href="/">나도 사다리 돌려보기 →</a>
+<details style="margin-top:18px"><summary>${t.toggle}</summary><table style="margin-top:10px"><tbody>${rows}</tbody></table></details>
+<a class="cta" href="/">${t.cta}</a>
 </div></div>
-<footer>이 결과는 <a href="/">SADARI</a> 에서 생성되었습니다 · sa-da-ri.com</footer>
-<script id="sadari-data" type="application/json">${jsonForHtml(rec.board)}</script>
+<footer>${t.foot} · sa-da-ri.com</footer>
+<script id="sadari-data" type="application/json">${jsonForHtml(board)}</script>
 </body></html>`;
   }
 
   // 보드 데이터 없는 구버전 링크 → 결과 표만
-  return `<!DOCTYPE html><html lang="ko"><head>${head(title, desc, origin, "")}</head><body>
+  return `<!DOCTYPE html><html lang="${lang}"><head>${head(title, desc, origin, "")}</head><body>
 <div class="wrap">
 <a class="brand" href="/">🪜 SADARI</a><p class="tagline">Climb your luck.</p>
 <div class="card">
-<h1>${who}🪜 사다리타기 결과</h1>
+<h1>🪜 ${T}</h1>
 <table><tbody>${rows}</tbody></table>
-<a class="cta" href="/">나도 사다리 돌려보기 →</a>
+<a class="cta" href="/">${t.cta}</a>
 </div></div>
-<footer>이 결과는 <a href="/">SADARI</a> 에서 생성되었습니다 · sa-da-ri.com</footer>
+<footer>${t.foot} · sa-da-ri.com</footer>
 </body></html>`;
 }
 

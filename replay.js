@@ -13,14 +13,15 @@
   });
   var G = { marginLeft:42, marginRight:42, marginTop:62, marginBottom:70, colSpacing:64, height:460 };
 
+  var T = B._t || {};
   var hint = document.createElement("div");
   hint.style.cssText = "font-size:13px;color:#94a3b8;margin:0 0 10px";
-  hint.textContent = "상단 이름을 클릭하면 사다리를 타고 내려갑니다.";
+  hint.textContent = T.hint || "상단 이름을 클릭하면 사다리를 타고 내려갑니다.";
   var scroll = document.createElement("div");
   scroll.style.cssText = "overflow-x:auto;border-radius:14px;background:#0b1220;border:1px solid #334155";
   var canvas = document.createElement("canvas"); scroll.appendChild(canvas);
   var btn = document.createElement("button");
-  btn.textContent = "👁️ 전체 결과 보기";
+  btn.textContent = T.reveal || "👁️ 전체 결과 보기";
   btn.style.cssText = "margin-top:12px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer";
   root.appendChild(hint); root.appendChild(scroll); root.appendChild(btn);
 
