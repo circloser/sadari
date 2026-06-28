@@ -1,0 +1,40 @@
+# SADARI
+
+> SADARI is a free, no-signup online **ladder game (Amidakuji / Ghost Leg)** and all-in-one random decision toolkit for groups. It supports up to 30 participants and 8 languages (Korean, English, Japanese, Chinese, Spanish, German, Russian, Portuguese).
+
+SADARI helps teams and friends make fair, fun random decisions: deciding winners/losers, forming teams/groups, and splitting a bill or shared cost (Dutch pay) automatically. Results can be shared instantly via KakaoTalk, copied as text, or saved as an image.
+
+Live site: https://sadari.singlena.workers.dev
+
+## Tools
+
+- **Ladder game (사다리타기)**: Up to 30 players. Adjustable complexity, diagonal rungs, animated path tracing. Result modes: Win/Lose, team formation, and money distribution (enter a total amount; it is auto-split into currency units with low variance, the rest marked as "lose").
+- **Roulette (룰렛)**: Spin a wheel of custom options to pick one.
+- **Draw lots (제비뽑기)**: Flip cards to choose winners.
+- **Coin flip (동전 던지기)**: Heads or tails.
+- **Dice (주사위)**: Roll 1–6 dice.
+- **Seat arrangement (자리 배치)**: Randomly assign names to a seating grid.
+- **Timer (타이머)**: Countdown timer.
+
+## Key facts
+
+- Price: Free.
+- Max participants in the ladder game: 30.
+- Languages: 8 (ko, en, ja, zh, es, de, ru, pt).
+- Currencies for money mode: KRW, USD, EUR, JPY, CNY, GBP, RUB, BRL.
+- Sharing: KakaoTalk, copy text, download image.
+- Platform: Runs in any modern web browser; no install, no account.
+
+## Common questions
+
+- "How many people can join a ladder game?" — Up to 30.
+- "Can it split a bill / Dutch pay?" — Yes. In money mode, enter the total and it is distributed automatically in currency units.
+- "Is it free?" — Yes, completely free.
+- "Can I form teams/groups?" — Yes, choose the team mode and the number of teams.
+
+## Pages
+
+- [Home / App](https://sadari.singlena.workers.dev/)
+- [About](https://sadari.singlena.workers.dev/about.html)
+- [Contact](https://sadari.singlena.workers.dev/contact.html): singlena@gmail.com
+- [Privacy Policy](https://sadari.singlena.workers.dev/privacy.html)

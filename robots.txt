@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# AI / generative engines are welcome to read and cite this site
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://sadari.singlena.workers.dev/sitemap.xml

@@ -19,6 +19,36 @@
 <meta name="twitter:title" content="SADARI · 만능 사다리타기" />
 <meta name="twitter:description" content="조 편성·회식비 더치페이·룰렛·주사위까지, 결과는 카톡으로 한 번에 공유." />
 <meta name="twitter:image" content="https://sadari.singlena.workers.dev/og.png" />
+<link rel="canonical" href="https://sadari.singlena.workers.dev/" />
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebApplication",
+      "name":"SADARI",
+      "alternateName":"사다리 - 만능 사다리타기",
+      "url":"https://sadari.singlena.workers.dev/",
+      "description":"최대 30명 사다리타기와 룰렛·제비뽑기·동전·주사위·자리배치·타이머를 제공하는 무료 추첨 도구. 조 편성과 회식비/더치페이 자동 계산 지원, 8개 언어.",
+      "applicationCategory":"UtilitiesApplication",
+      "operatingSystem":"Any (web browser)",
+      "inLanguage":["ko","en","ja","zh","es","de","ru","pt"],
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+      "author":{"@type":"Organization","name":"SADARI","email":"singlena@gmail.com","url":"https://sadari.singlena.workers.dev/"}
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"사다리타기는 몇 명까지 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"최대 30명까지 동시에 사다리타기를 진행할 수 있습니다."}},
+        {"@type":"Question","name":"회식비·더치페이를 자동으로 나눌 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네. 금액 배분 모드에서 총액을 입력하면 통화 단위로 자동 분배되며, 당첨 인원 외에는 꽝으로 처리됩니다."}},
+        {"@type":"Question","name":"SADARI는 무료인가요?","acceptedAnswer":{"@type":"Answer","text":"네, 회원가입 없이 모든 기능을 무료로 사용할 수 있습니다."}},
+        {"@type":"Question","name":"어떤 추첨 도구를 제공하나요?","acceptedAnswer":{"@type":"Answer","text":"사다리타기, 룰렛, 제비뽑기, 동전 던지기, 주사위, 자리 배치, 타이머를 제공합니다."}},
+        {"@type":"Question","name":"결과를 공유할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"카카오톡 공유, 텍스트 복사, 이미지 저장을 지원합니다."}}
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
 <style>
@@ -179,6 +209,15 @@
 
   .ta{width:100%; background:#0f172a; border:1px solid var(--border); color:var(--text); border-radius:10px; padding:12px; font-family:inherit; font-size:14px; resize:vertical;}
   .ta:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.15); outline:none;}
+
+  /* ===== FAQ ===== */
+  .faq{max-width:760px;margin:36px auto 0;}
+  .faq h2{text-align:center;font-size:21px;margin:0 0 16px;}
+  .faq details{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:10px;}
+  .faq summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::before{content:"Q  ";color:var(--accent2);font-weight:800;}
+  .faq p{color:var(--muted);font-size:14px;margin:10px 0 0;line-height:1.7;}
 
   /* ===== 광고 슬롯 (AdSense) ===== */
   .ad-slot{max-width:970px; margin:22px auto; min-height:100px; display:flex; align-items:center; justify-content:center; border:1px dashed var(--border); border-radius:12px; background:#0f172a55; position:relative; overflow:hidden;}
@@ -440,6 +479,17 @@
     </div>
   </div>
 
+  <!-- ===================== FAQ (SEO/GEO) ===================== -->
+  <section class="faq">
+    <h2>자주 묻는 질문 (FAQ)</h2>
+    <details><summary>사다리타기는 몇 명까지 가능한가요?</summary><p>최대 30명까지 동시에 사다리타기를 진행할 수 있습니다. 인원 수를 입력하면 사다리가 자동 생성됩니다.</p></details>
+    <details><summary>회식비·더치페이를 자동으로 나눌 수 있나요?</summary><p>네. 금액 배분 모드에서 총액을 입력하면 통화 단위(예: 5만/1만/5천/1천원)로 자동 분배되며, 한 사람에게 쏠리지 않도록 편차를 줄여 배분합니다. 당첨 인원 외에는 꽝으로 처리됩니다.</p></details>
+    <details><summary>조 편성도 되나요?</summary><p>네. 조 편성 모드에서 조 개수를 입력하면 인원을 균등하게 각 조로 배정합니다. 자리 배치 도구로 무작위 좌석 배정도 가능합니다.</p></details>
+    <details><summary>SADARI는 무료인가요?</summary><p>네, 회원가입이나 설치 없이 웹 브라우저에서 모든 기능을 무료로 사용할 수 있습니다.</p></details>
+    <details><summary>어떤 추첨 도구를 제공하나요?</summary><p>사다리타기 외에도 룰렛, 제비뽑기, 동전 던지기, 주사위, 자리 배치, 타이머를 제공하는 만능 추첨 도구입니다.</p></details>
+    <details><summary>결과를 친구에게 공유할 수 있나요?</summary><p>카카오톡 공유 버튼, 결과 텍스트 복사, 결과 이미지 저장(PNG)을 지원해 단톡방 등에 바로 공유할 수 있습니다.</p></details>
+  </section>
+
   <!-- 광고: 하단 (전역) -->
   <div class="ad-slot" data-ad-key="bottom"><span class="ad-label">광고 · Advertisement</span><span class="ad-ph">광고 영역</span></div>
 
@@ -454,7 +504,8 @@
       <a href="/privacy.html" data-i18n="ft_privacy">개인정보처리방침</a>
       <a href="/contact.html" data-i18n="ft_contact">문의</a>
     </nav>
-    © 2026 SADARI · <a href="https://sadari.singlena.workers.dev">sadari.singlena.workers.dev</a> · Climb your luck.
+    © 2026 SADARI · <a href="https://sadari.singlena.workers.dev">sadari.singlena.workers.dev</a> · Climb your luck.<br>
+    문의·피드백: <a href="mailto:singlena@gmail.com">singlena@gmail.com</a>
   </footer>
 </div>
 
