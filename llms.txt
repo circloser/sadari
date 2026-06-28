@@ -1,6 +1,6 @@
 # SADARI
 
-> SADARI is a free, no-signup online **ladder game (Amidakuji / Ghost Leg)** and all-in-one random decision toolkit for groups. It supports up to 30 participants and 8 languages (Korean, English, Japanese, Chinese, Spanish, German, Russian, Portuguese).
+> SADARI is a free, no-signup online **ladder game (Amidakuji / Ghost Leg)** and all-in-one random decision toolkit for groups. It supports up to 30 participants and 9 languages (Korean, English, Japanese, Chinese, Spanish, German, French, Russian, Portuguese).
 
 SADARI helps teams and friends make fair, fun random decisions: deciding winners/losers, forming teams/groups, and splitting a bill or shared cost (Dutch pay) automatically. Results can be shared instantly via KakaoTalk, copied as text, or saved as an image.
 
@@ -20,7 +20,7 @@ Live site: https://sa-da-ri.com
 
 - Price: Free.
 - Max participants in the ladder game: 30.
-- Languages: 8 (ko, en, ja, zh, es, de, ru, pt).
+- Languages: 9 (ko, en, ja, zh, es, de, fr, ru, pt).
 - Currencies for money mode: KRW, USD, EUR, JPY, CNY, GBP, RUB, BRL.
 - Sharing: KakaoTalk, copy text, download image.
 - Platform: Runs in any modern web browser; no install, no account.
