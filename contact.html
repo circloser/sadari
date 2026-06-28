@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>문의 (Contact) · SADARI</title>
+<meta name="description" content="SADARI 문의 — 이메일 또는 문의 양식으로 연락하세요." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Pretendard","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.75;}
+  .wrap{max-width:640px;margin:0 auto;}
+  .brand{display:flex;align-items:center;justify-content:center;gap:8px;font-size:26px;font-weight:800;letter-spacing:-.5px;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;}
+  .tagline{text-align:center;color:#a78bfa;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:0 0 24px;}
+  .card{background:linear-gradient(180deg,#1e293b,#273449);border:1px solid #334155;border-radius:18px;padding:28px;box-shadow:0 18px 40px rgba(0,0,0,.35);}
+  h1{font-size:26px;margin:0 0 14px;}
+  h2{font-size:17px;margin:24px 0 8px;color:#38bdf8;}
+  p,li,label{color:#cbd5e1;font-size:15px;}
+  a{color:#38bdf8;}
+  .email-box{display:inline-block;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:12px 18px;font-size:16px;font-weight:700;margin:6px 0;}
+  label{display:block;font-size:13px;font-weight:600;color:#94a3b8;margin:14px 0 6px;}
+  input,textarea{width:100%;background:#0f172a;border:1px solid #334155;color:#e2e8f0;border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit;outline:none;}
+  input:focus,textarea:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.15);}
+  textarea{min-height:140px;resize:vertical;}
+  .btn{margin-top:16px;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;border:none;padding:13px 24px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;}
+  .btn:hover{filter:brightness(1.08);}
+  .muted{color:#94a3b8;font-size:13px;}
+  footer{max-width:640px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer nav{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/">🪜 SADARI</a>
+  <p class="tagline">Climb your luck.</p>
+  <div class="card">
+    <h1>문의 (Contact)</h1>
+    <p>서비스 이용 문의, 버그 제보, 제휴·광고 문의 등 무엇이든 편하게 연락해 주세요. 보통 <b>1~3 영업일</b> 이내에 답변드립니다.</p>
+
+    <h2>이메일</h2>
+    <p>아래 주소로 직접 메일을 보내실 수 있습니다.</p>
+    <p><a class="email-box" href="mailto:singlena@gmail.com">✉️ singlena@gmail.com</a></p>
+
+    <h2>문의 양식</h2>
+    <p class="muted">아래 양식을 작성하고 보내기를 누르면, 작성한 내용이 채워진 상태로 메일 앱이 열립니다.</p>
+    <form id="contactForm">
+      <label for="name">이름</label>
+      <input type="text" id="name" placeholder="홍길동" />
+      <label for="from">회신받을 이메일</label>
+      <input type="email" id="from" placeholder="you@example.com" />
+      <label for="msg">문의 내용</label>
+      <textarea id="msg" placeholder="문의하실 내용을 입력해 주세요."></textarea>
+      <button type="submit" class="btn">✉️ 메일로 보내기</button>
+    </form>
+
+    <p class="muted" style="margin-top:18px"><a href="/about.html">소개</a> · <a href="/privacy.html">개인정보처리방침</a> · <a href="/">홈으로</a></p>
+  </div>
+  <footer>
+    <nav>
+      <a href="/about.html">소개</a>
+      <a href="/privacy.html">개인정보처리방침</a>
+      <a href="/contact.html">문의</a>
+    </nav>
+    © 2026 SADARI · <a href="https://sadari.singlena.workers.dev">sadari.singlena.workers.dev</a>
+  </footer>
+</div>
+<script>
+  document.getElementById("contactForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name=(document.getElementById("name").value||"").trim();
+    var from=(document.getElementById("from").value||"").trim();
+    var msg=(document.getElementById("msg").value||"").trim();
+    if(!msg){ alert("문의 내용을 입력해 주세요."); return; }
+    var subject="[SADARI 문의] "+(name||"방문자");
+    var body=msg+"\n\n---\n보낸 사람: "+(name||"-")+"\n회신 이메일: "+(from||"-");
+    window.location.href="mailto:singlena@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  });
+</script>
+</body>
+</html>

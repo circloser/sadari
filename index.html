@@ -432,7 +432,14 @@
     기존 사다리타기로 부족했던 <b>대규모 인원 조 편성</b>, <b>회식비·더치페이 자동 계산</b>을 제공하는 만능 사다리타기 프로그램입니다.<br>
     룰렛·제비뽑기·동전던지기·주사위·자리배치·타이머까지 한 곳에서 즐기고, 결과는 카카오톡으로 바로 공유하세요.
   </div>
-  <footer>© 2026 SADARI · <a href="https://sadari.singlena.workers.dev">sadari.singlena.workers.dev</a> · Climb your luck.</footer>
+  <footer>
+    <nav style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:10px;">
+      <a href="/about.html" data-i18n="ft_about">소개</a>
+      <a href="/privacy.html" data-i18n="ft_privacy">개인정보처리방침</a>
+      <a href="/contact.html" data-i18n="ft_contact">문의</a>
+    </nav>
+    © 2026 SADARI · <a href="https://sadari.singlena.workers.dev">sadari.singlena.workers.dev</a> · Climb your luck.
+  </footer>
 </div>
 
 <!-- 일괄 붙여넣기 모달 -->
@@ -535,6 +542,18 @@ const I18N_TOOLS = {
 };
 function T(){ return I18N[state.lang] || I18N.ko; }
 function TT(k){ const d=I18N_TOOLS[state.lang]||I18N_TOOLS.ko; return d[k]!=null?d[k]:I18N_TOOLS.ko[k]; }
+// 푸터 페이지 링크 라벨
+const _FOOT={
+  ko:{ft_about:"소개",ft_privacy:"개인정보처리방침",ft_contact:"문의"},
+  en:{ft_about:"About",ft_privacy:"Privacy Policy",ft_contact:"Contact"},
+  ja:{ft_about:"概要",ft_privacy:"プライバシーポリシー",ft_contact:"お問い合わせ"},
+  zh:{ft_about:"关于",ft_privacy:"隐私政策",ft_contact:"联系"},
+  es:{ft_about:"Acerca de",ft_privacy:"Privacidad",ft_contact:"Contacto"},
+  de:{ft_about:"Über",ft_privacy:"Datenschutz",ft_contact:"Kontakt"},
+  ru:{ft_about:"О сайте",ft_privacy:"Конфиденциальность",ft_contact:"Контакт"},
+  pt:{ft_about:"Sobre",ft_privacy:"Privacidade",ft_contact:"Contato"}
+};
+Object.keys(_FOOT).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _FOOT[l]); });
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];
   const s = Math.round(v).toLocaleString(c.locale);
