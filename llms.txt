@@ -4,7 +4,7 @@
 
 SADARI helps teams and friends make fair, fun random decisions: deciding winners/losers, forming teams/groups, and splitting a bill or shared cost (Dutch pay) automatically. Results can be shared instantly via KakaoTalk, copied as text, or saved as an image.
 
-Live site: https://sadari.singlena.workers.dev
+Live site: https://sa-da-ri.com
 
 ## Tools
 
@@ -34,7 +34,7 @@ Live site: https://sadari.singlena.workers.dev
 
 ## Pages
 
-- [Home / App](https://sadari.singlena.workers.dev/)
-- [About](https://sadari.singlena.workers.dev/about.html)
-- [Contact](https://sadari.singlena.workers.dev/contact.html): singlena@gmail.com
-- [Privacy Policy](https://sadari.singlena.workers.dev/privacy.html)
+- [Home / App](https://sa-da-ri.com/)
+- [About](https://sa-da-ri.com/about.html)
+- [Contact](https://sa-da-ri.com/contact.html): singlena@gmail.com
+- [Privacy Policy](https://sa-da-ri.com/privacy.html)

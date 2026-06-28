@@ -13,4 +13,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://sadari.singlena.workers.dev/sitemap.xml
+Sitemap: https://sa-da-ri.com/sitemap.xml
