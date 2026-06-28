@@ -1571,7 +1571,7 @@ function resultPairs(){
   const arr=[];
   for(let c=0;c<state.n;c++){
     const r=state.results[state.paths[c].endCol];
-    arr.push({ name: state.names[c]||defaultName(c), result: state.traced.has(c)? r.label : T().unrevealed, kind:r.kind });
+    arr.push({ name: state.names[c]||defaultName(c), result: r.label, kind:r.kind });
   }
   return arr;
 }
@@ -1604,7 +1604,13 @@ function downloadResultImage(){
 const KAKAO_KEY="a10bf3085949229f31c00e3cea70699c"; // 카카오 JavaScript 앱 키(공개 키)
 // 결과를 KV에 저장하고 영구 공유 URL(sa-da-ri.com/r/xxx)을 반환
 async function createShareLink(){
-  const payload={ mode:state.mode, sender:(state.names[0]||""), rows: resultPairs().map(p=>({n:p.name, r:p.result, k:p.kind})) };
+  const board={
+    n: state.n, lrows: state.rows, diagonal: !!state.diagonal,
+    rungs: state.rungs.map(m=>[...m.entries()]),          // 각 행의 가지(열,기울기) 직렬화
+    names: state.names.slice(),
+    results: state.results.map((r,c)=>({ l:r.label, k:r.kind, c:(state.resultColors[c]&&state.resultColors[c].solid)||"#38bdf8" }))
+  };
+  const payload={ v:2, mode:state.mode, sender:(state.names[0]||""), rows: resultPairs().map(p=>({n:p.name, r:p.result, k:p.kind})), board };
   const res=await fetch("/api/share",{ method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(payload) });
   if(!res.ok) throw new Error("share http "+res.status);
   const d=await res.json(); if(!d || !d.url) throw new Error("no url"); return d.url;
