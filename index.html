@@ -20,6 +20,11 @@
 <meta name="twitter:description" content="조 편성·회식비 더치페이·룰렛·주사위까지, 결과는 카톡으로 한 번에 공유." />
 <meta name="twitter:image" content="https://sa-da-ri.com/og.png" />
 <link rel="canonical" href="https://sa-da-ri.com/" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="/icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="SADARI" />
+<meta name="mobile-web-app-capable" content="yes" />
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -256,8 +261,8 @@
 <div class="topbar">
   <select id="langSel" aria-label="Language / 언어"></select>
   <select id="curSel" aria-label="Currency / 통화"></select>
-  <button class="icon-btn" id="sfxBtn" title="사운드 설정 (효과음·배경음악)">🔊</button>
-  <button class="icon-btn" id="themeBtn" title="다크/라이트 모드">🌙</button>
+  <button class="icon-btn" id="sfxBtn" title="사운드 설정 (효과음·배경음악)" aria-label="사운드 설정">🔊</button>
+  <button class="icon-btn" id="themeBtn" title="다크/라이트 모드" aria-label="다크/라이트 모드 전환">🌙</button>
 </div>
 <div class="wrap">
   <h1 id="brandTitle" class="brand">
@@ -383,7 +388,7 @@
     </div>
     <div class="hint" id="t_boardHint" style="margin-bottom:10px">상단의 참가자 번호(또는 세로줄)를 클릭하면 사다리를 타고 내려가는 애니메이션이 재생됩니다.</div>
     <div class="canvas-scroll">
-      <canvas id="board"></canvas>
+      <canvas id="board" role="img" aria-label="사다리타기 보드 — 결과는 아래 표에서 확인하세요"></canvas>
     </div>
 
     <div class="sortbar">
@@ -392,12 +397,13 @@
       <button data-sort="asc" id="sortAsc">결과 오름차순 ▲</button>
       <button data-sort="desc" id="sortDesc">결과 내림차순 ▼</button>
     </div>
-    <table class="results">
+    <table class="results" aria-label="사다리타기 결과">
       <thead><tr><th id="t_thP">참가자</th><th id="t_thR">결과</th></tr></thead>
-      <tbody id="resultBody"></tbody>
+      <tbody id="resultBody" aria-live="polite"></tbody>
     </table>
-    <div class="summary" id="summary"></div>
+    <div class="summary" id="summary" aria-live="polite"></div>
     <div class="share-row" id="shareRow">
+      <button class="btn" id="linkShareBtn" data-i18n="sh_link">🔗 링크 공유</button>
       <button class="btn ghost" id="copyTextBtn" data-i18n="sh_copy">📄 결과 복사</button>
       <button class="btn ghost" id="downloadImgBtn" data-i18n="sh_image">🖼️ 이미지 저장</button>
       <button class="btn kakao" id="kakaoBtn" data-i18n="sh_kakao">💬 카카오톡 공유</button>
@@ -538,30 +544,30 @@
 <!-- 사운드 설정 모달 -->
 <div class="modal" id="soundModal">
   <div class="modal-box">
-    <h3>🎵 사운드 설정</h3>
+    <h3 data-i18n="snd_title">🎵 사운드 설정</h3>
     <div class="snd-row">
-      <label class="snd-toggle"><input type="checkbox" id="sfxOn"> 🔊 효과음</label>
+      <label class="snd-toggle"><input type="checkbox" id="sfxOn"> <span data-i18n="snd_sfx">🔊 효과음</span></label>
       <select id="sfxTheme">
-        <option value="classic">기본</option>
-        <option value="retro">레트로 8비트</option>
-        <option value="soft">부드러움</option>
-        <option value="comic">코믹</option>
+        <option value="classic" data-i18n="sfxt_classic">기본</option>
+        <option value="retro" data-i18n="sfxt_retro">레트로 8비트</option>
+        <option value="soft" data-i18n="sfxt_soft">부드러움</option>
+        <option value="comic" data-i18n="sfxt_comic">코믹</option>
       </select>
-      <button class="btn ghost" id="sfxPreview" style="padding:7px 14px; font-size:13px">미리듣기 ▶</button>
+      <button class="btn ghost" id="sfxPreview" data-i18n="snd_preview" style="padding:7px 14px; font-size:13px">미리듣기 ▶</button>
     </div>
     <div class="snd-row">
-      <label class="snd-toggle"><input type="checkbox" id="bgmOn"> 🎶 배경음악</label>
+      <label class="snd-toggle"><input type="checkbox" id="bgmOn"> <span data-i18n="snd_bgm">🎶 배경음악</span></label>
       <select id="bgmTrack">
         <option value="lofi">Lo-fi</option>
-        <option value="cheerful">경쾌</option>
-        <option value="calm">잔잔</option>
+        <option value="cheerful" data-i18n="bgmt_cheerful">경쾌</option>
+        <option value="calm" data-i18n="bgmt_calm">잔잔</option>
       </select>
     </div>
     <div class="snd-row">
-      <label class="snd-toggle">🔈 볼륨</label>
-      <input type="range" id="bgmVol" min="0" max="100" value="25" style="flex:1; accent-color:var(--accent2)">
+      <label class="snd-toggle" data-i18n="snd_vol">🔈 볼륨</label>
+      <input type="range" id="bgmVol" min="0" max="100" value="25" aria-label="배경음악 볼륨" style="flex:1; accent-color:var(--accent2)">
     </div>
-    <div style="text-align:right; margin-top:16px"><button class="btn" id="soundClose">닫기</button></div>
+    <div style="text-align:right; margin-top:16px"><button class="btn" id="soundClose" data-i18n="snd_close">닫기</button></div>
   </div>
 </div>
 
@@ -668,6 +674,19 @@ const _FOOT={
   pt:{ft_about:"Sobre",ft_privacy:"Privacidade",ft_contact:"Contato"}
 };
 Object.keys(_FOOT).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _FOOT[l]); });
+// 공유 링크 + 사운드 설정 라벨
+const _EXTRA={
+  ko:{sh_link:"🔗 링크 공유",ts_linkcopied:"공유 링크가 복사되었습니다 🔗",ts_linkfail:"링크 생성에 실패했어요",snd_title:"🎵 사운드 설정",snd_sfx:"🔊 효과음",snd_bgm:"🎶 배경음악",snd_vol:"🔈 볼륨",snd_preview:"미리듣기 ▶",snd_close:"닫기",sfxt_classic:"기본",sfxt_retro:"레트로 8비트",sfxt_soft:"부드러움",sfxt_comic:"코믹",bgmt_cheerful:"경쾌",bgmt_calm:"잔잔"},
+  en:{sh_link:"🔗 Share link",ts_linkcopied:"Share link copied 🔗",ts_linkfail:"Failed to create link",snd_title:"🎵 Sound settings",snd_sfx:"🔊 Sound effects",snd_bgm:"🎶 Music",snd_vol:"🔈 Volume",snd_preview:"Preview ▶",snd_close:"Close",sfxt_classic:"Classic",sfxt_retro:"Retro 8-bit",sfxt_soft:"Soft",sfxt_comic:"Comic",bgmt_cheerful:"Cheerful",bgmt_calm:"Calm"},
+  ja:{sh_link:"🔗 リンク共有",ts_linkcopied:"共有リンクをコピーしました 🔗",ts_linkfail:"リンクの生成に失敗しました",snd_title:"🎵 サウンド設定",snd_sfx:"🔊 効果音",snd_bgm:"🎶 BGM",snd_vol:"🔈 音量",snd_preview:"試聴 ▶",snd_close:"閉じる",sfxt_classic:"クラシック",sfxt_retro:"レトロ8bit",sfxt_soft:"ソフト",sfxt_comic:"コミカル",bgmt_cheerful:"陽気",bgmt_calm:"穏やか"},
+  zh:{sh_link:"🔗 分享链接",ts_linkcopied:"已复制分享链接 🔗",ts_linkfail:"生成链接失败",snd_title:"🎵 音效设置",snd_sfx:"🔊 音效",snd_bgm:"🎶 背景音乐",snd_vol:"🔈 音量",snd_preview:"试听 ▶",snd_close:"关闭",sfxt_classic:"经典",sfxt_retro:"复古8位",sfxt_soft:"柔和",sfxt_comic:"搞笑",bgmt_cheerful:"欢快",bgmt_calm:"舒缓"},
+  es:{sh_link:"🔗 Enlace",ts_linkcopied:"Enlace copiado 🔗",ts_linkfail:"No se pudo crear el enlace",snd_title:"🎵 Sonido",snd_sfx:"🔊 Efectos",snd_bgm:"🎶 Música",snd_vol:"🔈 Volumen",snd_preview:"Probar ▶",snd_close:"Cerrar",sfxt_classic:"Clásico",sfxt_retro:"Retro 8 bits",sfxt_soft:"Suave",sfxt_comic:"Cómico",bgmt_cheerful:"Alegre",bgmt_calm:"Tranquilo"},
+  de:{sh_link:"🔗 Link teilen",ts_linkcopied:"Link kopiert 🔗",ts_linkfail:"Link konnte nicht erstellt werden",snd_title:"🎵 Sound-Einstellungen",snd_sfx:"🔊 Effekte",snd_bgm:"🎶 Musik",snd_vol:"🔈 Lautstärke",snd_preview:"Vorhören ▶",snd_close:"Schließen",sfxt_classic:"Klassisch",sfxt_retro:"Retro 8-Bit",sfxt_soft:"Sanft",sfxt_comic:"Comic",bgmt_cheerful:"Fröhlich",bgmt_calm:"Ruhig"},
+  fr:{sh_link:"🔗 Lien",ts_linkcopied:"Lien copié 🔗",ts_linkfail:"Échec de la création du lien",snd_title:"🎵 Sons",snd_sfx:"🔊 Effets",snd_bgm:"🎶 Musique",snd_vol:"🔈 Volume",snd_preview:"Écouter ▶",snd_close:"Fermer",sfxt_classic:"Classique",sfxt_retro:"Rétro 8-bit",sfxt_soft:"Doux",sfxt_comic:"Comique",bgmt_cheerful:"Gai",bgmt_calm:"Calme"},
+  ru:{sh_link:"🔗 Ссылка",ts_linkcopied:"Ссылка скопирована 🔗",ts_linkfail:"Не удалось создать ссылку",snd_title:"🎵 Звук",snd_sfx:"🔊 Эффекты",snd_bgm:"🎶 Музыка",snd_vol:"🔈 Громкость",snd_preview:"Прослушать ▶",snd_close:"Закрыть",sfxt_classic:"Классика",sfxt_retro:"Ретро 8-бит",sfxt_soft:"Мягкий",sfxt_comic:"Комикс",bgmt_cheerful:"Весёлый",bgmt_calm:"Спокойный"},
+  pt:{sh_link:"🔗 Link",ts_linkcopied:"Link copiado 🔗",ts_linkfail:"Falha ao criar o link",snd_title:"🎵 Som",snd_sfx:"🔊 Efeitos",snd_bgm:"🎶 Música",snd_vol:"🔈 Volume",snd_preview:"Ouvir ▶",snd_close:"Fechar",sfxt_classic:"Clássico",sfxt_retro:"Retrô 8-bit",sfxt_soft:"Suave",sfxt_comic:"Cômico",bgmt_cheerful:"Alegre",bgmt_calm:"Calmo"}
+};
+Object.keys(_EXTRA).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _EXTRA[l]); });
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];
   const s = Math.round(v).toLocaleString(c.locale);
@@ -1456,6 +1475,7 @@ let _toastT=null;
 function toast(msg){
   let el=$("toastEl");
   if(!el){ el=document.createElement("div"); el.id="toastEl";
+    el.setAttribute("role","status"); el.setAttribute("aria-live","polite");
     el.style.cssText="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#0b1220;color:#e2e8f0;border:1px solid #334155;padding:11px 18px;border-radius:10px;font-size:14px;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transition:.2s;max-width:90vw;text-align:center";
     document.body.appendChild(el); }
   el.textContent=msg; el.style.opacity="1";
@@ -1582,11 +1602,20 @@ function downloadResultImage(){
   cv.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="sadari-result.png"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast(TT("ts_imgsaved")); });
 }
 const KAKAO_KEY="a10bf3085949229f31c00e3cea70699c"; // 카카오 JavaScript 앱 키(공개 키)
-function kakaoShare(){
+// 결과를 KV에 저장하고 영구 공유 URL(sa-da-ri.com/r/xxx)을 반환
+async function createShareLink(){
+  const payload={ mode:state.mode, sender:(state.names[0]||""), rows: resultPairs().map(p=>({n:p.name, r:p.result, k:p.kind})) };
+  const res=await fetch("/api/share",{ method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(payload) });
+  if(!res.ok) throw new Error("share http "+res.status);
+  const d=await res.json(); if(!d || !d.url) throw new Error("no url"); return d.url;
+}
+async function kakaoShare(){
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
   const pairs=resultPairs(), desc=pairs.map(p=>`${p.name}: ${p.result}`).join("\n");
   const header=shareHeader();
-  const fallback=()=>{ const text=header+"\n"+desc+"\n"+location.href;
+  let link=location.href;
+  try{ link=await createShareLink(); }catch(e){}   // 링크 생성 실패 시 홈으로 폴백
+  const fallback=()=>{ const text=header+"\n"+desc+"\n"+link;
     if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast(TT("ts_kakaofb"))).catch(()=>promptCopy(text));
     else promptCopy(text); };
   try{ if(window.Kakao && KAKAO_KEY && !Kakao.isInitialized()) Kakao.init(KAKAO_KEY); }catch(e){}
@@ -1594,12 +1623,19 @@ function kakaoShare(){
     try{
       Kakao.Share.sendDefault({
         objectType:"feed",
-        content:{ title:header, description:desc, imageUrl:"https://sa-da-ri.com/og.png", link:{mobileWebUrl:location.href, webUrl:location.href} },
-        buttons:[{ title:TT("result_btn"), link:{mobileWebUrl:location.href, webUrl:location.href} }]
+        content:{ title:header, description:desc, imageUrl:"https://sa-da-ri.com/og.png", link:{mobileWebUrl:link, webUrl:link} },
+        buttons:[{ title:TT("result_btn"), link:{mobileWebUrl:link, webUrl:link} }]
       });
     }catch(e){ fallback(); }   // 도메인 미등록 등으로 실패하면 복사로 폴백
   } else { fallback(); }
 }
+$("linkShareBtn").addEventListener("click", async ()=>{
+  if(!hasResults()){ toast(TT("ts_runfirst")); return; }
+  try{ const u=await createShareLink();
+    if(navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(u);
+    toast(TT("ts_linkcopied"));
+  }catch(e){ toast(TT("ts_linkfail")); }
+});
 $("copyTextBtn").addEventListener("click",copyResultText);
 $("downloadImgBtn").addEventListener("click",downloadResultImage);
 $("kakaoBtn").addEventListener("click",kakaoShare);
@@ -1761,6 +1797,9 @@ const ADSENSE = {
     // client 미설정 시: 플레이스홀더 유지(배치 미리보기)
   });
 })();
+
+/* ===== PWA: 서비스워커 등록 ===== */
+if("serviceWorker" in navigator){ window.addEventListener("load", ()=>{ navigator.serviceWorker.register("/sw.js").catch(()=>{}); }); }
 </script>
 </body>
 </html>
