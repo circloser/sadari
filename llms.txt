@@ -21,7 +21,7 @@ Live site: https://sa-da-ri.com
 - Price: Free.
 - Max participants in the ladder game: 30.
 - Languages: 9 (ko, en, ja, zh, es, de, fr, ru, pt).
-- Currencies for money mode: KRW, USD, EUR, JPY, CNY, GBP, RUB, BRL.
+- Currencies for money mode: 20+ including KRW, USD, EUR, JPY, CNY, GBP, RUB, BRL, INR, IDR, VND, THB, PHP, MXN, CAD, AUD, TWD, HKD, SGD, CHF, TRY, plus a unit-less "No unit" option (plain numbers).
 - Sharing: KakaoTalk, copy text, download image.
 - Platform: Runs in any modern web browser; no install, no account.
 
