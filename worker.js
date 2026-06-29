@@ -62,7 +62,7 @@ export default {
         // 사다리 재현용 보드 데이터(선택)
         const b = data.board;
         if (b && typeof b === "object" && Array.isArray(b.rungs) && Array.isArray(b.names) && Array.isArray(b.results)){
-          const n = clampInt(b.n, 2, 30);
+          const n = clampInt(b.n, 2, 50);
           rec.board = {
             n,
             lrows: clampInt(b.lrows, 1, 160),
@@ -70,8 +70,8 @@ export default {
             rungs: b.rungs.slice(0, 160).map(row => Array.isArray(row)
               ? row.slice(0, 40).map(pair => [ pair[0]|0, (pair[1] === -1 || pair[1] === 1) ? pair[1] : 0 ]).filter(pr => pr[0] >= 0 && pr[0] < n-1)
               : []),
-            names: b.names.slice(0, 30).map(x => String(x == null ? "" : x).slice(0, 40)),
-            results: b.results.slice(0, 30).map(r => ({
+            names: b.names.slice(0, 50).map(x => String(x == null ? "" : x).slice(0, 40)),
+            results: b.results.slice(0, 50).map(r => ({
               l: String(r && r.l != null ? r.l : "").slice(0, 40),
               k: (r && (r.k === "win" || r.k === "lose" || r.k === "neutral")) ? r.k : "neutral",
               c: String(r && r.c != null ? r.c : "#38bdf8").slice(0, 32)

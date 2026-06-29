@@ -1,6 +1,6 @@
 # SADARI
 
-> SADARI is a free, no-signup online **ladder game (Amidakuji / Ghost Leg)** and all-in-one random decision toolkit for groups. It supports up to 30 participants and 9 languages (Korean, English, Japanese, Chinese, Spanish, German, French, Russian, Portuguese).
+> SADARI is a free, no-signup online **ladder game (Amidakuji / Ghost Leg)** and all-in-one random decision toolkit for groups. It supports up to 50 participants and 9 languages (Korean, English, Japanese, Chinese, Spanish, German, French, Russian, Portuguese).
 
 SADARI helps teams and friends make fair, fun random decisions: deciding winners/losers, forming teams/groups, and splitting a bill or shared cost (Dutch pay) automatically. Results can be shared instantly via KakaoTalk, copied as text, or saved as an image.
 
@@ -8,7 +8,7 @@ Live site: https://sa-da-ri.com
 
 ## Tools
 
-- **Ladder game (사다리타기)**: Up to 30 players. Adjustable complexity, diagonal rungs, animated path tracing. Result modes: Win/Lose, team formation, and money distribution (enter a total amount; it is auto-split into currency units with low variance, the rest marked as "lose").
+- **Ladder game (사다리타기)**: Up to 50 players. Adjustable complexity, diagonal rungs, animated path tracing. Result modes: Win/Lose, team formation, and money distribution (enter a total amount; it is auto-split into currency units with low variance, the rest marked as "lose").
 - **Roulette (룰렛)**: Spin a wheel of custom options to pick one.
 - **Draw lots (제비뽑기)**: Flip cards to choose winners.
 - **Coin flip (동전 던지기)**: Heads or tails.
@@ -19,7 +19,7 @@ Live site: https://sa-da-ri.com
 ## Key facts
 
 - Price: Free.
-- Max participants in the ladder game: 30.
+- Max participants in the ladder game: 50.
 - Languages: 9 (ko, en, ja, zh, es, de, fr, ru, pt).
 - Currencies for money mode: 20+ including KRW, USD, EUR, JPY, CNY, GBP, RUB, BRL, INR, IDR, VND, THB, PHP, MXN, CAD, AUD, TWD, HKD, SGD, CHF, TRY, plus a unit-less "No unit" option (plain numbers).
 - Sharing: KakaoTalk, copy text, download image.
@@ -27,7 +27,7 @@ Live site: https://sa-da-ri.com
 
 ## Common questions
 
-- "How many people can join a ladder game?" — Up to 30.
+- "How many people can join a ladder game?" — Up to 50.
 - "Can it split a bill / Dutch pay?" — Yes. In money mode, enter the total and it is distributed automatically in currency units.
 - "Is it free?" — Yes, completely free.
 - "Can I form teams/groups?" — Yes, choose the team mode and the number of teams.
