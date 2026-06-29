@@ -657,7 +657,21 @@ const CURRENCIES = {
   CNY:{symbol:"¥",  minUnit:1,    locale:"zh-CN", prefix:true,  def:100},
   GBP:{symbol:"£",  minUnit:1,    locale:"en-GB", prefix:true,  def:100},
   RUB:{symbol:"₽",  minUnit:10,   locale:"ru-RU", prefix:false, def:10000},
-  BRL:{symbol:"R$", minUnit:1,    locale:"pt-BR", prefix:true,  def:100}
+  BRL:{symbol:"R$", minUnit:1,    locale:"pt-BR", prefix:true,  def:100},
+  INR:{symbol:"₹",  minUnit:1,    locale:"en-IN", prefix:true,  def:1000},
+  IDR:{symbol:"Rp", minUnit:1000, locale:"id-ID", prefix:true,  def:100000},
+  VND:{symbol:"₫",  minUnit:1000, locale:"vi-VN", prefix:false, def:100000},
+  THB:{symbol:"฿",  minUnit:1,    locale:"th-TH", prefix:true,  def:1000},
+  PHP:{symbol:"₱",  minUnit:1,    locale:"en-PH", prefix:true,  def:1000},
+  MXN:{symbol:"$",  minUnit:1,    locale:"es-MX", prefix:true,  def:500},
+  CAD:{symbol:"C$", minUnit:1,    locale:"en-CA", prefix:true,  def:100},
+  AUD:{symbol:"A$", minUnit:1,    locale:"en-AU", prefix:true,  def:100},
+  TWD:{symbol:"NT$",minUnit:1,    locale:"zh-TW", prefix:true,  def:1000},
+  HKD:{symbol:"HK$",minUnit:1,    locale:"zh-HK", prefix:true,  def:500},
+  SGD:{symbol:"S$", minUnit:1,    locale:"en-SG", prefix:true,  def:100},
+  CHF:{symbol:"CHF ",minUnit:1,   locale:"de-CH", prefix:true,  def:100},
+  TRY:{symbol:"₺",  minUnit:1,    locale:"tr-TR", prefix:true,  def:500},
+  NONE:{symbol:"",  minUnit:1,    locale:"en-US", prefix:true,  def:100, label:"🔢 No unit / 단위 없음"}
 };
 // 8개 주요 언어 + 해당 국가 통화
 const LANGS = [
@@ -751,6 +765,7 @@ function fmtMoney(v){
   const s = Math.round(v).toLocaleString(c.locale);
   return c.prefix ? c.symbol + s : s + " " + c.symbol;
 }
+function curTag(){ return state.currency==="NONE" ? "#" : state.currency; }
 function defaultName(i){ return T().nameFmt.replace("{n}", i+1); }
 
 function setT(id, txt){ const e=$(id); if(e) e.textContent=txt; }
@@ -767,7 +782,7 @@ function applyLang(){
   setT("t_ggwangCount", t.ggwangCount); setT("randomGgwang", t.randomGgwang);
   const gh=$("t_ggwangHint"); if(gh) gh.innerHTML = t.ggwangHint.replace("{win}", `<b style="color:var(--good)">${t.win}</b>`);
   setT("t_groupCount", t.groupCount); setT("t_groupHint", t.groupHint);
-  setT("t_totalMoney", t.totalMoney + " (" + state.currency + ")");
+  setT("t_totalMoney", t.totalMoney + " (" + curTag() + ")");
   setT("t_winnerCount", t.winnerCount); setT("t_moneyHint", t.moneyHint);
   setT("buildBtn", t.build); setT("t_boardHint", t.boardHint);
   setT("reshuffleBtn", t.reshuffle); setT("revealAllBtn", t.revealAll);
@@ -794,7 +809,7 @@ function onCurrencyChanged(){
   let v = Math.floor((parseInt(inp.value)||0)/c.minUnit)*c.minUnit;
   if(v < c.minUnit) v = c.def;
   inp.value = v;
-  setT("t_totalMoney", T().totalMoney + " (" + state.currency + ")");
+  setT("t_totalMoney", T().totalMoney + " (" + curTag() + ")");
 }
 function refreshAfterLocale(){
   if($("boardCard").classList.contains("hidden")) return;
@@ -816,7 +831,7 @@ function initLocale(){
   let savedCur=null; try{ savedCur=localStorage.getItem("sadari_cur"); }catch(e){}
   state.currency = (savedCur && CURRENCIES[savedCur]) ? savedCur : (L0 ? L0.cur : "KRW");
   $("langSel").innerHTML = LANGS.map(l=>`<option value="${l.code}">${l.name}</option>`).join("");
-  $("curSel").innerHTML = Object.keys(CURRENCIES).map(k=>`<option value="${k}">${k} (${CURRENCIES[k].symbol})</option>`).join("");
+  $("curSel").innerHTML = Object.keys(CURRENCIES).map(k=>`<option value="${k}">${CURRENCIES[k].label || (k+" ("+CURRENCIES[k].symbol+")")}</option>`).join("");
   $("langSel").value = state.lang; $("curSel").value = state.currency;
   $("langSel").addEventListener("change", e=>{
     state.lang = e.target.value;
