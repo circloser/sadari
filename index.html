@@ -426,6 +426,7 @@
       <button class="btn ghost" id="copyTextBtn" data-i18n="sh_copy">📄 결과 복사</button>
       <button class="btn ghost" id="downloadImgBtn" data-i18n="sh_image">🖼️ 이미지 저장</button>
       <button class="btn kakao" id="kakaoBtn" data-i18n="sh_kakao">💬 카카오톡 공유</button>
+      <button class="btn ghost" id="allShareBtn" data-i18n="sh_share">📤 공유</button>
     </div>
   </div><!-- /boardCard -->
   <!-- 광고: 결과 직후 (사다리 도구, 최고 노출 위치) -->
@@ -541,6 +542,7 @@
       <a href="/about.html" data-i18n="ft_about">소개</a>
       <a href="/privacy.html" data-i18n="ft_privacy">개인정보처리방침</a>
       <a href="/contact.html" data-i18n="ft_contact">문의</a>
+      <a href="/guides.html" data-i18n="ft_guides">📖 가이드</a>
     </nav>
     © 2026 SADARI · <a href="https://sa-da-ri.com">sa-da-ri.com</a> · Climb your luck.<br>
     문의·피드백: <a href="mailto:singlena@gmail.com">singlena@gmail.com</a>
@@ -557,6 +559,20 @@
       <button class="btn ghost" id="bulkCancel" data-i18n="bk_cancel">취소</button>
       <button class="btn" id="bulkApply" data-i18n="bk_apply">적용</button>
     </div>
+  </div>
+</div>
+
+<!-- 공유 채널 모달 -->
+<div class="modal" id="shareModal">
+  <div class="modal-box">
+    <h3 data-i18n="sh_choose">공유 방법 선택</h3>
+    <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px">
+      <button class="btn ghost" id="shWhatsapp">🟢 WhatsApp</button>
+      <button class="btn ghost" id="shTelegram">✈️ Telegram</button>
+      <button class="btn ghost" id="shX">𝕏 (Twitter)</button>
+      <button class="btn ghost" id="shCopyLink" data-i18n="sh_link">🔗 링크 공유</button>
+    </div>
+    <div style="text-align:right; margin-top:14px"><button class="btn" id="shClose" data-i18n="snd_close">닫기</button></div>
   </div>
 </div>
 
@@ -719,6 +735,17 @@ const _CONTENT={
   pt:{faq_title:"Perguntas frequentes (FAQ)",faq_q1:"Quantas pessoas podem jogar a escada?",faq_a1:"Até 30 ao mesmo tempo — informe o número de jogadores e a escada é gerada automaticamente.",faq_q2:"Dá para dividir uma conta automaticamente?",faq_a2:"Sim. No modo dinheiro, informe o total: ele é distribuído automaticamente em unidades da moeda, com pouca variação para ninguém pagar demais.",faq_q3:"Dá para formar equipes?",faq_a3:"Sim. Informe o número de equipes para dividir igualmente, e use a ferramenta de lugares para sorteio de assentos.",faq_q4:"O SADARI é gratuito?",faq_a4:"Sim — todos os recursos são gratuitos, sem cadastro ou instalação.",faq_q5:"Quais ferramentas de sorteio estão incluídas?",faq_a5:"Além da escada: roleta, sorteio, cara ou coroa, dados, lugares e timer.",faq_q6:"Posso compartilhar os resultados?",faq_a6:"Sim — por link, KakaoTalk ou copiando o texto/imagem.",seo1:"Um jogo da escada completo que adiciona o que faltava: formação de equipes para grupos grandes e divisão automática de contas.",seo2:"Roleta, sorteio, moeda, dados, lugares e timer em um só lugar — compartilhe resultados na hora por link ou KakaoTalk."}
 };
 Object.keys(_CONTENT).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _CONTENT[l]); });
+// 글로벌 공유 채널
+const _SHARE={
+  ko:{sh_share:"📤 공유",sh_choose:"공유 방법 선택"}, en:{sh_share:"📤 Share",sh_choose:"Choose how to share"},
+  ja:{sh_share:"📤 共有",sh_choose:"共有方法を選択"}, zh:{sh_share:"📤 分享",sh_choose:"选择分享方式"},
+  es:{sh_share:"📤 Compartir",sh_choose:"Elige cómo compartir"}, de:{sh_share:"📤 Teilen",sh_choose:"Teilen-Methode wählen"},
+  fr:{sh_share:"📤 Partager",sh_choose:"Choisir le partage"}, ru:{sh_share:"📤 Поделиться",sh_choose:"Выберите способ"},
+  pt:{sh_share:"📤 Compartilhar",sh_choose:"Escolha como compartilhar"}
+};
+Object.keys(_SHARE).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _SHARE[l]); });
+const _NAV={ko:{ft_guides:"📖 가이드"},en:{ft_guides:"📖 Guides"},ja:{ft_guides:"📖 ガイド"},zh:{ft_guides:"📖 指南"},es:{ft_guides:"📖 Guías"},de:{ft_guides:"📖 Anleitungen"},fr:{ft_guides:"📖 Guides"},ru:{ft_guides:"📖 Гайды"},pt:{ft_guides:"📖 Guias"}};
+Object.keys(_NAV).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _NAV[l]); });
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];
   const s = Math.round(v).toLocaleString(c.locale);
@@ -751,6 +778,12 @@ function applyLang(){
   // 형제 도구/공유/모달 (data-i18n 일괄 적용)
   document.querySelectorAll("[data-i18n]").forEach(el=>{ const v=TT(el.dataset.i18n); if(v!=null) el.textContent=v; });
   document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ const v=TT(el.dataset.i18nPh); if(v!=null) el.placeholder=v; });
+  // 비한국어 사용자는 영어 정보 페이지로 연결
+  const enPages = state.lang!=="ko";
+  const setHref=(key,ko,en)=>{ const a=document.querySelector('footer a[data-i18n="'+key+'"]'); if(a) a.href = enPages?en:ko; };
+  setHref("ft_about","/about.html","/about-en.html");
+  setHref("ft_privacy","/privacy.html","/privacy-en.html");
+  setHref("ft_contact","/contact.html","/contact-en.html");
   updatePlayPauseUI();
   renderNameInputs(); // placeholder 갱신(입력값 보존)
 }
@@ -1693,6 +1726,31 @@ $("copyTextBtn").addEventListener("click",copyResultText);
 $("downloadImgBtn").addEventListener("click",downloadResultImage);
 $("kakaoBtn").addEventListener("click",kakaoShare);
 
+// 글로벌 공유: 네이티브 공유 시트(모바일) 또는 채널 선택(데스크톱)
+let _shareCtx=null;
+async function openAllShare(){
+  if(!hasResults()){ toast(TT("ts_runfirst")); return; }
+  let url; try{ url=await createShareLink(); }catch(e){ url=location.href; }
+  const header=shareHeader();
+  const desc=resultPairs().map(p=>`${p.name}: ${p.result}`).join("\n");
+  if(navigator.share){
+    try{ await navigator.share({ title:header, text:header+"\n"+desc, url }); return; }
+    catch(e){ if(e && e.name==="AbortError") return; }
+  }
+  _shareCtx={ url, text:header };
+  $("shareModal").classList.add("show");
+}
+function intentOpen(u){ window.open(u, "_blank", "noopener"); }
+$("allShareBtn").addEventListener("click", openAllShare);
+$("shClose").addEventListener("click", ()=>$("shareModal").classList.remove("show"));
+$("shareModal").addEventListener("click", e=>{ if(e.target===$("shareModal")) $("shareModal").classList.remove("show"); });
+$("shWhatsapp").addEventListener("click", ()=>{ if(_shareCtx) intentOpen("https://wa.me/?text="+encodeURIComponent(_shareCtx.text+" "+_shareCtx.url)); });
+$("shTelegram").addEventListener("click", ()=>{ if(_shareCtx) intentOpen("https://t.me/share/url?url="+encodeURIComponent(_shareCtx.url)+"&text="+encodeURIComponent(_shareCtx.text)); });
+$("shX").addEventListener("click", ()=>{ if(_shareCtx) intentOpen("https://twitter.com/intent/tweet?text="+encodeURIComponent(_shareCtx.text)+"&url="+encodeURIComponent(_shareCtx.url)); });
+$("shCopyLink").addEventListener("click", ()=>{ if(!_shareCtx) return; const u=_shareCtx.url;
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(()=>toast(TT("ts_linkcopied"))).catch(()=>promptCopy(u)); else promptCopy(u);
+  $("shareModal").classList.remove("show"); });
+
 /* ============================================================
    형제 도구
 ============================================================ */
@@ -1821,6 +1879,10 @@ $("timerSec").addEventListener("input",Timer.setFromInputs);
 
 // 초기 렌더
 Roulette.draw(); Dice.render([1,1]); Draw.build(); Timer.setFromInputs();
+
+// ?tool= 딥링크(가이드/외부에서 특정 도구로 진입)
+(function(){ try{ const t=new URLSearchParams(location.search).get("tool");
+  if(t){ const b=document.querySelector('#topnav button[data-tool="'+t.replace(/[^a-z]/g,"")+'"]'); if(b) b.click(); } }catch(e){} })();
 
 /* ============================================================
    Google AdSense
