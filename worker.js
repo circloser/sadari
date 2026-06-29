@@ -130,7 +130,7 @@ function head(title, desc, origin, extra){
 <link rel="icon" type="image/svg+xml" href="${FAVICON}">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADS}" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA}"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA}');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA}');gtag('event','shared_result_view',{content_type:'ladder'});</script>
 <style>${STYLE}</style>${extra||""}`;
 }
 

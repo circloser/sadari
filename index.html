@@ -992,6 +992,7 @@ function buildGame(){
   draw();
   renderTable();
   $("boardCard").scrollIntoView({behavior:"smooth", block:"start"});
+  track("ladder_build", { mode:state.mode, players:state.n });
 }
 
 function generateRungs(){
@@ -1593,6 +1594,8 @@ function toast(msg){
   clearTimeout(_toastT); _toastT=setTimeout(()=>el.style.opacity="0",2400);
 }
 function promptCopy(text){ try{ window.prompt("복사하세요 (Ctrl+C):", text); }catch(e){} }
+// Google Analytics 이벤트
+function track(name, params){ try{ if(window.gtag) gtag('event', name, params||{}); }catch(e){} }
 
 (function initChrome(){
   // 테마
@@ -1642,7 +1645,7 @@ function refreshSfxBtn(){ var b=$("sfxBtn"); if(!b) return; b.textContent=SFX.is
       const tool=b.dataset.tool;
       Object.values(views).forEach(id=>$(id).classList.remove("active"));
       $(views[tool]).classList.add("active");
-      SFX.click();
+      SFX.click(); track("tool_open", { tool });
       if(tool==="roulette") Roulette.draw();
       window.scrollTo({top:0,behavior:"smooth"});
     });
@@ -1690,6 +1693,7 @@ function hasResults(){ return state.results && state.results.length && Object.ke
 function shareHeader(){ const sender=(state.names[0]||"🙂"); return "🪜 "+TT("share_title").replace("{name}", sender); }
 function copyResultText(){
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
+  track("share", { method:"copy_text", content_type:"ladder_result" });
   const text=shareHeader()+"\n"+resultPairs().map(p=>`${p.name}: ${p.result}`).join("\n")+"\n"+location.href;
   if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast(TT("ts_copied"))).catch(()=>promptCopy(text));
   else promptCopy(text);
@@ -1697,6 +1701,7 @@ function copyResultText(){
 function rrect(x,a,b,w,h,r){ x.beginPath(); x.moveTo(a+r,b); x.arcTo(a+w,b,a+w,b+h,r); x.arcTo(a+w,b+h,a,b+h,r); x.arcTo(a,b+h,a,b,r); x.arcTo(a,b,a+w,b,r); x.closePath(); }
 function downloadResultImage(){
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
+  track("share", { method:"image", content_type:"ladder_result" });
   const pairs=resultPairs(), pad=24, rowH=44, headH=64, w=460, h=headH+pad+pairs.length*rowH+pad, s=2;
   const cv=document.createElement("canvas"); cv.width=w*s; cv.height=h*s;
   const x=cv.getContext("2d"); x.scale(s,s);
@@ -1724,10 +1729,11 @@ async function createShareLink(){
   const payload={ v:2, mode:state.mode, lang:state.lang, sender:(state.names[0]||""), rows: resultPairs().map(p=>({n:p.name, r:p.result, k:p.kind})), board };
   const res=await fetch("/api/share",{ method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(payload) });
   if(!res.ok) throw new Error("share http "+res.status);
-  const d=await res.json(); if(!d || !d.url) throw new Error("no url"); return d.url;
+  const d=await res.json(); if(!d || !d.url) throw new Error("no url"); track("share_link_created", { mode:state.mode }); return d.url;
 }
 async function kakaoShare(){
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
+  track("share", { method:"kakao", content_type:"ladder_result" });
   const pairs=resultPairs(), desc=pairs.map(p=>`${p.name}: ${p.result}`).join("\n");
   const header=shareHeader();
   let link=location.href;
@@ -1750,7 +1756,7 @@ $("linkShareBtn").addEventListener("click", async ()=>{
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
   try{ const u=await createShareLink();
     if(navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(u);
-    toast(TT("ts_linkcopied"));
+    toast(TT("ts_linkcopied")); track("share", { method:"link", content_type:"ladder_result" });
   }catch(e){ toast(TT("ts_linkfail")); }
 });
 $("copyTextBtn").addEventListener("click",copyResultText);
@@ -1765,7 +1771,7 @@ async function openAllShare(){
   const header=shareHeader();
   const desc=resultPairs().map(p=>`${p.name}: ${p.result}`).join("\n");
   if(navigator.share){
-    try{ await navigator.share({ title:header, text:header+"\n"+desc, url }); return; }
+    try{ await navigator.share({ title:header, text:header+"\n"+desc, url }); track("share", { method:"native", content_type:"ladder_result" }); return; }
     catch(e){ if(e && e.name==="AbortError") return; }
   }
   _shareCtx={ url, text:header };
@@ -1775,9 +1781,9 @@ function intentOpen(u){ window.open(u, "_blank", "noopener"); }
 $("allShareBtn").addEventListener("click", openAllShare);
 $("shClose").addEventListener("click", ()=>$("shareModal").classList.remove("show"));
 $("shareModal").addEventListener("click", e=>{ if(e.target===$("shareModal")) $("shareModal").classList.remove("show"); });
-$("shWhatsapp").addEventListener("click", ()=>{ if(_shareCtx) intentOpen("https://wa.me/?text="+encodeURIComponent(_shareCtx.text+" "+_shareCtx.url)); });
-$("shTelegram").addEventListener("click", ()=>{ if(_shareCtx) intentOpen("https://t.me/share/url?url="+encodeURIComponent(_shareCtx.url)+"&text="+encodeURIComponent(_shareCtx.text)); });
-$("shX").addEventListener("click", ()=>{ if(_shareCtx) intentOpen("https://twitter.com/intent/tweet?text="+encodeURIComponent(_shareCtx.text)+"&url="+encodeURIComponent(_shareCtx.url)); });
+$("shWhatsapp").addEventListener("click", ()=>{ if(_shareCtx){ track("share",{method:"whatsapp",content_type:"ladder_result"}); intentOpen("https://wa.me/?text="+encodeURIComponent(_shareCtx.text+" "+_shareCtx.url)); } });
+$("shTelegram").addEventListener("click", ()=>{ if(_shareCtx){ track("share",{method:"telegram",content_type:"ladder_result"}); intentOpen("https://t.me/share/url?url="+encodeURIComponent(_shareCtx.url)+"&text="+encodeURIComponent(_shareCtx.text)); } });
+$("shX").addEventListener("click", ()=>{ if(_shareCtx){ track("share",{method:"x",content_type:"ladder_result"}); intentOpen("https://twitter.com/intent/tweet?text="+encodeURIComponent(_shareCtx.text)+"&url="+encodeURIComponent(_shareCtx.url)); } });
 $("shCopyLink").addEventListener("click", ()=>{ if(!_shareCtx) return; const u=_shareCtx.url;
   if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(()=>toast(TT("ts_linkcopied"))).catch(()=>promptCopy(u)); else promptCopy(u);
   $("shareModal").classList.remove("show"); });
