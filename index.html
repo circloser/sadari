@@ -454,7 +454,7 @@
     <div class="card">
       <div class="tool-head"><h2 data-i18n="dw_title">🎫 제비뽑기</h2><p data-i18n="dw_sub">카드를 뽑아 당첨자를 정해요</p></div>
       <div class="row">
-        <div class="field" style="max-width:150px"><label data-i18n="dw_count">제비 개수</label><input type="number" id="drawCount" min="2" max="40" value="6"></div>
+        <div class="field" style="max-width:150px"><label data-i18n="dw_count">제비 개수</label><input type="number" id="drawCount" min="2" max="50" value="6"></div>
         <div class="field" style="max-width:150px"><label data-i18n="dw_win">당첨 개수</label><input type="number" id="drawWin" min="1" value="1"></div>
         <div class="field" style="flex:0 0 auto; justify-content:flex-end"><button class="btn" id="drawBtn" data-i18n="dw_make">제비 만들기 🎫</button></div>
       </div>
@@ -1860,7 +1860,7 @@ const Dice=(()=>{
 
 const Draw=(()=>{
   let cards=[];
-  function build(){ const n=clamp(parseInt($("drawCount").value)||2,2,40); $("drawCount").value=n;
+  function build(){ const n=clamp(parseInt($("drawCount").value)||2,2,50); $("drawCount").value=n;
     const w=clamp(parseInt($("drawWin").value)||1,1,n); $("drawWin").value=w;
     cards=Array.from({length:n},(_,i)=>({win:i<w,revealed:false})); shuffle(cards); render(); $("drawResult").textContent="";
   }
