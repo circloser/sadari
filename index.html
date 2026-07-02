@@ -73,9 +73,7 @@
   ]
 }
 </script>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" /><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
 <script>
@@ -431,7 +429,6 @@
       <button class="btn" id="linkShareBtn" data-i18n="sh_link">🔗 링크 공유</button>
       <button class="btn ghost" id="copyTextBtn" data-i18n="sh_copy">📄 결과 복사</button>
       <button class="btn ghost" id="downloadImgBtn" data-i18n="sh_image">🖼️ 이미지 저장</button>
-      <button class="btn kakao" id="kakaoBtn" data-i18n="sh_kakao">💬 카카오톡 공유</button>
       <button class="btn ghost" id="allShareBtn" data-i18n="sh_share">📤 공유</button>
     </div>
   </div><!-- /boardCard -->
@@ -1726,7 +1723,6 @@ function downloadResultImage(){
   });
   cv.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="sadari-result.png"; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast(TT("ts_imgsaved")); });
 }
-const KAKAO_KEY="a10bf3085949229f31c00e3cea70699c"; // 카카오 JavaScript 앱 키(공개 키)
 // 결과를 KV에 저장하고 영구 공유 URL(sa-da-ri.com/r/xxx)을 반환
 async function createShareLink(){
   const board={
@@ -1740,27 +1736,6 @@ async function createShareLink(){
   if(!res.ok) throw new Error("share http "+res.status);
   const d=await res.json(); if(!d || !d.url) throw new Error("no url"); track("share_link_created", { mode:state.mode }); return d.url;
 }
-async function kakaoShare(){
-  if(!hasResults()){ toast(TT("ts_runfirst")); return; }
-  track("share", { method:"kakao", content_type:"ladder_result" });
-  const pairs=resultPairs(), desc=pairs.map(p=>`${p.name}: ${p.result}`).join("\n");
-  const header=shareHeader();
-  let link=location.href;
-  try{ link=await createShareLink(); }catch(e){}   // 링크 생성 실패 시 홈으로 폴백
-  const fallback=()=>{ const text=header+"\n"+desc+"\n"+link;
-    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast(TT("ts_kakaofb"))).catch(()=>promptCopy(text));
-    else promptCopy(text); };
-  try{ if(window.Kakao && KAKAO_KEY && !Kakao.isInitialized()) Kakao.init(KAKAO_KEY); }catch(e){}
-  if(window.Kakao && window.Kakao.Share && KAKAO_KEY && Kakao.isInitialized()){
-    try{
-      Kakao.Share.sendDefault({
-        objectType:"feed",
-        content:{ title:header, description:desc, imageUrl:"https://sa-da-ri.com/og.png", link:{mobileWebUrl:link, webUrl:link} },
-        buttons:[{ title:TT("result_btn"), link:{mobileWebUrl:link, webUrl:link} }]
-      });
-    }catch(e){ fallback(); }   // 도메인 미등록 등으로 실패하면 복사로 폴백
-  } else { fallback(); }
-}
 $("linkShareBtn").addEventListener("click", async ()=>{
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
   try{ const u=await createShareLink();
@@ -1770,7 +1745,6 @@ $("linkShareBtn").addEventListener("click", async ()=>{
 });
 $("copyTextBtn").addEventListener("click",copyResultText);
 $("downloadImgBtn").addEventListener("click",downloadResultImage);
-$("kakaoBtn").addEventListener("click",kakaoShare);
 
 // 글로벌 공유: 네이티브 공유 시트(모바일) 또는 채널 선택(데스크톱)
 let _shareCtx=null;
