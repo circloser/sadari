@@ -16,6 +16,18 @@ const W = {
   pt:{namedTpl:"Resultado da escada de {n}",plain:"Resultado da escada",toggle:"Ver como tabela",cta:"Faça você também →",foot:"Gerado com SADARI",hint:"Toque num nome no topo para traçar.",reveal:"👁️ Revelar tudo"}
 };
 
+// 홈(/) 의 언어별 서버사이드 메타 — 크롤러가 ?lang=xx 로 오면 해당 언어 title/description 로 렌더해 다국어 색인 유도. ko 는 기본(정적) 이라 제외.
+const HOME = {
+  en:{lc:"en_US",og:"SADARI · Ladder Game & Random Picker",title:"SADARI — Free Ladder Game (Amidakuji / Ghost Leg) & Random Picker",desc:"Free online ladder game (Amidakuji / Ghost Leg), plus roulette, draw lots, coin, dice, seating and timer. Pick winners, form teams or split a bill — up to 50 people, no sign-up."},
+  ja:{lc:"ja_JP",og:"SADARI · あみだくじ＆抽選ツール",title:"SADARI — 無料あみだくじ＆ルーレット・抽選ツール（最大50人）",desc:"あみだくじ（Ghost Leg）をオンラインで無料作成。ルーレット・くじ引き・コイン・サイコロ・席替え・タイマーも。順番決め・チーム分け・割り勘に、登録不要・最大50人。"},
+  zh:{lc:"zh_CN",og:"SADARI · 鬼脚图＆抽签工具",title:"SADARI — 免费鬼脚图（阶梯抽签）与轮盘抽签工具（最多50人）",desc:"在线免费制作鬼脚图（阶梯抽签），还有轮盘、抽签、抛硬币、骰子、排座位、计时器。排顺序、随机分组、AA分摊，免注册，最多50人。"},
+  es:{lc:"es_ES",og:"SADARI · Sorteo aleatorio online",title:"SADARI — Sorteo online gratis: escalera (Amidakuji), ruleta y más",desc:"Sorteo online gratis: escalera (Amidakuji / Ghost Leg), ruleta, sorteo de cartas, moneda, dados, asientos y temporizador. Elige ganadores, forma equipos o divide la cuenta. Hasta 50, sin registro."},
+  de:{lc:"de_DE",og:"SADARI · Zufallsgenerator & Losspiel",title:"SADARI — Zufallsgenerator: Leiterspiel (Amidakuji), Glücksrad & mehr",desc:"Kostenloser Zufallsgenerator: Leiterspiel (Amidakuji / Ghost Leg), Glücksrad, Losziehung, Münze, Würfel, Sitzplätze und Timer. Gewinner ziehen, Teams bilden, Rechnung teilen. Bis 50, ohne Anmeldung."},
+  fr:{lc:"fr_FR",og:"SADARI · Tirage au sort en ligne",title:"SADARI — Tirage au sort en ligne : échelle (Amidakuji), roue & plus",desc:"Tirage au sort en ligne gratuit : échelle (Amidakuji / Ghost Leg), roue, cartes, pile ou face, dés, places et minuteur. Désignez des gagnants, formez des équipes ou partagez l'addition. Jusqu'à 50, sans inscription."},
+  ru:{lc:"ru_RU",og:"SADARI · Случайный выбор онлайн",title:"SADARI — Случайный выбор онлайн: лесенка (амидакудзи), колесо и др.",desc:"Бесплатный случайный выбор онлайн: лесенка (амидакудзи / Ghost Leg), колесо фортуны, жребий, монетка, кубики, места и таймер. Выбирайте победителей, делите на команды и счёт. До 50, без регистрации."},
+  pt:{lc:"pt_BR",og:"SADARI · Sorteio online",title:"SADARI — Sorteio online grátis: escada (Amidakuji), roleta e mais",desc:"Sorteio online grátis: escada (Amidakuji / Ghost Leg), roleta, sorteio de cartas, moeda, dados, lugares e cronômetro. Escolha ganhadores, forme times ou divida a conta. Até 50, sem cadastro."}
+};
+
 function genId(n = 8){
   const a = new Uint8Array(n); crypto.getRandomValues(a);
   let s = ""; for (let i = 0; i < n; i++) s += ALPH[a[i] % ALPH.length];
@@ -101,6 +113,31 @@ export default {
       return new Response(resultHtml(rec, url.origin), {
         headers:{ "content-type":"text/html; charset=utf-8", "cache-control":"public, max-age=600" }
       });
+    }
+
+    // ===== 홈: ?lang 별 서버사이드 메타 (다국어 색인) =====
+    if ((p === "/" || p === "/index.html") && request.method === "GET"){
+      const lang = url.searchParams.get("lang");
+      const m = lang && HOME[lang];
+      if (m){
+        const resp = await env.ASSETS.fetch(request);
+        if ((resp.headers.get("content-type") || "").includes("text/html")){
+          const canon = "https://sa-da-ri.com/?lang=" + lang;
+          return new HTMLRewriter()
+            .on("html", { element(e){ e.setAttribute("lang", lang); } })
+            .on("title", { element(e){ e.setInnerContent(m.title); } })
+            .on('meta[name="description"]', { element(e){ e.setAttribute("content", m.desc); } })
+            .on('meta[property="og:title"]', { element(e){ e.setAttribute("content", m.og); } })
+            .on('meta[property="og:description"]', { element(e){ e.setAttribute("content", m.desc); } })
+            .on('meta[name="twitter:title"]', { element(e){ e.setAttribute("content", m.og); } })
+            .on('meta[name="twitter:description"]', { element(e){ e.setAttribute("content", m.desc); } })
+            .on('meta[property="og:url"]', { element(e){ e.setAttribute("content", canon); } })
+            .on('meta[property="og:locale"]', { element(e){ e.setAttribute("content", m.lc); } })
+            .on('link[rel="canonical"]', { element(e){ e.setAttribute("href", canon); } })
+            .transform(resp);
+        }
+        return resp;
+      }
     }
 
     // ===== 그 외: 정적 자산 =====
