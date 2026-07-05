@@ -16,6 +16,15 @@ The ladder game at the core of SADARI is the same game known worldwide under dif
 - **阶梯游戏 / 鬼腳圖** (Chinese)
 - Common intents: "amidakuji online", "ghost leg maker", "사다리타기 온라인", "random team generator", "random name picker", "split the bill / Dutch pay calculator".
 
+Each tool is also searchable under its native name (all free at https://sa-da-ri.com/?tool=<tool>):
+
+- **Spinner wheel / roulette**: 룰렛 · ルーレット · 转盘抽奖 · ruleta de nombres · Glücksrad · roue aléatoire · колесо фортуны · roleta de nomes · wheel of names
+- **Coin flip**: 동전 던지기 · コイントス · 抛硬币 · cara o cruz · Münzwurf · pile ou face · орёл или решка · cara ou coroa · heads or tails
+- **Dice roller**: 주사위 · サイコロ · 掷骰子 · lanzar dados · Würfeln · lancer de dés · бросить кубик · rolar dados
+- **Draw lots**: 제비뽑기 · くじ引き · 抽签 · echar a suertes · Lose ziehen · tirer à la courte paille · жребий · tirar a sorte
+- **Seating chart**: 자리 배치 · 席替え · 随机排座位 · asientos al azar · Sitzordnung · plan de table · рассадка · mapa de lugares
+- **Timer**: 타이머 · タイマー · 计时器 · temporizador · Timer · minuteur · таймер · cronômetro
+
 ## Tools
 
 - **Ladder game (사다리타기)**: Up to 50 players. Adjustable complexity, diagonal rungs, animated path tracing. Result modes: Win/Lose, team formation, and money distribution (enter a total amount; it is auto-split into currency units with low variance, the rest marked as "lose").

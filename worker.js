@@ -28,6 +28,30 @@ const HOME = {
   pt:{lc:"pt_BR",og:"SADARI · Sorteio online",title:"SADARI — Sorteio online grátis: escada (Amidakuji), roleta e mais",desc:"Sorteio online grátis: escada (Amidakuji / Ghost Leg), roleta, sorteio de cartas, moeda, dados, lugares e cronômetro. Escolha ganhadores, forme times ou divida a conta. Até 50, sem cadastro."}
 };
 
+// 언어→og:locale
+const LOC = { ko:"ko_KR", en:"en_US", ja:"ja_JP", zh:"zh_CN", es:"es_ES", de:"de_DE", fr:"fr_FR", ru:"ru_RU", pt:"pt_BR" };
+
+// 사다리 외 도구별·언어별 네이티브 키워드(=검색어). ?tool=X&lang=Y 로 진입한 크롤러에게 해당 도구/언어 메타를 렌더해 각 도구를 각 언어로 색인시킨다.
+const TOOL_KW = {
+  roulette:{ko:"룰렛 돌리기",en:"Spinner Wheel · Wheel of Names",ja:"ルーレット",zh:"转盘抽奖",es:"Ruleta de nombres",de:"Glücksrad",fr:"Roue aléatoire",ru:"Колесо фортуны",pt:"Roleta de nomes"},
+  draw:{ko:"제비뽑기",en:"Draw Lots",ja:"くじ引き",zh:"在线抽签",es:"Echar a suertes",de:"Lose ziehen",fr:"Tirer à la courte paille",ru:"Жребий онлайн",pt:"Tirar a sorte"},
+  coin:{ko:"동전 던지기",en:"Flip a Coin",ja:"コイントス",zh:"抛硬币",es:"Cara o Cruz",de:"Münzwurf",fr:"Pile ou Face",ru:"Орёл или решка",pt:"Cara ou Coroa"},
+  dice:{ko:"주사위 굴리기",en:"Dice Roller",ja:"サイコロ",zh:"掷骰子",es:"Lanzar dados",de:"Würfeln",fr:"Lancer de dés",ru:"Бросить кубик",pt:"Rolar dados"},
+  seats:{ko:"자리 배치",en:"Random Seating Chart",ja:"席替え",zh:"随机排座位",es:"Asientos al azar",de:"Zufällige Sitzordnung",fr:"Plan de table aléatoire",ru:"Случайная рассадка",pt:"Mapa de lugares aleatório"},
+  timer:{ko:"타이머",en:"Online Timer",ja:"タイマー",zh:"在线计时器",es:"Temporizador online",de:"Timer online",fr:"Minuteur en ligne",ru:"Таймер онлайн",pt:"Cronômetro online"}
+};
+const TOOL_TPL = {
+  ko:{t:n=>`${n} — 무료 온라인 · SADARI`, d:n=>`${n}을(를) 회원가입 없이 무료로 바로 사용. 결과는 링크·이미지로 공유, 모바일 지원. SADARI의 랜덤 추첨 도구 모음.`},
+  en:{t:n=>`${n} — Free Online, No Sign-up · SADARI`, d:n=>`${n} online — free, instant and fair. Share the result by link or image, works on mobile. From SADARI's random picker toolkit.`},
+  ja:{t:n=>`${n} — 無料オンライン · SADARI`, d:n=>`${n}を登録なしで無料に。結果はリンク・画像で共有、スマホ対応。SADARIの抽選ツール集。`},
+  zh:{t:n=>`${n} — 免费在线 · SADARI`, d:n=>`${n}，免注册免费即用。结果可用链接或图片分享，支持手机。SADARI 随机工具集。`},
+  es:{t:n=>`${n} online gratis · SADARI`, d:n=>`${n} online, gratis y al instante. Comparte el resultado por enlace o imagen, funciona en el móvil. Del kit de sorteos SADARI.`},
+  de:{t:n=>`${n} online kostenlos · SADARI`, d:n=>`${n} online, kostenlos und sofort. Ergebnis per Link oder Bild teilen, mobil nutzbar. Aus dem Zufalls-Toolkit von SADARI.`},
+  fr:{t:n=>`${n} en ligne gratuit · SADARI`, d:n=>`${n} en ligne, gratuit et instantané. Partagez le résultat par lien ou image, compatible mobile. De la boîte à outils aléatoire SADARI.`},
+  ru:{t:n=>`${n} — бесплатно онлайн · SADARI`, d:n=>`${n} онлайн, бесплатно и сразу. Поделитесь результатом ссылкой или картинкой, работает на телефоне. Из набора рандомайзеров SADARI.`},
+  pt:{t:n=>`${n} online grátis · SADARI`, d:n=>`${n} online, grátis e na hora. Compartilhe o resultado por link ou imagem, funciona no celular. Do kit de sorteios SADARI.`}
+};
+
 function genId(n = 8){
   const a = new Uint8Array(n); crypto.getRandomValues(a);
   let s = ""; for (let i = 0; i < n; i++) s += ALPH[a[i] % ALPH.length];
@@ -113,6 +137,42 @@ export default {
       return new Response(resultHtml(rec, url.origin), {
         headers:{ "content-type":"text/html; charset=utf-8", "cache-control":"public, max-age=600" }
       });
+    }
+
+    // ===== 도구: ?tool=X (&lang=Y) 별 서버사이드 메타 (도구별 다국어 색인) =====
+    if ((p === "/" || p === "/index.html") && request.method === "GET"){
+      const tool = (url.searchParams.get("tool") || "").replace(/[^a-z]/g, "");
+      if (TOOL_KW[tool]){
+        const lr = url.searchParams.get("lang");
+        const lang = (lr && SUP.includes(lr)) ? lr : "ko";
+        const resp = await env.ASSETS.fetch(request);
+        if ((resp.headers.get("content-type") || "").includes("text/html")){
+          const base = "https://sa-da-ri.com/?tool=" + tool;
+          const canon = lang === "ko" ? base : base + "&lang=" + lang;
+          const name = TOOL_KW[tool][lang] || TOOL_KW[tool].en;
+          const tpl = TOOL_TPL[lang] || TOOL_TPL.en;
+          const title = tpl.t(name), desc = tpl.d(name), og = name + " · SADARI";
+          return new HTMLRewriter()
+            .on("html", { element(e){ e.setAttribute("lang", lang); } })
+            .on("title", { element(e){ e.setInnerContent(title); } })
+            .on('meta[name="description"]', { element(e){ e.setAttribute("content", desc); } })
+            .on('meta[property="og:title"]', { element(e){ e.setAttribute("content", og); } })
+            .on('meta[property="og:description"]', { element(e){ e.setAttribute("content", desc); } })
+            .on('meta[name="twitter:title"]', { element(e){ e.setAttribute("content", og); } })
+            .on('meta[name="twitter:description"]', { element(e){ e.setAttribute("content", desc); } })
+            .on('meta[property="og:url"]', { element(e){ e.setAttribute("content", canon); } })
+            .on('meta[property="og:locale"]', { element(e){ e.setAttribute("content", LOC[lang]); } })
+            .on('link[rel="canonical"]', { element(e){ e.setAttribute("href", canon); } })
+            .on('link[rel="alternate"]', { element(e){
+              const hl = e.getAttribute("hreflang"); if (!hl) return;
+              if (hl === "x-default") e.setAttribute("href", base + "&lang=en");
+              else if (hl === "ko") e.setAttribute("href", base);
+              else e.setAttribute("href", base + "&lang=" + hl);
+            } })
+            .transform(resp);
+        }
+        return resp;
+      }
     }
 
     // ===== 홈: ?lang 별 서버사이드 메타 (다국어 색인) =====
