@@ -75,6 +75,16 @@ Each tool is also searchable under its native name (all free at https://sa-da-ri
 - [조 편성하는 법 (KO)](https://sa-da-ri.com/guide-team-ko.html)
 - [순서·벌칙 정하기 (KO)](https://sa-da-ri.com/guide-order-ko.html)
 
+## Articles (Korean editorial on the ladder game)
+
+- [사다리타기의 유래 — 아미다쿠지 700년](https://sa-da-ri.com/story-amidakuji-history.html): origin in Muromachi-era Amidakuji, named after Amida Buddha's radiating halo.
+- [사다리타기의 수학 — 순열과 일대일 대응](https://sa-da-ri.com/story-ladder-math.html): each rung is an adjacent transposition, so a ladder is always a bijection (no two players collide).
+- [공정한 추첨, 무엇으로 정할까](https://sa-da-ri.com/story-fair-draw.html): ladder vs roulette vs draw lots vs coin vs dice.
+- [모임을 살리는 사다리타기 활용법](https://sa-da-ri.com/story-gathering.html)
+- [왜 '랜덤'은 공정하게 느껴질까](https://sa-da-ri.com/story-procedural-fairness.html): procedural fairness psychology.
+- [세계가 부르는 이름들](https://sa-da-ri.com/story-ladder-world.html): Sadari / Amidakuji / Ghost Leg / 鬼腳圖.
+- Hub: [사다리 이야기](https://sa-da-ri.com/stories.html)
+
 ## Pages
 
 - [Home / App](https://sa-da-ri.com/)

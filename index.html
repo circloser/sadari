@@ -553,6 +553,7 @@
       <a href="/privacy.html" data-i18n="ft_privacy">개인정보처리방침</a>
       <a href="/contact.html" data-i18n="ft_contact">문의</a>
       <a href="/guides.html" data-i18n="ft_guides">📖 가이드</a>
+      <a href="/stories.html" data-i18n="ft_stories">이야기</a>
     </nav>
     © 2026 SADARI · <a href="https://sa-da-ri.com">sa-da-ri.com</a> · Climb your luck.<br>
     문의·피드백: <a href="mailto:singlena@gmail.com">singlena@gmail.com</a>
@@ -777,7 +778,7 @@ const _SHARE={
   pt:{sh_share:"📤 Compartilhar",sh_choose:"Escolha como compartilhar"}
 };
 Object.keys(_SHARE).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _SHARE[l]); });
-const _NAV={ko:{ft_guides:"📖 가이드"},en:{ft_guides:"📖 Guides"},ja:{ft_guides:"📖 ガイド"},zh:{ft_guides:"📖 指南"},es:{ft_guides:"📖 Guías"},de:{ft_guides:"📖 Anleitungen"},fr:{ft_guides:"📖 Guides"},ru:{ft_guides:"📖 Гайды"},pt:{ft_guides:"📖 Guias"}};
+const _NAV={ko:{ft_guides:"📖 가이드",ft_stories:"이야기"},en:{ft_guides:"📖 Guides",ft_stories:"Stories"},ja:{ft_guides:"📖 ガイド",ft_stories:"コラム"},zh:{ft_guides:"📖 指南",ft_stories:"专栏"},es:{ft_guides:"📖 Guías",ft_stories:"Artículos"},de:{ft_guides:"📖 Anleitungen",ft_stories:"Artikel"},fr:{ft_guides:"📖 Guides",ft_stories:"Articles"},ru:{ft_guides:"📖 Гайды",ft_stories:"Статьи"},pt:{ft_guides:"📖 Guias",ft_stories:"Artigos"}};
 Object.keys(_NAV).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _NAV[l]); });
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>사다리타기의 수학 — 순열, 그리고 반드시 성립하는 일대일 대응</title>
+<meta name="description" content="사다리타기는 왜 항상 서로 다른 결과가 나올까? 가로줄 하나가 '이웃한 두 자리의 맞바꿈'이라는 사실에서 출발해, 순열과 전단사(일대일 대응)로 사다리의 공정성을 증명한다." />
+<meta name="keywords" content="사다리타기 원리, 사다리타기 수학, 순열, 일대일 대응, 전단사, 사다리타기 확률, 사다리타기 공정성" />
+<link rel="canonical" href="https://sa-da-ri.com/story-ladder-math.html" />
+<link rel="alternate" hreflang="ko" href="https://sa-da-ri.com/story-ladder-math.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="사다리타기의 수학 — 순열과 일대일 대응" />
+<meta property="og:description" content="가로줄은 '두 자리의 맞바꿈'이다. 그래서 결과는 절대 겹치지 않는다." />
+<meta property="og:image" content="https://sa-da-ri.com/og.png" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GX8871G3D0');</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"사다리타기의 수학 — 순열, 그리고 반드시 성립하는 일대일 대응","description":"가로줄을 인접 호환(transposition)으로 보면, 사다리타기가 항상 전단사(일대일 대응)를 만든다는 사실이 증명된다.","image":"https://sa-da-ri.com/og.png","datePublished":"2026-07-05","dateModified":"2026-07-05","inLanguage":"ko","author":{"@type":"Organization","name":"SADARI"},"publisher":{"@type":"Organization","name":"SADARI","url":"https://sa-da-ri.com/"},"mainEntityOfPage":"https://sa-da-ri.com/story-ladder-math.html"}
+</script>
+<style>
+  *{box-sizing:border-box;}body{margin:0;font-family:"Pretendard","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.95;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:800;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  h1{font-size:28px;margin:16px 0 6px;line-height:1.4;}
+  h2{font-size:20px;margin:32px 0 8px;color:#38bdf8;}
+  p,li{color:#dbe4f0;font-size:16.5px;}
+  ol,ul{padding-left:22px;}
+  a{color:#38bdf8;}
+  .byline{color:#94a3b8;font-size:13px;margin:0 0 8px;}
+  .lead{font-size:18px;color:#f1f5f9;border-left:3px solid #38bdf8;padding-left:14px;margin:18px 0 24px;}
+  .cta{display:block;text-align:center;margin:28px 0;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;font-weight:800;font-size:17px;text-decoration:none;padding:16px;border-radius:14px;}
+  .muted{color:#94a3b8;font-size:14px;}
+  .rel{margin-top:34px;padding-top:18px;border-top:1px solid #334155;}
+  .rel a{display:block;margin:6px 0;}
+  footer{max-width:720px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/?lang=ko">🪜 SADARI</a>
+  <h1>사다리타기의 수학 — 순열, 그리고 반드시 성립하는 일대일 대응</h1>
+  <p class="byline">SADARI 이야기 · 2026년 7월</p>
+
+  <p class="lead">사다리타기에는 누구도 의심하지 않는 암묵의 약속이 하나 있다. "두 사람이 같은 곳에 도착하는 일은 없다." 이 약속은 우연이 아니라, 수학적으로 <b>반드시</b> 성립한다.</p>
+
+  <p>왜 그럴까. 답은 가로줄 하나의 정체에 있다. 사다리에서 <b>가로줄 한 개는 '이웃한 두 세로줄의 자리를 맞바꾸는 것'</b>과 정확히 같다. 수학에서는 이렇게 두 원소만 자리를 바꾸는 연산을 <b>호환(互換, transposition)</b>이라 부른다. 아래로 내려가며 가로줄을 하나 만날 때마다, 이동 중인 두 갈래가 서로 자리를 한 번 맞바꾸는 것이다.</p>
+
+  <h2>맞바꿈은 아무리 쌓아도 '일대일 대응'</h2>
+  <p>맞바꿈(호환)의 결정적 성질은 <b>되돌릴 수 있다</b>는 것이다. 두 자리를 바꿨다면, 같은 자리를 한 번 더 바꾸면 원래대로 돌아온다. 되돌릴 수 있는 연산은 <b>일대일 대응(전단사, bijection)</b>이다. 그리고 일대일 대응을 여러 번 이어 붙여도 결과는 여전히 일대일 대응이다.</p>
+  <p>사다리 전체는 결국 이런 맞바꿈을 위에서 아래로 죽 이어 붙인 것에 지나지 않는다. 그러므로 <b>출발점 전체와 도착점 전체 사이에는 언제나 완벽한 일대일 대응이 성립</b>한다. 즉 (1) 서로 다른 두 출발점은 절대 같은 곳에 도착하지 않고, (2) 모든 도착점은 빠짐없이 누군가에게 배정된다. 사다리타기의 '공정함'은 바로 이 두 문장이다.</p>
+
+  <h2>그럼 모든 순서가 나올 수 있을까</h2>
+  <p>결과가 겹치지 않는다는 것과, 원하는 어떤 결과든 나올 수 있다는 것은 다른 이야기다. 다행히 후자도 참이다. 수학에는 "임의의 순열(順列)은 이웃한 것들의 맞바꿈을 여러 번 반복해 만들 수 있다"는 정리가 있다. 정렬 알고리즘 중 <b>버블 정렬</b>이 정확히 이 원리로 작동한다. 뒤집어 말하면, <b>가로줄만 충분히 그으면 사다리는 어떤 순서(배열)든 표현할 수 있다.</b> 자리를 완전히 뒤바꾸는 극단적인 결과조차, 가로줄을 알맞게 배치하면 만들어진다.</p>
+
+  <h2>'완전히 균등'과 '겹치지 않음'은 다른 문제</h2>
+  <p>한 가지는 짚어 두자. 가로줄을 무작위로 그었을 때 나올 수 있는 모든 순서가 <b>완벽히 같은 확률</b>로 나오는 것은 아니다. 가로줄이 적으면 이동 폭이 좁아 가까운 자리로 갈 확률이 높다. 다만 <b>가로줄(복잡도)을 늘릴수록 분포는 점점 고르게 퍼진다</b>. 그래서 사다리를 '더 복잡하게' 섞을수록 결과는 더 무작위에 가까워진다. 핵심은, 균등함은 복잡도에 달려 있어도 <b>'겹치지 않음'은 가로줄이 한 개든 백 개든 항상 보장</b>된다는 점이다. 700년을 살아남은 놀이의 공정함에는, 이렇게 단단한 수학이 깔려 있다.</p>
+
+  <a class="cta" href="/?lang=ko&tool=ladder">🪜 복잡도를 높여 직접 확인하기 →</a>
+
+  <div class="rel">
+    <p class="muted">이어 읽기</p>
+    <a href="/story-amidakuji-history.html">→ 사다리타기의 유래: 아미다쿠지에서 시작된 700년 이야기</a>
+    <a href="/story-fair-draw.html">→ 공정한 추첨, 무엇으로 정할까: 다섯 도구 비교</a>
+    <a href="/stories.html">→ 사다리 이야기 전체 보기</a>
+  </div>
+
+  <footer><a href="/?lang=ko">홈</a> · <a href="/stories.html">이야기</a> · <a href="/guides.html">가이드</a> · <a href="/about.html">소개</a></footer>
+</div>
+</body>
+</html>
