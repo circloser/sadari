@@ -51,6 +51,12 @@ const TOOL_TPL = {
   ru:{t:n=>`${n} — бесплатно онлайн · SADARI`, d:n=>`${n} онлайн, бесплатно и сразу. Поделитесь результатом ссылкой или картинкой, работает на телефоне. Из набора рандомайзеров SADARI.`},
   pt:{t:n=>`${n} online grátis · SADARI`, d:n=>`${n} online, grátis e na hora. Compartilhe o resultado por link ou imagem, funciona no celular. Do kit de sorteios SADARI.`}
 };
+// 플래그십 도구의 언어별 전용 콘텐츠 페이지 — 존재하면 앱 URL(?tool=X&lang=L)의 canonical/hreflang 을 이 페이지로 넘겨 중복(cannibalization) 방지.
+const TOOL_PAGE = {
+  roulette:{ en:"https://sa-da-ri.com/guide-wheel.html" },
+  coin:{ en:"https://sa-da-ri.com/guide-coin-flip.html" },
+  dice:{ en:"https://sa-da-ri.com/guide-dice.html" }
+};
 
 function genId(n = 8){
   const a = new Uint8Array(n); crypto.getRandomValues(a);
@@ -148,7 +154,10 @@ export default {
         const resp = await env.ASSETS.fetch(request);
         if ((resp.headers.get("content-type") || "").includes("text/html")){
           const base = "https://sa-da-ri.com/?tool=" + tool;
-          const canon = lang === "ko" ? base : base + "&lang=" + lang;
+          const pages = TOOL_PAGE[tool] || {};
+          const langUrl = l => pages[l] || (l === "ko" ? base : base + "&lang=" + l);
+          // 이 언어에 전용 콘텐츠 페이지가 있으면 canonical 을 그쪽으로 넘긴다.
+          const canon = pages[lang] || (lang === "ko" ? base : base + "&lang=" + lang);
           const name = TOOL_KW[tool][lang] || TOOL_KW[tool].en;
           const tpl = TOOL_TPL[lang] || TOOL_TPL.en;
           const title = tpl.t(name), desc = tpl.d(name), og = name + " · SADARI";
@@ -165,9 +174,7 @@ export default {
             .on('link[rel="canonical"]', { element(e){ e.setAttribute("href", canon); } })
             .on('link[rel="alternate"]', { element(e){
               const hl = e.getAttribute("hreflang"); if (!hl) return;
-              if (hl === "x-default") e.setAttribute("href", base + "&lang=en");
-              else if (hl === "ko") e.setAttribute("href", base);
-              else e.setAttribute("href", base + "&lang=" + hl);
+              e.setAttribute("href", hl === "x-default" ? langUrl("en") : langUrl(hl));
             } })
             .transform(resp);
         }
