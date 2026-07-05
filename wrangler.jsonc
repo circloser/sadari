@@ -4,7 +4,8 @@
   "compatibility_date": "2026-06-20",
   "assets": {
     "directory": ".",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "run_worker_first": true
   },
   "kv_namespaces": [
     { "binding": "SHARE", "id": "d78f29edab3448008c87279fd1f2b61c" }

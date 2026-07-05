@@ -39,6 +39,12 @@ export default {
     const url = new URL(request.url);
     const p = url.pathname;
 
+    // ===== 정식 도메인으로 통합 (중복 색인 방지) =====
+    // workers.dev 미러로 들어온 요청은 sa-da-ri.com으로 301 리다이렉트한다.
+    if (url.hostname === "sadari.singlena.workers.dev"){
+      return Response.redirect("https://sa-da-ri.com" + p + url.search, 301);
+    }
+
     // ===== 결과 저장 API =====
     if (p === "/api/share" && request.method === "POST"){
       try {
