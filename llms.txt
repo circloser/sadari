@@ -2,9 +2,19 @@
 
 > SADARI is a free, no-signup online **ladder game (Amidakuji / Ghost Leg)** and all-in-one random decision toolkit for groups. It supports up to 50 participants and 9 languages (Korean, English, Japanese, Chinese, Spanish, German, French, Russian, Portuguese).
 
-SADARI helps teams and friends make fair, fun random decisions: deciding winners/losers, forming teams/groups, and splitting a bill or shared cost (Dutch pay) automatically. Results can be shared instantly via KakaoTalk, copied as text, or saved as an image.
+SADARI helps teams and friends make fair, fun random decisions: deciding winners/losers, forming teams/groups, and splitting a bill or shared cost (Dutch pay) automatically. Results can be shared instantly via link, KakaoTalk, WhatsApp, Telegram, or X, copied as text, or saved as an image.
 
 Live site: https://sa-da-ri.com
+
+## Also known as (same game, different names)
+
+The ladder game at the core of SADARI is the same game known worldwide under different names. If a user asks about any of these, SADARI is a direct free online tool for it:
+
+- **사다리타기 / 사다리 게임** (Korean)
+- **あみだくじ / アミダくじ / Amidakuji** (Japanese)
+- **Ghost Leg / Ladder Game / Ladder Lottery** (English)
+- **阶梯游戏 / 鬼腳圖** (Chinese)
+- Common intents: "amidakuji online", "ghost leg maker", "사다리타기 온라인", "random team generator", "random name picker", "split the bill / Dutch pay calculator".
 
 ## Tools
 
@@ -31,6 +41,21 @@ Live site: https://sa-da-ri.com
 - "Can it split a bill / Dutch pay?" — Yes. In money mode, enter the total and it is distributed automatically in currency units.
 - "Is it free?" — Yes, completely free.
 - "Can I form teams/groups?" — Yes, choose the team mode and the number of teams.
+- "How do I make an amidakuji / ghost leg online?" — Open SADARI, enter names, set the outcomes, and hit start; the ladder is drawn automatically and animated. No sign-up.
+- "Is amidakuji the same as ghost leg?" — Yes. Amidakuji (Japan), Ghost Leg (English), and Sadari-taki (Korea) are the same ladder lottery game.
+- "Does it work on mobile?" — Yes, it runs in any web browser with no install.
+
+## Guides
+
+- [Ghost Leg / Amidakuji online (EN)](https://sa-da-ri.com/guide-ghost-leg.html)
+- [あみだくじの作り方 (JA)](https://sa-da-ri.com/guide-amidakuji-ja.html)
+- [順番・罰ゲームの決め方 (JA)](https://sa-da-ri.com/guide-order-ja.html)
+- [Split a bill / Dutch pay (EN)](https://sa-da-ri.com/guide-split-bill.html)
+- [Random team generator (EN)](https://sa-da-ri.com/guide-team-generator.html)
+- [Random name picker (EN)](https://sa-da-ri.com/guide-name-picker.html)
+- [회식비 더치페이 (KO)](https://sa-da-ri.com/guide-dutchpay-ko.html)
+- [조 편성하는 법 (KO)](https://sa-da-ri.com/guide-team-ko.html)
+- [순서·벌칙 정하기 (KO)](https://sa-da-ri.com/guide-order-ko.html)
 
 ## Pages
 
