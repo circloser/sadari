@@ -243,6 +243,14 @@
   .seat .num{font-size:10px; color:var(--muted);}
 
   /* ===== 푸터 ===== */
+  .home-content{max-width:760px; margin:40px auto 0; padding:24px 24px 26px; background:linear-gradient(180deg,rgba(30,41,59,.55),rgba(15,23,42,.35)); border:1px solid var(--border); border-radius:16px; line-height:1.9;}
+  .home-content h2{font-size:21px; margin:0 0 10px;}
+  .home-content h3{font-size:16px; margin:22px 0 6px; color:var(--accent);}
+  .home-content p{color:#dbe4f0; font-size:15px; margin:0 0 6px;}
+  .home-content ul{padding-left:20px; margin:4px 0;}
+  .home-content li{color:#dbe4f0; font-size:15px; margin:2px 0;}
+  .home-content .home-links{display:flex; flex-wrap:wrap; gap:8px 16px;}
+  .home-content .home-links a{color:var(--accent); font-weight:600;}
   .footer-seo{max-width:900px; margin:36px auto 0; text-align:center; color:var(--muted); font-size:13px; line-height:1.8;}
   footer{max-width:900px; margin:18px auto 0; text-align:center; color:var(--muted); font-size:12px; border-top:1px solid var(--border); padding-top:16px;}
   footer a{color:var(--accent);}
@@ -528,7 +536,7 @@
 
   <!-- ===================== FAQ (SEO/GEO) ===================== -->
   <section class="faq" id="faqSection">
-    <details class="faq-top">
+    <details class="faq-top" open>
     <summary class="faq-toggle" data-i18n="faq_title">자주 묻는 질문 (FAQ)</summary>
     <details><summary data-i18n="faq_q1">사다리타기는 몇 명까지 가능한가요?</summary><p data-i18n="faq_a1">최대 50명까지 동시에 사다리타기를 진행할 수 있습니다. 인원 수를 입력하면 사다리가 자동 생성됩니다.</p></details>
     <details><summary data-i18n="faq_q2">회식비·더치페이를 자동으로 나눌 수 있나요?</summary><p data-i18n="faq_a2">네. 금액 배분 모드에서 총액을 입력하면 통화 단위로 자동 분배되며, 한 사람에게 쏠리지 않도록 편차를 줄여 배분합니다.</p></details>
@@ -537,6 +545,26 @@
     <details><summary data-i18n="faq_q5">어떤 추첨 도구를 제공하나요?</summary><p data-i18n="faq_a5">사다리타기 외에 룰렛, 제비뽑기, 동전 던지기, 주사위, 자리 배치, 타이머를 제공합니다.</p></details>
     <details><summary data-i18n="faq_q6">결과를 친구에게 공유할 수 있나요?</summary><p data-i18n="faq_a6">공유 링크, 카카오톡, 텍스트·이미지 저장으로 결과를 바로 공유할 수 있습니다.</p></details>
     </details>
+  </section>
+
+  <!-- ===================== 홈 콘텐츠 (항상 노출) ===================== -->
+  <section class="home-content">
+    <h2 data-i18n="hm_title">사다리타기, SADARI 하나로</h2>
+    <p data-i18n="hm_p">SADARI는 설치도 회원가입도 없이 브라우저에서 바로 쓰는 무료 사다리타기입니다. 이름만 넣으면 사다리가 자동으로 만들어지고, 애니메이션으로 결과를 보여 줘 모두가 결과에 수긍합니다. 기존 사다리로는 번거롭던 대규모 조 편성과 회식비·더치페이 자동 계산까지 한 번에 해결하고, 룰렛·제비뽑기·동전·주사위·자리 배치·타이머도 함께 제공합니다.</p>
+    <h3 data-i18n="hm_when">이럴 때 쓰세요</h3>
+    <ul>
+      <li data-i18n="hm_u1">회식비·더치페이 정산</li>
+      <li data-i18n="hm_u2">MT·워크숍 조 편성</li>
+      <li data-i18n="hm_u3">발표·게임 순서 정하기</li>
+      <li data-i18n="hm_u4">벌칙·당번·쏘는 사람 뽑기</li>
+    </ul>
+    <h3 data-i18n="hm_learn">더 알아보기</h3>
+    <p class="home-links">
+      <a href="/story-amidakuji-history.html" data-i18n="hm_l1">사다리타기의 유래</a>
+      <a href="/story-ladder-math.html" data-i18n="hm_l2">항상 공정한 이유 (수학 원리)</a>
+      <a href="/story-gathering.html" data-i18n="hm_l3">모임 활용법</a>
+      <a href="/guides.html" data-i18n="hm_l4">전체 가이드</a>
+    </p>
   </section>
 
   <!-- 광고: 하단 (전역) -->
@@ -780,6 +808,18 @@ const _SHARE={
 Object.keys(_SHARE).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _SHARE[l]); });
 const _NAV={ko:{ft_guides:"📖 가이드",ft_stories:"이야기"},en:{ft_guides:"📖 Guides",ft_stories:"Stories"},ja:{ft_guides:"📖 ガイド",ft_stories:"コラム"},zh:{ft_guides:"📖 指南",ft_stories:"专栏"},es:{ft_guides:"📖 Guías",ft_stories:"Artículos"},de:{ft_guides:"📖 Anleitungen",ft_stories:"Artikel"},fr:{ft_guides:"📖 Guides",ft_stories:"Articles"},ru:{ft_guides:"📖 Гайды",ft_stories:"Статьи"},pt:{ft_guides:"📖 Guias",ft_stories:"Artigos"}};
 Object.keys(_NAV).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _NAV[l]); });
+const _HOME={
+  ko:{hm_title:"사다리타기, SADARI 하나로",hm_p:"SADARI는 설치도 회원가입도 없이 브라우저에서 바로 쓰는 무료 사다리타기입니다. 이름만 넣으면 사다리가 자동으로 만들어지고, 애니메이션으로 결과를 보여 줘 모두가 결과에 수긍합니다. 기존 사다리로는 번거롭던 대규모 조 편성과 회식비·더치페이 자동 계산까지 한 번에 해결하고, 룰렛·제비뽑기·동전·주사위·자리 배치·타이머도 함께 제공합니다.",hm_when:"이럴 때 쓰세요",hm_u1:"회식비·더치페이 정산",hm_u2:"MT·워크숍 조 편성",hm_u3:"발표·게임 순서 정하기",hm_u4:"벌칙·당번·쏘는 사람 뽑기",hm_learn:"더 알아보기",hm_l1:"사다리타기의 유래",hm_l2:"항상 공정한 이유 (수학 원리)",hm_l3:"모임 활용법",hm_l4:"전체 가이드"},
+  en:{hm_title:"Everything in one ladder game — SADARI",hm_p:"SADARI is a free ladder game (Amidakuji / Ghost Leg) that runs in your browser — no install, no sign-up. Enter names and the ladder is drawn automatically, then animated so everyone accepts the outcome. It also handles what old paper ladders couldn't — splitting a bill and forming balanced teams — plus roulette, draw lots, coin flip, dice, seating and a timer.",hm_when:"When to use it",hm_u1:"Split a bill (Dutch pay)",hm_u2:"Form teams for trips & workshops",hm_u3:"Set the running order for talks & games",hm_u4:"Pick who does the dare, chore or pays",hm_learn:"Learn more",hm_l1:"History of the ladder game",hm_l2:"Why it's always fair (the math)",hm_l3:"Ways to use it",hm_l4:"All guides"},
+  ja:{hm_title:"あみだくじも、みんな SADARI ひとつで",hm_p:"SADARIはインストールも登録も不要、ブラウザですぐ使える無料のあみだくじ（Ghost Leg）です。名前を入れるだけで自動でくじが作られ、アニメーションで結果を見せるので全員が納得します。従来のあみだくじでは面倒だったチーム分けや割り勘の自動計算に加え、ルーレット・くじ引き・コイン・サイコロ・席替え・タイマーも使えます。",hm_when:"こんなときに",hm_u1:"飲み会の割り勘・精算",hm_u2:"旅行・研修のチーム分け",hm_u3:"発表・ゲームの順番決め",hm_u4:"罰ゲーム・当番・おごり決め",hm_learn:"もっと知る",hm_l1:"あみだくじの由来",hm_l2:"いつも公平な理由（数学）",hm_l3:"活用アイデア",hm_l4:"ガイド一覧"},
+  zh:{hm_title:"鬼脚图与更多，尽在 SADARI",hm_p:"SADARI 是免安装、免注册、在浏览器即用的免费鬼脚图（阶梯抽签）。输入名字即可自动生成线路，并以动画展示结果，让所有人都心服口服。它还能完成传统鬼脚图难做的随机分组和 AA 分摊，并提供轮盘、抽签、抛硬币、骰子、排座位和计时器。",hm_when:"适用场景",hm_u1:"AA 分摊、账单结算",hm_u2:"出游、活动随机分组",hm_u3:"发言、游戏顺序",hm_u4:"惩罚、值日、谁请客",hm_learn:"了解更多",hm_l1:"鬼脚图的由来",hm_l2:"为何总是公平（数学原理）",hm_l3:"使用场景",hm_l4:"全部指南"},
+  es:{hm_title:"Todo en un sorteo de escalera — SADARI",hm_p:"SADARI es un sorteo de escalera (Amidakuji / Ghost Leg) gratuito que funciona en el navegador, sin instalar ni registrarse. Escribe los nombres y la escalera se dibuja sola, con animación para que todos acepten el resultado. Además reparte la cuenta y forma equipos equilibrados, e incluye ruleta, sorteo de cartas, moneda, dados, asientos y temporizador.",hm_when:"Cuándo usarlo",hm_u1:"Dividir la cuenta",hm_u2:"Formar equipos para viajes y talleres",hm_u3:"Decidir el orden de turnos y juegos",hm_u4:"Elegir quién paga, el reto o la tarea",hm_learn:"Saber más",hm_l1:"Historia del juego de la escalera",hm_l2:"Por qué siempre es justo (las matemáticas)",hm_l3:"Formas de usarlo",hm_l4:"Todas las guías"},
+  de:{hm_title:"Alles in einem Leiterspiel — SADARI",hm_p:"SADARI ist ein kostenloses Leiterspiel (Amidakuji / Ghost Leg) im Browser — ohne Installation, ohne Anmeldung. Namen eingeben, und die Leiter wird automatisch gezeichnet und animiert, sodass alle das Ergebnis akzeptieren. Es teilt außerdem Rechnungen und bildet faire Teams und bietet Glücksrad, Losziehung, Münze, Würfel, Sitzordnung und Timer.",hm_when:"Wann es hilft",hm_u1:"Rechnung teilen",hm_u2:"Teams für Ausflüge & Workshops bilden",hm_u3:"Reihenfolge für Vorträge & Spiele festlegen",hm_u4:"Auslosen, wer zahlt, die Aufgabe oder Wette",hm_learn:"Mehr erfahren",hm_l1:"Geschichte des Leiterspiels",hm_l2:"Warum es immer fair ist (die Mathematik)",hm_l3:"Anwendungsideen",hm_l4:"Alle Anleitungen"},
+  fr:{hm_title:"Tout dans un jeu de l'échelle — SADARI",hm_p:"SADARI est un jeu de l'échelle (Amidakuji / Ghost Leg) gratuit qui fonctionne dans le navigateur, sans installation ni inscription. Saisissez les noms et l'échelle se dessine seule, animée pour que chacun accepte le résultat. Il partage aussi l'addition et forme des équipes équilibrées, et propose roue, tirage, pile ou face, dés, plan de table et minuteur.",hm_when:"Quand l'utiliser",hm_u1:"Partager l'addition",hm_u2:"Former des équipes pour sorties et ateliers",hm_u3:"Décider l'ordre de passage et des jeux",hm_u4:"Désigner qui paie, le gage ou la tâche",hm_learn:"En savoir plus",hm_l1:"Histoire du jeu de l'échelle",hm_l2:"Pourquoi c'est toujours équitable (les maths)",hm_l3:"Idées d'utilisation",hm_l4:"Tous les guides"},
+  ru:{hm_title:"Всё в одной лесенке — SADARI",hm_p:"SADARI — это бесплатная лесенка (амидакудзи / Ghost Leg) в браузере, без установки и регистрации. Введите имена — лесенка построится сама и покажет результат анимацией, чтобы все с ним согласились. Она также делит счёт и формирует равные команды, а ещё есть колесо, жребий, монетка, кубики, рассадка и таймер.",hm_when:"Когда пригодится",hm_u1:"Разделить счёт",hm_u2:"Составить команды для поездок и тренингов",hm_u3:"Определить порядок выступлений и игр",hm_u4:"Выбрать, кто платит, задание или фант",hm_learn:"Узнать больше",hm_l1:"История игры-лесенки",hm_l2:"Почему это всегда честно (математика)",hm_l3:"Идеи применения",hm_l4:"Все руководства"},
+  pt:{hm_title:"Tudo em um jogo da escada — SADARI",hm_p:"SADARI é um jogo da escada (Amidakuji / Ghost Leg) gratuito que roda no navegador, sem instalar nem se cadastrar. Digite os nomes e a escada é desenhada sozinha, com animação para que todos aceitem o resultado. Também divide a conta e forma times equilibrados, e inclui roleta, sorteio de cartas, moeda, dados, lugares e cronômetro.",hm_when:"Quando usar",hm_u1:"Dividir a conta",hm_u2:"Formar times para viagens e workshops",hm_u3:"Definir a ordem de apresentações e jogos",hm_u4:"Escolher quem paga, o desafio ou a tarefa",hm_learn:"Saber mais",hm_l1:"História do jogo da escada",hm_l2:"Por que é sempre justo (a matemática)",hm_l3:"Formas de usar",hm_l4:"Todos os guias"}
+};
+Object.keys(_HOME).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _HOME[l]); });
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];
   const s = Math.round(v).toLocaleString(c.locale);
