@@ -820,6 +820,8 @@ const _HOME={
   pt:{hm_title:"Tudo em um jogo da escada — SADARI",hm_p:"SADARI é um jogo da escada (Amidakuji / Ghost Leg) gratuito que roda no navegador, sem instalar nem se cadastrar. Digite os nomes e a escada é desenhada sozinha, com animação para que todos aceitem o resultado. Também divide a conta e forma times equilibrados, e inclui roleta, sorteio de cartas, moeda, dados, lugares e cronômetro.",hm_when:"Quando usar",hm_u1:"Dividir a conta",hm_u2:"Formar times para viagens e workshops",hm_u3:"Definir a ordem de apresentações e jogos",hm_u4:"Escolher quem paga, o desafio ou a tarefa",hm_learn:"Saber mais",hm_l1:"História do jogo da escada",hm_l2:"Por que é sempre justo (a matemática)",hm_l3:"Formas de usar",hm_l4:"Todos os guias"}
 };
 Object.keys(_HOME).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _HOME[l]); });
+const _SPLAIN={ko:{share_plain:"사다리타기 결과"},en:{share_plain:"Ladder result"},ja:{share_plain:"あみだくじ結果"},zh:{share_plain:"梯子结果"},es:{share_plain:"Resultado de la escalera"},de:{share_plain:"Leiter-Ergebnis"},fr:{share_plain:"Résultat de l'échelle"},ru:{share_plain:"Результат лестницы"},pt:{share_plain:"Resultado da escada"}};
+Object.keys(_SPLAIN).forEach(l=>{ if(I18N_TOOLS[l]) Object.assign(I18N_TOOLS[l], _SPLAIN[l]); });
 function fmtMoney(v){
   const c = CURRENCIES[state.currency];
   const s = Math.round(v).toLocaleString(c.locale);
@@ -1742,7 +1744,7 @@ function resultPairs(){
   return arr;
 }
 function hasResults(){ return state.results && state.results.length && Object.keys(state.paths).length; }
-function shareHeader(){ const sender=(state.names[0]||"🙂"); return "🪜 "+TT("share_title").replace("{name}", sender); }
+function shareHeader(){ return "🪜 "+TT("share_plain"); }
 function copyResultText(){
   if(!hasResults()){ toast(TT("ts_runfirst")); return; }
   track("share", { method:"copy_text", content_type:"ladder_result" });

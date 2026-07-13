@@ -254,8 +254,7 @@ function tableRows(rec){
 function resultHtml(rec, origin){
   const lang = (rec.lang && W[rec.lang]) ? rec.lang : "ko";
   const t = W[lang];
-  const sender = rec.sender ? esc(rec.sender) : "";
-  const T = sender ? t.namedTpl.replace("{n}", sender) : t.plain;
+  const T = t.plain;
   const title = T + " · SADARI";
   const desc = rec.rows.slice(0, 8).map(r => esc(r.n) + ": " + esc(r.r)).join(" · ");
   const rows = tableRows(rec);
