@@ -53,9 +53,9 @@ const TOOL_TPL = {
 };
 // 플래그십 도구의 언어별 전용 콘텐츠 페이지 — 존재하면 앱 URL(?tool=X&lang=L)의 canonical/hreflang 을 이 페이지로 넘겨 중복(cannibalization) 방지.
 const TOOL_PAGE = {
-  roulette:{ en:"https://sa-da-ri.com/guide-wheel.html" },
-  coin:{ en:"https://sa-da-ri.com/guide-coin-flip.html" },
-  dice:{ en:"https://sa-da-ri.com/guide-dice.html" }
+  roulette:{ en:"https://sa-da-ri.com/guide-wheel" },
+  coin:{ en:"https://sa-da-ri.com/guide-coin-flip" },
+  dice:{ en:"https://sa-da-ri.com/guide-dice" }
 };
 
 function genId(n = 8){
