@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>コイントスは本当に50対50？ — 確率と物理の話</title>
+<meta name="description" content="コイントスは公平の象徴。だが実際には「投げ始めた面」で着地する確率がわずかに高いという研究がある。理論上の確率、現実の微細な偏り、そしてデジタルのコインがより均等な理由。" />
+<meta name="keywords" content="コイントス 確率, コイントス 50対50, 表 裏 確率, コイン 公平, コイントス 偏り" />
+<link rel="canonical" href="https://sa-da-ri.com/story-coin-fairness-ja" />
+<link rel="alternate" hreflang="ja" href="https://sa-da-ri.com/story-coin-fairness-ja" />
+<link rel="alternate" hreflang="en" href="https://sa-da-ri.com/story-coin-fairness-en" />
+<link rel="alternate" hreflang="ko" href="https://sa-da-ri.com/story-coin-fairness" />
+<link rel="alternate" hreflang="x-default" href="https://sa-da-ri.com/story-coin-fairness-en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="コイントスは本当に50対50？" />
+<meta property="og:description" content="理論上の確率、現実の微細な偏り、デジタルコインの話。" />
+<meta property="og:image" content="https://sa-da-ri.com/og.png" />
+<meta property="og:locale" content="ja_JP" />
+<meta name="twitter:card" content="summary_large_image" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GX8871G3D0');</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"コイントスは本当に50対50？ — 確率と物理の話","description":"コイントスの理論確率、現実の同面バイアス、デジタルコイン。","image":"https://sa-da-ri.com/og.png","datePublished":"2026-07-11","dateModified":"2026-07-11","inLanguage":"ja","author":{"@type":"Organization","name":"SADARI"},"publisher":{"@type":"Organization","name":"SADARI","url":"https://sa-da-ri.com/"},"mainEntityOfPage":"https://sa-da-ri.com/story-coin-fairness-ja"}
+</script>
+<style>
+  *{box-sizing:border-box;}body{margin:0;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.95;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:800;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  h1{font-size:26px;margin:16px 0 6px;line-height:1.45;}
+  h2{font-size:20px;margin:32px 0 8px;color:#38bdf8;}
+  p,li{color:#dbe4f0;font-size:16.5px;}
+  ol,ul{padding-left:22px;}
+  a{color:#38bdf8;}
+  .byline{color:#94a3b8;font-size:13px;margin:0 0 8px;}
+  .lead{font-size:18px;color:#f1f5f9;border-left:3px solid #38bdf8;padding-left:14px;margin:18px 0 24px;}
+  .cta{display:block;text-align:center;margin:28px 0;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;font-weight:800;font-size:17px;text-decoration:none;padding:16px;border-radius:14px;}
+  .muted{color:#94a3b8;font-size:14px;}
+  .rel{margin-top:34px;padding-top:18px;border-top:1px solid #334155;}
+  .rel a{display:block;margin:6px 0;}
+  footer{max-width:720px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/?lang=ja">🪜 SADARI</a>
+  <h1>コイントスは本当に50対50？</h1>
+  <p class="byline">SADARI コラム · 2026年7月</p>
+
+  <p class="lead">「コインで決めよう」は公平の象徴だ。表と裏、きっかり半々。でも本当にそうだろうか。確率と物理を覗くと、意外な事実が隠れている。</p>
+
+  <p>コイントスは長らく「完全な無作為」の代名詞だった。試合の先攻決めから小さな言い争いの決着まで、私たちは結果を疑わず受け入れる。理論上、理想的なコインなら表が出る確率はちょうど<b>1/2</b>で正しい。</p>
+
+  <h2>ところが現実はわずかに違う</h2>
+  <p>2007年、米スタンフォードのパーシ・ダイアコニス研究チームが興味深い予測を示した。手で弾いて手で受けるコインは、空中で微妙に<b>歳差運動（ぐらつき）</b>をするため、<b>投げ始めに上を向いていた面で着地する確率がやや高い</b>というのだ。予測値は約51%。2023年には<b>35万回以上</b>を実際に投げる大規模実験がこれを検証し、「投げ始めと同じ面」が出た割合は約<b>50.8%</b>だった。</p>
+
+  <h2>それでもほぼ公平な理由</h2>
+  <p>0.8ポイントの偏りは統計的には本物だが、日常ではほぼ意味がない。しかもこの偏りは「表が有利」ではなく「投げ始めた面が有利」なので、<b>投げる前にどちらの面が上だったか誰も気にしなければ効果は消える。</b>投げる人ごとに持ち方や回転が違い、実戦では相殺されることも多い。</p>
+
+  <h2>デジタルのコインがむしろ均等な理由</h2>
+  <p>画面の中のコインには歳差運動も、手のクセも、重心の偏りもない。偏りの原因そのものが存在しないので、よくできたデジタルのコイントスは<b>理論上の50対50により近い。</b>SADARIのコイントスも毎回新しく無作為な結果を作り、「投げ始めた面」という概念なしに表と裏を均等に選ぶ。物理コインの微妙なクセすら入り込む余地がない。</p>
+
+  <a class="cta" href="/?lang=ja&tool=coin">🪙 コイントスをする →</a>
+
+  <h2>よくある質問</h2>
+  <p><b>表の方がよく出ますか？</b> いいえ。偏りは「表／裏」ではなく「投げ始めた面」側にわずかに生じるだけです。<br>
+  <b>同じ面が連続すると不正ですか？</b> いいえ。無作為では連続が自然に現れます。<br>
+  <b>デジタルの方が公平ですか？</b> 物理的な偏りがないため理論確率に近くなります。</p>
+
+  <div class="rel">
+    <p class="muted">あわせて読む</p>
+    <a href="/story-amidakuji-history-ja">→ あみだくじの由来（700年の歴史）</a>
+    <a href="/?lang=ja&tool=coin">→ コイントスを試す</a>
+  </div>
+
+  <footer><a href="/?lang=ja">ホーム</a> · <a href="/guides.html">ガイド</a> · <a href="/about-en.html">About</a></footer>
+</div>
+</body>
+</html>
