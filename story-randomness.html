@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>무작위란 무엇인가 — '진짜 랜덤'과 컴퓨터의 랜덤</title>
+<meta name="description" content="'아무렇게나'와 '무작위'는 다르다. 방사성 붕괴 같은 진짜 무작위, 컴퓨터의 의사난수(PRNG), 암호학적 난수의 차이. 그리고 추첨에서 무엇이 '공정한 무작위'인지 정리했다." />
+<meta name="keywords" content="무작위, 랜덤, 의사난수, 진짜 랜덤, 난수 생성, 랜덤 공정, PRNG" />
+<link rel="canonical" href="https://sa-da-ri.com/story-randomness" />
+<link rel="alternate" hreflang="ko" href="https://sa-da-ri.com/story-randomness" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="무작위란 무엇인가 — 진짜 랜덤과 컴퓨터의 랜덤" />
+<meta property="og:description" content="진짜 무작위, 의사난수, 그리고 '공정한 무작위'의 조건." />
+<meta property="og:image" content="https://sa-da-ri.com/og.png" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GX8871G3D0');</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"무작위란 무엇인가 — '진짜 랜덤'과 컴퓨터의 랜덤","description":"진짜 무작위와 의사난수의 차이, 그리고 공정한 무작위의 조건.","image":"https://sa-da-ri.com/og.png","datePublished":"2026-07-11","dateModified":"2026-07-11","inLanguage":"ko","author":{"@type":"Organization","name":"SADARI"},"publisher":{"@type":"Organization","name":"SADARI","url":"https://sa-da-ri.com/"},"mainEntityOfPage":"https://sa-da-ri.com/story-randomness"}
+</script>
+<style>
+  *{box-sizing:border-box;}body{margin:0;font-family:"Pretendard","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.95;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:800;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  h1{font-size:27px;margin:16px 0 6px;line-height:1.4;}
+  h2{font-size:20px;margin:32px 0 8px;color:#38bdf8;}
+  p,li{color:#dbe4f0;font-size:16.5px;}
+  ol,ul{padding-left:22px;}
+  a{color:#38bdf8;}
+  .byline{color:#94a3b8;font-size:13px;margin:0 0 8px;}
+  .lead{font-size:18px;color:#f1f5f9;border-left:3px solid #38bdf8;padding-left:14px;margin:18px 0 24px;}
+  .cta{display:block;text-align:center;margin:28px 0;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;font-weight:800;font-size:17px;text-decoration:none;padding:16px;border-radius:14px;}
+  .muted{color:#94a3b8;font-size:14px;}
+  .rel{margin-top:34px;padding-top:18px;border-top:1px solid #334155;}
+  .rel a{display:block;margin:6px 0;}
+  footer{max-width:720px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/?lang=ko">🪜 SADARI</a>
+  <h1>무작위란 무엇인가 — '진짜 랜덤'과 컴퓨터의 랜덤</h1>
+  <p class="byline">SADARI 이야기 · 2026년 7월</p>
+
+  <p class="lead">'아무렇게나'와 '무작위'는 다르다. 무작위의 핵심은 어지러움이 아니라 <b>편향 없음</b> — 다음에 무엇이 나올지 아무도, 어떤 방법으로도 유리하게 예측할 수 없다는 것이다.</p>
+
+  <h2>진짜 무작위 — 자연에서 온다</h2>
+  <p>이 세상에서 가장 순수한 무작위는 물리 현상에서 나온다. <b>방사성 원자의 붕괴 시점</b>, 전자 회로의 <b>열잡음</b>, 대기의 <b>전파 잡음</b> 같은 것들이다. 이들은 원리적으로 예측이 불가능해 '진짜 난수(true random)'라 불린다. 로또 추첨기가 공을 물리적으로 섞는 것도 이 원리를 흉내 낸 것이다.</p>
+
+  <h2>컴퓨터의 무작위 — 정교한 '흉내'</h2>
+  <p>컴퓨터는 본질적으로 결정론적 기계라, 스스로 진짜 무작위를 만들지 못한다. 대신 <b>의사난수 생성기(PRNG)</b>를 쓴다. '씨앗(seed)'이라는 초기값에서 출발해 복잡한 계산으로 무작위처럼 보이는 수열을 만들어 내는 방식이다. 같은 씨앗이면 같은 수열이 나오지만, 통계적으로는 진짜 난수와 구별하기 어려울 만큼 고르게 흩어진다.</p>
+
+  <h2>그럼 추첨에 써도 될까</h2>
+  <p>용도에 따라 요구 수준이 다르다. 은행 암호나 보안에는 예측을 원천 차단하는 <b>암호학적 난수(CSPRNG)</b>가 필요하다. 하지만 사다리타기·룰렛·제비뽑기 같은 <b>추첨·게임</b>이라면, 웹 브라우저에 내장된 일반 난수 생성기만으로도 충분하다. 결과가 통계적으로 고르고, 참가자가 미리 알 수 없다면 그것으로 공정하다.</p>
+
+  <h2>'공정한 무작위'의 두 조건</h2>
+  <p>정리하면, 추첨이 공정하려면 두 가지면 된다. <b>① 예측 불가능</b>(누구도 결과를 미리 알 수 없음)과 <b>② 편향 없음</b>(특정 결과가 더 잘 나오지 않음)이다. SADARI는 매 실행마다 브라우저의 난수 생성기로 새 결과를 만든다. '진짜 난수'는 아니지만, 추첨의 두 조건을 만족해 <b>실용적으로 완전히 공정</b>하다. 마음에 안 들면 다시 섞어도 매번 새로 무작위이니, 조작의 여지가 없다.</p>
+
+  <a class="cta" href="/?lang=ko&tool=ladder">🪜 무작위로 공정하게 정해보기 →</a>
+
+  <h2>자주 묻는 질문</h2>
+  <p><b>컴퓨터 난수는 가짜인가요?</b> '진짜 난수'는 아니지만, 통계적으로 고르고 예측이 어려워 추첨·게임엔 충분합니다.<br>
+  <b>같은 결과가 반복될 수 있나요?</b> 확률적으로 가능하며, 그것이 오히려 무작위의 자연스러운 특징입니다.<br>
+  <b>SADARI 결과는 미리 정해져 있나요?</b> 아니요. 실행하는 순간 새로 생성됩니다.</p>
+
+  <div class="rel">
+    <p class="muted">이어 읽기</p>
+    <a href="/story-ladder-math">→ 사다리타기의 수학: 순열과 일대일 대응</a>
+    <a href="/story-coin-fairness">→ 동전 던지기는 정말 50 대 50일까?</a>
+    <a href="/stories.html">→ 사다리 이야기 전체 보기</a>
+  </div>
+
+  <footer><a href="/?lang=ko">홈</a> · <a href="/stories.html">이야기</a> · <a href="/guides.html">가이드</a> · <a href="/about.html">소개</a></footer>
+</div>
+</body>
+</html>

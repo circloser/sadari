@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>확률의 함정 — 도박사의 오류와 무작위 착시</title>
+<meta name="description" content="'이번엔 나올 때가 됐어'는 왜 틀릴까? 도박사의 오류, 뜨거운 손 착각, 군집 착시 등 사람이 무작위를 오해하는 방식과, 공정한 추첨을 의심하지 말아야 하는 이유." />
+<meta name="keywords" content="도박사의 오류, 확률 착각, 무작위 오해, 확률의 함정, 랜덤 착시, 뜨거운 손 오류" />
+<link rel="canonical" href="https://sa-da-ri.com/story-gamblers-fallacy" />
+<link rel="alternate" hreflang="ko" href="https://sa-da-ri.com/story-gamblers-fallacy" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="확률의 함정 — 도박사의 오류와 무작위 착시" />
+<meta property="og:description" content="사람이 무작위를 오해하는 방식과, 공정한 추첨을 믿어야 하는 이유." />
+<meta property="og:image" content="https://sa-da-ri.com/og.png" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GX8871G3D0');</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"확률의 함정 — 도박사의 오류와 무작위 착시","description":"도박사의 오류, 뜨거운 손 착각, 군집 착시 등 무작위에 대한 오해.","image":"https://sa-da-ri.com/og.png","datePublished":"2026-07-11","dateModified":"2026-07-11","inLanguage":"ko","author":{"@type":"Organization","name":"SADARI"},"publisher":{"@type":"Organization","name":"SADARI","url":"https://sa-da-ri.com/"},"mainEntityOfPage":"https://sa-da-ri.com/story-gamblers-fallacy"}
+</script>
+<style>
+  *{box-sizing:border-box;}body{margin:0;font-family:"Pretendard","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.95;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:800;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  h1{font-size:27px;margin:16px 0 6px;line-height:1.4;}
+  h2{font-size:20px;margin:32px 0 8px;color:#38bdf8;}
+  p,li{color:#dbe4f0;font-size:16.5px;}
+  ol,ul{padding-left:22px;}
+  a{color:#38bdf8;}
+  .byline{color:#94a3b8;font-size:13px;margin:0 0 8px;}
+  .lead{font-size:18px;color:#f1f5f9;border-left:3px solid #38bdf8;padding-left:14px;margin:18px 0 24px;}
+  .cta{display:block;text-align:center;margin:28px 0;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;font-weight:800;font-size:17px;text-decoration:none;padding:16px;border-radius:14px;}
+  .muted{color:#94a3b8;font-size:14px;}
+  .rel{margin-top:34px;padding-top:18px;border-top:1px solid #334155;}
+  .rel a{display:block;margin:6px 0;}
+  footer{max-width:720px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/?lang=ko">🪜 SADARI</a>
+  <h1>확률의 함정 — 도박사의 오류와 무작위 착시</h1>
+  <p class="byline">SADARI 이야기 · 2026년 7월</p>
+
+  <p class="lead">동전이 앞면으로 다섯 번 연속 나왔다. 이제 뒷면이 나올 '차례'일까? 대부분 그렇게 느끼지만, 확률은 냉정하게 답한다 — 여전히 정확히 반반이다.</p>
+
+  <p>사람의 직관은 무작위를 놀랄 만큼 자주 오해한다. 그 오해들은 이름까지 붙어 있을 만큼 보편적이다. 대표적인 세 가지를 보자.</p>
+
+  <h2>도박사의 오류</h2>
+  <p><b>도박사의 오류(Gambler's Fallacy)</b>는 "과거의 결과가 다음 결과에 영향을 준다"고 믿는 착각이다. 동전은 기억이 없다. 앞면이 다섯 번 나왔어도 여섯 번째가 앞면일 확률은 그대로 1/2이다. 각 던지기는 <b>서로 독립</b>이기 때문이다. 1913년 몬테카를로의 한 룰렛에서 검은색이 26번 연속 나오자, 사람들이 "이제 빨강 차례"라며 큰돈을 걸었다가 잃은 일화는 이 오류의 대표 사례로 남아 있다.</p>
+
+  <h2>뜨거운 손 착각</h2>
+  <p>반대 방향의 오해도 있다. <b>뜨거운 손 착각(Hot-hand)</b>은 "잘 풀리는 흐름이 계속될 것"이라 믿는 것이다. 농구 선수가 몇 번 연속 성공하면 "지금 손이 뜨겁다"며 다음도 넣을 거라 기대한다. 독립적인 무작위에서는 '흐름' 자체가 대개 착시다. 도박사의 오류와 뜨거운 손 착각은 정반대처럼 보이지만, 둘 다 <b>무작위에서 없는 패턴을 읽어내려는</b> 같은 뿌리에서 나온다.</p>
+
+  <h2>군집 착시</h2>
+  <p>사람들은 진짜 무작위가 '고르게 흩어져 있을 것'이라 기대한다. 하지만 진짜 무작위는 <b>오히려 뭉쳐 보인다.</b> 동전을 100번 던지면 같은 면이 대여섯 번 연속되는 구간이 자연스럽게 나타난다. 이 '군집(clustering)'을 보고 "뭔가 이상하다"고 느끼는 것이 <b>군집 착시</b>다. 너무 고르게 번갈아 나오는 결과가 오히려 인위적인 것이다.</p>
+
+  <h2>그래서 추첨은?</h2>
+  <p>이 세 가지를 알면 공정한 추첨을 대하는 태도가 달라진다. 사다리타기에서 <b>같은 사람이 연달아 걸려도</b>, 룰렛에서 <b>비슷한 자리가 반복돼도</b> 그것은 조작이 아니라 무작위의 자연스러운 얼굴이다. 매 실행은 과거와 무관하게 독립적으로, 그리고 공정하게 이루어진다. "이번엔 내 차례"라는 느낌은 마음속 착시일 뿐, 확률에는 차례가 없다.</p>
+
+  <a class="cta" href="/?lang=ko&tool=ladder">🪜 편견 없는 무작위, 직접 확인 →</a>
+
+  <h2>자주 묻는 질문</h2>
+  <p><b>연속으로 걸리면 확률을 조정하나요?</b> 아니요. 매번 독립적으로 새로 무작위 생성합니다.<br>
+  <b>'이제 나올 때가 됐다'가 맞나요?</b> 도박사의 오류입니다. 과거 결과는 다음에 영향을 주지 않습니다.<br>
+  <b>결과가 뭉쳐 나오는데 정상인가요?</b> 네, 진짜 무작위의 자연스러운 특징(군집)입니다.</p>
+
+  <div class="rel">
+    <p class="muted">이어 읽기</p>
+    <a href="/story-randomness">→ 무작위란 무엇인가: 진짜 랜덤과 컴퓨터의 랜덤</a>
+    <a href="/story-coin-fairness">→ 동전 던지기는 정말 50 대 50일까?</a>
+    <a href="/stories.html">→ 사다리 이야기 전체 보기</a>
+  </div>
+
+  <footer><a href="/?lang=ko">홈</a> · <a href="/stories.html">이야기</a> · <a href="/guides.html">가이드</a> · <a href="/about.html">소개</a></footer>
+</div>
+</body>
+</html>

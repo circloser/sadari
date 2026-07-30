@@ -83,6 +83,10 @@ Each tool is also searchable under its native name (all free at https://sa-da-ri
 - [모임을 살리는 사다리타기 활용법](https://sa-da-ri.com/story-gathering.html)
 - [왜 '랜덤'은 공정하게 느껴질까](https://sa-da-ri.com/story-procedural-fairness.html): procedural fairness psychology.
 - [세계가 부르는 이름들](https://sa-da-ri.com/story-ladder-world.html): Sadari / Amidakuji / Ghost Leg / 鬼腳圖.
+- [동전 던지기는 정말 50 대 50일까?](https://sa-da-ri.com/story-coin-fairness): coin-flip probability; a 2023 large study found ~50.8% same-side bias, but digital flips have no physical bias.
+- [무작위란 무엇인가](https://sa-da-ri.com/story-randomness): true randomness vs pseudo-random (PRNG); SADARI uses the browser RNG, fair for draws.
+- [공정한 조 편성의 기술](https://sa-da-ri.com/story-team-building): fair team formation (size/skill/relationship balance).
+- [확률의 함정 — 도박사의 오류](https://sa-da-ri.com/story-gamblers-fallacy): gambler's fallacy, hot-hand, clustering illusion.
 - Hub: [사다리 이야기](https://sa-da-ri.com/stories.html)
 
 ## Pages
