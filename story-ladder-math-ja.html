@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>あみだくじの数学 — 順列と、必ず成り立つ一対一対応</title>
+<meta name="description" content="あみだくじ（Ghost Leg）はなぜ必ず全員が別々の結果になるのか。横線1本が「隣り合う2本の入れ替え」であるという事実から出発し、順列と全単射（一対一対応）で説明する。" />
+<meta name="keywords" content="あみだくじ 数学, あみだくじ 仕組み, あみだくじ 確率, 順列 互換 全単射, あみだくじ 公平" />
+<link rel="canonical" href="https://sa-da-ri.com/story-ladder-math-ja" />
+<link rel="alternate" hreflang="ja" href="https://sa-da-ri.com/story-ladder-math-ja" />
+<link rel="alternate" hreflang="en" href="https://sa-da-ri.com/story-ladder-math-en" />
+<link rel="alternate" hreflang="ko" href="https://sa-da-ri.com/story-ladder-math.html" />
+<link rel="alternate" hreflang="x-default" href="https://sa-da-ri.com/story-ladder-math-en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="あみだくじの数学 — 順列と一対一対応" />
+<meta property="og:description" content="横線は「2本の入れ替え」。だから結果は必ず重ならない。" />
+<meta property="og:image" content="https://sa-da-ri.com/og.png" />
+<meta property="og:locale" content="ja_JP" />
+<meta name="twitter:card" content="summary_large_image" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GX8871G3D0');</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"あみだくじの数学 — 順列と、必ず成り立つ一対一対応","description":"横線を隣接互換とみなすと、あみだくじが常に全単射になることが分かる。","image":"https://sa-da-ri.com/og.png","datePublished":"2026-07-11","dateModified":"2026-07-11","inLanguage":"ja","author":{"@type":"Organization","name":"SADARI"},"publisher":{"@type":"Organization","name":"SADARI","url":"https://sa-da-ri.com/"},"mainEntityOfPage":"https://sa-da-ri.com/story-ladder-math-ja"}
+</script>
+<style>
+  *{box-sizing:border-box;}body{margin:0;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.95;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:800;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  h1{font-size:26px;margin:16px 0 6px;line-height:1.45;}
+  h2{font-size:20px;margin:32px 0 8px;color:#38bdf8;}
+  p,li{color:#dbe4f0;font-size:16.5px;}
+  ol,ul{padding-left:22px;}
+  a{color:#38bdf8;}
+  .byline{color:#94a3b8;font-size:13px;margin:0 0 8px;}
+  .lead{font-size:18px;color:#f1f5f9;border-left:3px solid #38bdf8;padding-left:14px;margin:18px 0 24px;}
+  .cta{display:block;text-align:center;margin:28px 0;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;font-weight:800;font-size:17px;text-decoration:none;padding:16px;border-radius:14px;}
+  .muted{color:#94a3b8;font-size:14px;}
+  .rel{margin-top:34px;padding-top:18px;border-top:1px solid #334155;}
+  .rel a{display:block;margin:6px 0;}
+  footer{max-width:720px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/?lang=ja">🪜 SADARI</a>
+  <h1>あみだくじの数学 — 順列と、必ず成り立つ一対一対応</h1>
+  <p class="byline">SADARI コラム · 2026年7月</p>
+
+  <p class="lead">あみだくじには、誰も疑わない暗黙の約束がある。「2人が同じところに着くことはない」。この約束は偶然ではなく、数学的に<b>必ず</b>成り立つ。</p>
+
+  <p>なぜか。答えは横線1本の正体にある。あみだくじで<b>横線1本は「隣り合う2本の縦線の位置を入れ替えること」と全く同じ</b>だ。数学では、2つの要素だけを入れ替える操作を<b>互換（transposition）</b>と呼ぶ。下へたどる途中で横線に出会うたびに、移動中の2本が一度だけ位置を入れ替える。</p>
+
+  <h2>入れ替えをいくら重ねても「一対一対応」</h2>
+  <p>入れ替え（互換）の決定的な性質は<b>元に戻せる</b>ことだ。2つを入れ替えたら、同じ2つをもう一度入れ替えれば元通り。元に戻せる操作は<b>一対一対応（全単射）</b>である。そして一対一対応を何度つないでも、結果はやはり一対一対応だ。</p>
+  <p>あみだくじ全体は、この入れ替えを上から下へ積み重ねたものにすぎない。だから<b>すべての出発点とすべての到着点の間には、常に完全な一対一対応が成り立つ</b>。すなわち (1) 異なる出発点が同じ到着点に着くことは決してなく、(2) すべての到着点が漏れなく誰か一人に割り当てられる。あみだくじの「公平さ」とは、まさにこの2文である。</p>
+
+  <h2>では、どんな順番も出せるのか</h2>
+  <p>「重ならない」ことと「どんな結果でも出せる」ことは別の話だが、後者も正しい。数学には「任意の順列は、隣り合うものの入れ替えを繰り返して作れる」という定理がある。並べ替えアルゴリズムの<b>バブルソート</b>がまさにこの原理だ。裏を返せば、<b>横線を十分に引けば、あみだくじはどんな順番（並び）でも表せる</b>。位置を完全に逆転させる極端な結果さえ作れる。</p>
+
+  <h2>「完全に均等」と「重ならない」は別問題</h2>
+  <p>一つ補足を。横線を無作為に引いたとき、あり得るすべての順番が<b>まったく同じ確率</b>で出るわけではない。横線が少ないと移動幅が狭く、近い位置に行きやすい。ただし<b>横線（複雑さ）を増やすほど分布は次第に均等に広がる</b>。要は、均等さは複雑さ次第でも、<b>「重ならない」ことは横線が1本でも100本でも常に保証される</b>。700年を生き抜いた遊びの公平さには、これほど堅固な数学が敷かれている。</p>
+
+  <a class="cta" href="/?lang=ja&tool=ladder">🪜 複雑さを上げて確かめる →</a>
+
+  <div class="rel">
+    <p class="muted">あわせて読む</p>
+    <a href="/story-amidakuji-history-ja">→ あみだくじの由来（700年の歴史）</a>
+    <a href="/story-gamblers-fallacy-ja">→ ギャンブラーの誤謬と無作為の錯覚</a>
+  </div>
+
+  <footer><a href="/?lang=ja">ホーム</a> · <a href="/guides.html">ガイド</a> · <a href="/about-en.html">About</a></footer>
+</div>
+</body>
+</html>

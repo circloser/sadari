@@ -90,9 +90,12 @@ Each tool is also searchable under its native name (all free at https://sa-da-ri
 - [제비뽑기와 추첨, 세계의 풍습](https://sa-da-ri.com/story-draw-customs): sortition in ancient Athens, religious lots, omikuji, jury selection.
 - [주사위의 역사와 확률](https://sa-da-ri.com/story-dice-history): dice history; why a sum of 7 is most likely with two dice.
 - [회식비 정산의 에티켓](https://sa-da-ri.com/story-dutchpay-etiquette): bill-splitting etiquette (1/N vs random).
+- [룰렛의 역사와 확률](https://sa-da-ri.com/story-roulette-history): roulette history (Pascal), European vs American wheel, house edge.
+- [로또 확률의 진실](https://sa-da-ri.com/story-lottery-odds): lottery 6/45 odds (1/8,145,060), negative expected value.
+- [결정 장애와 무작위](https://sa-da-ri.com/story-decision-fatigue): choice overload, decision fatigue, randomizing trivial choices.
 - Hub: [사다리 이야기](https://sa-da-ri.com/stories.html)
 
-Translated articles (EN/JA): [Amidakuji history EN](https://sa-da-ri.com/story-amidakuji-history-en) · [あみだくじの由来 JA](https://sa-da-ri.com/story-amidakuji-history-ja) · [Coin flip 50/50 EN](https://sa-da-ri.com/story-coin-fairness-en) · [コイントス50対50 JA](https://sa-da-ri.com/story-coin-fairness-ja)
+Translated articles (EN/JA): [Amidakuji history EN](https://sa-da-ri.com/story-amidakuji-history-en) · [あみだくじの由来 JA](https://sa-da-ri.com/story-amidakuji-history-ja) · [Coin flip 50/50 EN](https://sa-da-ri.com/story-coin-fairness-en) · [コイントス50対50 JA](https://sa-da-ri.com/story-coin-fairness-ja) · [Ladder math EN](https://sa-da-ri.com/story-ladder-math-en) · [あみだくじの数学 JA](https://sa-da-ri.com/story-ladder-math-ja) · [Gambler's fallacy EN](https://sa-da-ri.com/story-gamblers-fallacy-en) · [ギャンブラーの誤謬 JA](https://sa-da-ri.com/story-gamblers-fallacy-ja)
 
 ## Pages
 

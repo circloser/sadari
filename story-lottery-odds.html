@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>로또 확률의 진실 — 1/814만이라는 숫자의 의미</title>
+<meta name="description" content="로또 1등 확률은 왜 1/8,145,060일까? 6/45 조합의 계산, 기댓값이 왜 마이너스인지, 그리고 '희망에 매기는 세금'이라 불리는 이유를 쉽게 풀었다." />
+<meta name="keywords" content="로또 확률, 로또 1등 확률, 6/45 확률, 복권 기댓값, 로또 당첨 확률" />
+<link rel="canonical" href="https://sa-da-ri.com/story-lottery-odds" />
+<link rel="alternate" hreflang="ko" href="https://sa-da-ri.com/story-lottery-odds" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="로또 확률의 진실 — 1/814만의 의미" />
+<meta property="og:description" content="6/45 조합 계산과 기댓값, '희망에 매기는 세금'의 정체." />
+<meta property="og:image" content="https://sa-da-ri.com/og.png" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6947130056543786" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GX8871G3D0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GX8871G3D0');</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2338bdf8'/><stop offset='1' stop-color='%23a78bfa'/></linearGradient></defs><rect width='64' height='64' rx='15' fill='url(%23g)'/><g stroke='%230b1220' stroke-width='4.5' stroke-linecap='round' fill='none'><line x1='22' y1='22' x2='22' y2='50'/><line x1='42' y1='22' x2='42' y2='50'/><line x1='22' y1='31' x2='42' y2='31'/><line x1='22' y1='41' x2='42' y2='41'/></g><polygon points='32,4 34,9.2 39.6,9.5 35.2,13 36.7,18.5 32,15.4 27.3,18.5 28.8,13 24.4,9.5 30,9.2' fill='%23fde047'/></svg>" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"로또 확률의 진실 — 1/814만이라는 숫자의 의미","description":"6/45 조합 계산과 기댓값, '희망에 매기는 세금'의 의미.","image":"https://sa-da-ri.com/og.png","datePublished":"2026-07-11","dateModified":"2026-07-11","inLanguage":"ko","author":{"@type":"Organization","name":"SADARI"},"publisher":{"@type":"Organization","name":"SADARI","url":"https://sa-da-ri.com/"},"mainEntityOfPage":"https://sa-da-ri.com/story-lottery-odds"}
+</script>
+<style>
+  *{box-sizing:border-box;}body{margin:0;font-family:"Pretendard","Segoe UI",-apple-system,sans-serif;background:radial-gradient(1200px 600px at 50% -10%,#1e293b,#0f172a);color:#e2e8f0;min-height:100vh;padding:28px 18px 60px;line-height:1.95;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:800;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  h1{font-size:27px;margin:16px 0 6px;line-height:1.4;}
+  h2{font-size:20px;margin:32px 0 8px;color:#38bdf8;}
+  p,li{color:#dbe4f0;font-size:16.5px;}
+  ol,ul{padding-left:22px;}
+  a{color:#38bdf8;}
+  .byline{color:#94a3b8;font-size:13px;margin:0 0 8px;}
+  .lead{font-size:18px;color:#f1f5f9;border-left:3px solid #38bdf8;padding-left:14px;margin:18px 0 24px;}
+  .cta{display:block;text-align:center;margin:28px 0;background:linear-gradient(135deg,#38bdf8,#a78bfa);color:#0b1220;font-weight:800;font-size:17px;text-decoration:none;padding:16px;border-radius:14px;}
+  .muted{color:#94a3b8;font-size:14px;}
+  .rel{margin-top:34px;padding-top:18px;border-top:1px solid #334155;}
+  .rel a{display:block;margin:6px 0;}
+  footer{max-width:720px;margin:26px auto 0;text-align:center;color:#94a3b8;font-size:13px;border-top:1px solid #334155;padding-top:16px;}
+  footer a{color:#38bdf8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/?lang=ko">🪜 SADARI</a>
+  <h1>로또 확률의 진실 — 1/814만의 의미</h1>
+  <p class="byline">SADARI 이야기 · 2026년 7월</p>
+
+  <p class="lead">매주 수백만 명이 같은 꿈을 산다. 로또 1등 확률은 <b>약 814만분의 1.</b> 이 숫자가 얼마나 아득한지, 그리고 왜 그런지 차분히 들여다보자.</p>
+
+  <h2>814만은 어디서 나온 숫자일까</h2>
+  <p>한국 로또는 1부터 45까지 중 서로 다른 6개를 고르는 방식(6/45)이다. 순서는 상관없다. 45개 중 6개를 뽑는 <b>조합의 수</b>는 수학적으로 정확히 <b>8,145,060가지</b>다. 그중 당첨 조합은 단 하나. 그래서 1등 확률은 <b>1/8,145,060</b>, 약 814만분의 1이 된다. 이는 대략 서울 인구에서 특정한 한 사람을 무작위로 정확히 집어내는 것과 비슷한 확률이다.</p>
+
+  <h2>번호를 '잘 고르면' 유리할까</h2>
+  <p>아니다. 45개 숫자는 모두 동등하다. 지난주 나온 번호도, 안 나온 번호도, 생일도, 연속 번호(1·2·3·4·5·6)도 <b>당첨 확률은 똑같다.</b> "1,2,3,4,5,6은 안 나올 것 같다"는 느낌은 <a href="/story-gamblers-fallacy">무작위 착시</a>일 뿐이다. 다만 사람들이 잘 안 고르는 조합을 사면, 당첨 시 <b>당첨금을 나눌 사람이 적어</b> 실수령액이 커질 수는 있다. 확률이 아니라 '분배'의 문제다.</p>
+
+  <h2>기댓값은 왜 마이너스인가</h2>
+  <p>복권은 판매액의 일부만 상금으로 돌려주고 나머지는 기금·운영비로 쓴다. 그래서 1장의 <b>기댓값(평균적으로 돌려받는 금액)은 산 가격보다 낮다.</b> 길게 보면 살수록 손해라는 뜻이다. 경제학자들이 복권을 <b>"희망에 매기는 세금"</b>이라 부르는 이유다. 그럼에도 사람들은 '혹시'라는 감정적 가치를 위해 기꺼이 지불한다.</p>
+
+  <h2>그래도 즐긴다면</h2>
+  <p>로또는 큰 기대 없이 소액으로 즐기는 오락으로 보는 편이 건강하다. 정작 일상의 작은 선택 — 순서 정하기, 조 나누기, 오늘 누가 쏘기 — 은 로또처럼 아득한 확률이 아니라, <b>모두에게 공정하게 열린 무작위</b>로 정하면 그만이다. 거기엔 하우스 엣지도, 마이너스 기댓값도 없다.</p>
+
+  <a class="cta" href="/?lang=ko&tool=ladder">🪜 공정한 무작위로 정하기 →</a>
+
+  <div class="rel">
+    <p class="muted">이어 읽기</p>
+    <a href="/story-roulette-history">→ 룰렛의 역사와 확률</a>
+    <a href="/story-dice-history">→ 주사위의 역사와 확률</a>
+    <a href="/stories.html">→ 사다리 이야기 전체 보기</a>
+  </div>
+
+  <footer><a href="/?lang=ko">홈</a> · <a href="/stories.html">이야기</a> · <a href="/guides.html">가이드</a> · <a href="/about.html">소개</a></footer>
+</div>
+</body>
+</html>
